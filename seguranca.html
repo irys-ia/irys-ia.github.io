@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Segurança e privacidade · Irys.ia</title>
+<style>
+  :root { color-scheme: dark; --ink:#000; --ink2:#0B0B0C; --line:rgba(255,255,255,.09); --tx:#F5F6F8; --mu:#9AA0A8; --acc:#3D8BFF; --acc2:#5FD7FF; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--ink); color: var(--tx); font: 16px/1.6 system-ui, 'Segoe UI', sans-serif; padding: 0 max(16px, env(safe-area-inset-left, 0px)); }
+  main { max-width: 820px; margin: 0 auto; padding: 40px 0 72px; }
+  a { color: var(--acc2); }
+  h1 { font-size: clamp(28px, 5vw, 42px); line-height: 1.1; margin: 8px 0 8px; letter-spacing: -.02em; }
+  h2 { font-size: 22px; margin: 40px 0 10px; letter-spacing: -.01em; }
+  p { margin: 0 0 12px; color: var(--mu); }
+  b, strong { color: var(--tx); }
+  .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin: 22px 0; }
+  .c { background: var(--ink2); border: 1px solid var(--line); border-radius: 18px; padding: 18px; }
+  .c b { display: block; margin-bottom: 4px; }
+  .c span { color: var(--mu); font-size: 15px; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 14.5px; }
+  th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { color: var(--tx); font-weight: 600; }
+  td { color: var(--mu); }
+  .tw { overflow-x: auto; }
+  ul { color: var(--mu); padding-left: 20px; } li { margin: 6px 0; }
+  .back { display: inline-block; margin-bottom: 8px; color: var(--mu); }
+  @media (max-width: 600px) { .grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<main>
+  <a class="back" href="index.html">← Irys.ia</a>
+  <h1>Segurança e privacidade</h1>
+  <p>A Irys.ia roda no seu computador. Seus dados ficam com você, e o que sai do seu PC é só o que precisa sair para cada função funcionar.</p>
+
+  <div class="grid">
+    <div class="c"><b>Tudo local</b><span>Tarefas, lembretes, hábitos, memórias, rotinas e conversas ficam salvos no seu computador, não em servidor nosso.</span></div>
+    <div class="c"><b>Chaves criptografadas</b><span>As chaves de IA que você cadastra são guardadas com a criptografia do próprio Windows e nunca voltam para a tela do app.</span></div>
+    <div class="c"><b>Sem rastreamento</b><span>O app não tem analytics, não envia estatísticas de uso e não vende dados.</span></div>
+    <div class="c"><b>A IA só escreve</b><span>A IA responde texto. Ela não executa nada no seu computador a partir da resposta.</span></div>
+  </div>
+
+  <h2>O que fica no seu computador</h2>
+  <ul>
+    <li>Configurações, tarefas, lembretes, hábitos, memórias, rotinas e o histórico de conversa.</li>
+    <li>As chaves de IA, criptografadas pelo Windows.</li>
+    <li>A sua licença (e-mail da compra e chave).</li>
+    <li>O histórico de “Copiados” fica <b>só na memória</b> e some quando você fecha o app. Dá para desligar em Ajustes.</li>
+  </ul>
+  <p>Nós não temos acesso a nada disso. Se você desinstalar e apagar a pasta “Irys.ia” em AppData, tudo some.</p>
+
+  <h2>O que sai do seu computador (e para onde)</h2>
+  <div class="tw"><table>
+    <tr><th>Quando</th><th>O que é enviado</th><th>Para quem</th></tr>
+    <tr><td>Você conversa usando IA da nuvem</td><td>A sua mensagem e um pequeno contexto (o que você pediu que ela lembre)</td><td>O provedor que <b>você</b> escolheu e configurou com a <b>sua</b> chave (Groq, Google Gemini ou OpenAI). Com a IA local (Ollama) nada sai do PC.</td></tr>
+    <tr><td>Você ligou “Entender melhor (Groq)” em Voz</td><td>Só o áudio do pedido que vem depois do chamado (alguns segundos)</td><td>Groq, com a sua chave. Desligado por padrão.</td></tr>
+    <tr><td>Verificação de licenças canceladas</td><td>Nada pessoal: o app baixa uma lista pública de códigos de licenças canceladas por reembolso</td><td>O endereço de licenças da Irys.ia</td></tr>
+    <tr><td>Pagamento</td><td>Feito na Cakto. Nós não vemos nem guardamos número de cartão. Recebemos o e-mail da compra para gerar a sua licença.</td><td>Cakto</td></tr>
+  </table></div>
+
+  <h2>Microfone e voz</h2>
+  <ul>
+    <li>A voz é <b>opcional e desligada por padrão</b>. Quando você liga, o reconhecimento roda no seu PC, sem internet.</li>
+    <li>O microfone é usado só para ouvir o seu chamado e o pedido. <b>Nenhum áudio é gravado em arquivo.</b></li>
+    <li>Você pode desligar a voz a qualquer momento em Voz.</li>
+  </ul>
+
+  <h2>Ações no seu computador</h2>
+  <ul>
+    <li>Ações que mexem no PC (bloquear a tela, limpar arquivos temporários) pedem <b>confirmação dentro do app</b>, sempre.</li>
+    <li>A limpeza apaga só arquivos temporários com mais de 3 dias na pasta temporária do seu usuário.</li>
+    <li>O app só abre endereços <b>http(s)</b> e o app do Spotify. Não executa programas escolhidos por texto.</li>
+  </ul>
+
+  <h2>Licença e proteção contra cópia</h2>
+  <ul>
+    <li>As chaves são <b>assinadas digitalmente</b> (Ed25519) e ligadas ao e-mail da compra. A chave de assinatura nunca fica no app nem em servidor público.</li>
+    <li>Reembolso ou chargeback cancelam a licença.</li>
+    <li>Trocou de computador? Fale com o suporte para ajudar na troca.</li>
+  </ul>
+
+  <h2>Limitações honestas</h2>
+  <ul>
+    <li>O instalador é novo e pode mostrar o aviso “O Windows protegeu o computador”. Clique em “Mais informações” e “Executar assim mesmo”.</li>
+    <li>O reconhecimento de voz offline erra mais que serviços na nuvem, principalmente em ambientes barulhentos. Para mais precisão, existe a opção com a Groq (opcional).</li>
+    <li>Nenhum software impede 100% a cópia. A chave presa ao e-mail e a lista de cancelamentos cobrem o uso comum.</li>
+  </ul>
+  <p style="margin-top:32px">Atualizado em 16/11/2026.</p>
+</main>
+</body>
+</html>

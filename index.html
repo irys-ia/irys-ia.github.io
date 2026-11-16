@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Irys</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Sora:wght@600;700;800&display=swap">
+<style>
+/* Layout: página de vendas em preto 100% com azul Safira. Nav, herói com demo, comandos, funções, mascote, privacidade, instalação, preço, dúvidas. */
+:root{
+  --z-a:#2F7BFF; --z-b:#AFD3FF; --z-acc:#3D8BFF; --z-acc2:#5FD7FF;
+  --ink:#000000; --ink2:#0B0B0C; --ink3:#161617; --line:rgba(255,255,255,.09);
+  --tx:#F5F6F8; --mu:#9AA0A8; --on:#04101F; --warn:#FFC857; --rose:#FF7A9C; --ok:#4ADE9B;
+  --z-warn:#FFC857; --z-rose:#FF7A9C;
+  --display:'Sora',system-ui,sans-serif; --body:'DM Sans',system-ui,sans-serif;
+  color-scheme:dark;
+}
+body{background:var(--ink);color:var(--tx);font-family:var(--body);font-size:16px;line-height:1.55;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0}
+.wrap{max-width:1120px;margin:0 auto}
+a{color:inherit;text-decoration:none}
+h1,h2,h3{font-family:var(--display);letter-spacing:-.02em;margin:0;text-wrap:balance}
+h1{font-size:clamp(34px,6vw,64px);line-height:1.05}
+h2{font-size:clamp(26px,3.6vw,38px);line-height:1.12}
+h3{font-size:18px}
+p{margin:0}
+.mu{color:var(--mu)}
+.draft{background:color-mix(in srgb,var(--warn) 14%,var(--ink));border-bottom:1px solid color-mix(in srgb,var(--warn) 40%,transparent);color:var(--warn);font-size:13px;text-align:center;padding:8px 12px;margin:0 calc(-1 * max(16px,env(safe-area-inset-left,0px)))}
+nav{display:flex;align-items:center;gap:20px;padding:18px 0;position:relative}
+nav .brand{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:700;font-size:20px}
+nav .links{display:flex;gap:22px;margin-left:auto;color:var(--mu);font-size:14px;font-weight:500}
+nav .links a:hover{color:var(--tx)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:999px;padding:12px 22px;font-weight:700;background:var(--ink3);border:1px solid var(--line);cursor:pointer;font:inherit;font-weight:700;color:var(--tx)}
+.btn.acc{background:var(--z-acc);color:var(--on);border-color:transparent}
+.btn.sm{padding:8px 16px;font-size:14px}
+.btn:hover{filter:brightness(1.12)}
+.btn:focus-visible,a:focus-visible,summary:focus-visible,input:focus-visible{outline:2px solid var(--z-acc2);outline-offset:3px}
+section{padding-block:72px}
+.eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--z-acc2);font-weight:700;margin-bottom:14px}
+.hero{display:grid;grid-template-columns:1.02fr 1fr;gap:40px;align-items:center;padding-block:48px 72px}
+.hero .lead{font-size:18px;color:var(--mu);max-width:48ch;margin:20px 0 28px}
+.cta{display:flex;gap:12px;flex-wrap:wrap}
+.fine{margin-top:18px;font-size:13px;color:var(--mu)}
+.fine b{color:var(--tx)}
+.screen{position:relative;border-radius:22px;overflow:hidden;border:1px solid var(--line);aspect-ratio:16/12;background:radial-gradient(120% 90% at 20% 0%,#17427F 0%,#0B2048 42%,#000 100%);min-height:440px}
+.pill{position:absolute;top:0;left:50%;transform:translateX(-50%);height:36px;min-width:150px;padding:0 18px;border-radius:0 0 20px 20px;background:#000;display:flex;align-items:center;justify-content:center;gap:10px;cursor:pointer;border:1px solid var(--line);border-top:0;font-size:12px;font-weight:700;font-variant-numeric:tabular-nums;z-index:3;box-shadow:0 8px 24px rgba(0,0,0,.5)}
+.pill i{width:8px;height:8px;border-radius:50%;background:var(--z-acc2);box-shadow:0 0 10px var(--z-acc2)}
+.panel{position:absolute;left:5%;right:5%;top:44px;bottom:5%;background:var(--ink);border:1px solid var(--line);border-radius:22px;box-shadow:0 30px 80px rgba(0,0,0,.6),0 0 0 1px rgba(61,139,255,.16);display:flex;flex-direction:column;gap:10px;padding:14px;opacity:0;transform:translateY(-10px) scale(.98);pointer-events:none;transition:opacity .22s,transform .22s;z-index:2}
+.screen.open .panel{opacity:1;transform:none;pointer-events:auto}
+.panel .top{display:flex;align-items:center;gap:10px}
+.panel .top b{font-family:var(--display)}
+.panel .top small{display:block;color:var(--z-acc2);font-size:11px}
+.msgs{flex:1;overflow:auto;min-height:70px;display:flex;flex-direction:column;gap:8px;min-height:0;padding-right:4px}
+.bub{background:var(--ink3);border-radius:14px;padding:9px 12px;font-size:13.5px;max-width:92%}
+.bub.me{background:color-mix(in srgb,var(--z-acc) 26%,var(--ink3));align-self:flex-end}
+.ask{display:flex;gap:8px;align-items:center;background:var(--ink2);border:1px solid var(--line);border-radius:999px;padding:5px 5px 5px 14px}
+.ask input{flex:1;min-width:0;background:none;border:0;color:var(--tx);font:inherit;font-size:14px;outline:0}
+.ask button{width:32px;height:32px;border-radius:50%;background:var(--z-acc);color:var(--on);border:0;font-weight:800;cursor:pointer}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{background:var(--ink3);border:1px solid var(--line);color:var(--tx);border-radius:999px;padding:7px 13px;font:inherit;font-size:13px;font-weight:500;cursor:pointer}
+.chip:hover{border-color:rgba(255,255,255,.25)}
+.chip.soon{color:var(--mu);cursor:default;border-style:dashed}
+.hint{font-size:13px;color:var(--mu);margin-top:12px}
+.grid{display:grid;gap:14px}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g2{grid-template-columns:repeat(2,1fr)}
+.card{background:var(--ink2);border:1px solid var(--line);border-radius:20px;padding:22px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.card p{color:var(--mu);font-size:15px}
+.tag{align-self:flex-start;font-size:11px;font-weight:700;padding:3px 10px;border-radius:999px;background:color-mix(in srgb,var(--ok) 16%,transparent);color:var(--ok)}
+.tag.soon{background:color-mix(in srgb,var(--warn) 14%,transparent);color:var(--warn)}
+.ic{width:42px;height:42px;border-radius:13px;display:grid;place-items:center;color:#fff}
+.ic svg{width:22px;height:22px}
+.sechead{display:flex;flex-direction:column;gap:12px;margin-bottom:32px;max-width:62ch}
+.sechead p{color:var(--mu);font-size:17px}
+.faces{display:grid;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:10px}
+.face{background:var(--ink2);border:1px solid var(--line);border-radius:16px;padding:14px 6px 10px;text-align:center;font-size:12.5px;color:var(--mu);display:flex;flex-direction:column;align-items:center;gap:6px}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:24px}
+.fact{border-top:2px solid var(--z-acc);padding-top:14px}
+.fact b{font-family:var(--display);font-size:22px;display:block}
+.steps{display:grid;gap:12px;counter-reset:s;max-width:720px}
+.step{display:flex;gap:16px;align-items:flex-start;background:var(--ink2);border:1px solid var(--line);border-radius:16px;padding:16px 18px}
+.step::before{counter-increment:s;content:counter(s);flex:none;width:30px;height:30px;border-radius:50%;background:var(--z-acc);color:var(--on);display:grid;place-items:center;font-weight:800;font-size:14px}
+.step b{display:block}
+.step span{color:var(--mu);font-size:14.5px}
+.price{max-width:520px;background:linear-gradient(160deg,color-mix(in srgb,var(--z-acc) 14%,var(--ink2)),var(--ink2) 60%);border:1px solid color-mix(in srgb,var(--z-acc) 40%,transparent);border-radius:26px;padding:32px;display:flex;flex-direction:column;gap:16px}
+.price .big{font-family:var(--display);font-size:56px;font-weight:800;letter-spacing:-.03em;line-height:1}
+.price ul{list-style:none;padding:0;margin:0;display:grid;gap:10px}
+.price li{display:flex;gap:10px;align-items:flex-start}
+.price li::before{content:'';flex:none;width:18px;height:18px;margin-top:3px;border-radius:50%;background:var(--z-acc) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2304101F' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12l5 5L20 7'/%3E%3C/svg%3E") center/12px no-repeat}
+.pricewrap{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:center}
+details{background:var(--ink2);border:1px solid var(--line);border-radius:16px;padding:0 20px}
+details+details{margin-top:10px}
+summary{cursor:pointer;padding:18px 0;font-weight:700;list-style:none;display:flex;justify-content:space-between;gap:12px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:'+';color:var(--z-acc2);font-size:20px;line-height:1}
+details[open] summary::after{content:'–'}
+details p{color:var(--mu);padding-bottom:18px}
+.final{text-align:center;display:flex;flex-direction:column;align-items:center;gap:22px}
+footer{border-top:1px solid var(--line);padding-block:32px 48px;color:var(--mu);font-size:13px;display:flex;gap:16px;flex-wrap:wrap;justify-content:space-between}
+.promise{display:grid;grid-template-columns:auto 1fr;gap:22px;align-items:center;background:linear-gradient(120deg,color-mix(in srgb,var(--z-acc) 12%,var(--ink2)),var(--ink2) 70%);border:1px solid color-mix(in srgb,var(--z-acc) 35%,transparent);border-radius:24px;padding:28px 30px}
+.promise h2{margin:0 0 8px}
+.promise p{color:var(--mu);font-size:16.5px;max-width:60ch}
+@media (max-width:640px){.promise{grid-template-columns:1fr;text-align:left}}
+@media (max-width:900px){
+  .hero,.pricewrap{grid-template-columns:1fr}
+  .g3{grid-template-columns:1fr 1fr}.facts{grid-template-columns:1fr}
+  nav .links{display:none}nav .btn{margin-left:auto}
+}
+@media (max-width:560px){.g3,.g2{grid-template-columns:1fr}section{padding-block:52px}.price .big{font-size:46px}}
+@media (prefers-reduced-motion:reduce){.panel{transition:none}}
+</style>
+</head>
+<body>
+
+
+<div class="wrap">
+  <nav>
+    <a class="brand" href="#topo"><span id="brand-m"></span>Irys</a>
+    <div class="links"><a href="#demo">Demonstração</a><a href="#funcoes">Funções</a><a href="#instalar">Instalar</a><a href="#preco">Preço</a><a href="#duvidas">Dúvidas</a></div>
+    <a class="btn acc sm" href="https://go.perfectpay.com.br/PPU38CQHQA6" target="_blank" rel="noopener" data-price-btn>Comprar</a>
+  </nav>
+
+  <header class="hero" id="topo">
+    <div>
+      <div class="eyebrow">para Windows 10 e 11</div>
+      <p id="lote" hidden style="color:var(--warn);font-weight:700;margin-bottom:10px"></p>
+      <h1>A Irys mora no topo da sua tela.</h1>
+      <p class="lead">Peça timer, lembrete, tarefa ou música falando ou escrevendo, sem abrir nada. Ela fica no topo, abre quando você passa o mouse e guarda tudo no seu computador.</p>
+      <div class="cta"><a class="btn acc" href="https://go.perfectpay.com.br/PPU38CQHQA6" target="_blank" rel="noopener" data-price-btn>Comprar</a><a class="btn" href="#demo">Testar agora</a></div>
+      <p class="fine"><b data-price-fine></b> · atualizações incluídas · seus dados ficam no seu PC</p>
+    </div>
+    <div id="demo">
+      <div class="screen" id="screen">
+        <button class="pill" id="pill" type="button" aria-expanded="false" aria-controls="panel"><span id="pill-m"></span><span id="pill-t"></span><i></i></button>
+        <div class="panel" id="panel">
+          <div class="top"><span id="panel-m"></span><div><b>Irys</b><small>● pronta</small></div></div>
+          <div class="msgs" id="msgs"><div class="bub">Oi! Escreva um pedido aqui embaixo, ou toque em uma das sugestões.</div></div>
+          <div class="chips" id="sug"></div>
+          <form class="ask" id="form" autocomplete="off"><input id="inp" placeholder="Ex.: timer de 10 minutos para a pizza" aria-label="Escreva um pedido"><button type="submit" aria-label="Enviar">→</button></form>
+        </div>
+      </div>
+      <p class="hint">É uma demonstração: passe o mouse na pílula do topo e experimente.</p>
+    </div>
+  </header>
+
+  <section>
+    <div class="sechead"><div class="eyebrow">Peça do seu jeito</div><h2>Escreva do jeito que você fala.</h2><p>A Irys entende português do dia a dia. Alguns pedidos que ela resolve na hora:</p></div>
+    <div class="chips" id="cmds"></div>
+  </section>
+
+  <section id="funcoes">
+    <div class="sechead"><div class="eyebrow">Tudo num lugar só</div><h2>Sem abrir mil janelas.</h2><p>A Irys fica no topo e abre só quando você precisa.</p></div>
+    <div class="grid g3" id="feat"></div>
+  </section>
+
+  <section>
+    <div class="sechead"><div class="eyebrow">Ela tem personalidade</div><h2>13 expressões que mudam com a conversa.</h2><p>Escolha a cor do corpo, a cor dos olhos e um acessório. Ela é sua.</p></div>
+    <div class="faces" id="faces"></div>
+  </section>
+
+  <section>
+    <div class="sechead"><div class="eyebrow">Seu PC, suas coisas</div><h2>O que é seu fica com você.</h2></div>
+    <div class="facts">
+      <div class="fact"><b>No seu PC</b><span class="mu">Tarefas, lembretes, hábitos e conversas ficam salvos no seu computador.</span></div>
+      <div class="fact"><b>Sem conta</b><span class="mu">Não precisa criar cadastro para usar a Irys.</span></div>
+      <div class="fact"><b>Sem rastreamento</b><span class="mu">O app não envia estatísticas de uso.</span></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="promise">
+      <div id="promise-m"></div>
+      <div>
+        <h2>Nós usamos a Irys tanto quanto você.</h2>
+        <p>Por isso ela não vai ficar parada. Cada atualização do app é sua, <b>vitalícia</b>, sem pagar nada a mais. Quando a gente melhora a Irys para o nosso dia a dia, você recebe junto. Pode ficar tranquilo: vai dar tudo certo.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="instalar">
+    <div class="sechead"><div class="eyebrow">Instalar</div><h2>Leva 2 minutos.</h2><p>Depois da compra, o link do instalador chega no seu e-mail.</p></div>
+    <div class="steps">
+      <div class="step"><div><b>Baixe o instalador</b><span>Pelo link que chega no e-mail da compra.</span></div></div>
+      <div class="step"><div><b>Abra e conclua a instalação</b><span>Se o Windows mostrar um aviso de segurança, a página de instalação explica o que fazer.</span></div></div>
+      <div class="step"><div><b>Diga seu nome e escolha o visual</b><span>Cor, olhos e acessório.</span></div></div>
+      <div class="step"><div><b>Passe o mouse no topo da tela</b><span>Pronto. Ela já está lá.</span></div></div>
+    </div>
+  </section>
+
+  <section id="preco">
+    <div class="pricewrap">
+      <div class="sechead" style="margin:0"><div class="eyebrow">Preço</div><h2>Uma compra. Sua para usar.</h2><p>Licença vitalícia com as atualizações do app incluídas. Sem plano e sem cobrança todo mês.</p></div>
+      <div class="price">
+        <span class="eyebrow" style="margin:0">Licença vitalícia</span>
+        <div class="big" data-price></div>
+        <ul>
+          <li>Todas as funções disponíveis, sem planos nem limites</li>
+          <li>Atualizações vitalícias: nós usamos a Irys todo dia e ela só melhora</li>
+          <li>Licença pessoal, ligada ao e-mail da compra</li>
+          <li>Instalador para Windows 10 e 11</li>
+        </ul>
+        <a class="btn acc" href="https://go.perfectpay.com.br/PPU38CQHQA6" target="_blank" rel="noopener" data-checkout>Comprar agora</a>
+        <span class="mu" style="font-size:13px">PIX ou cartão. O link de download chega no seu e-mail.</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="duvidas">
+    <div class="sechead"><div class="eyebrow">Dúvidas</div><h2>Perguntas frequentes.</h2></div>
+    <div style="max-width:760px">
+      <details><summary>Tem mensalidade?</summary><p>Não. Você paga uma vez e a licença é sua, com as atualizações incluídas.</p></details>
+      <details><summary>Como eu recebo a Irys?</summary><p>Depois que o pagamento é aprovado (no PIX, na hora), você recebe um e-mail com o link do instalador. Se não achar, olhe a caixa de spam.</p></details>
+      <details><summary>Preciso pagar alguma IA?</summary><p>Não. Timers, lembretes, tarefas, música, rotinas e voz funcionam sem IA e sem internet. Para conversar livremente, você liga uma IA: Groq e Gemini têm cota gratuita (você cria uma chave grátis em poucos minutos) e dá para usar a sua chave da OpenAI ou uma IA local.</p></details>
+      <details><summary>Meus dados vão para algum servidor?</summary><p>Tarefas, lembretes, hábitos, memória e conversas ficam no seu computador. O app não envia estatísticas de uso. Só a IA da nuvem, se você ligar, envia suas mensagens ao provedor que você escolheu.</p></details>
+      <details><summary>Como funciona a voz?</summary><p>Você liga a voz nas configurações e diz o nome da assistente. Como “Irys” não existe no vocabulário do reconhecedor, você ensina o chamado falando 4 vezes e ela aprende a sua voz. Também dá para chamar pelo atalho Ctrl+Alt+Espaço. O reconhecimento roda no seu PC, sem internet. Se quiser mais precisão, há uma opção (desligada por padrão) que usa a sua chave da Groq para transcrever só o pedido.</p></details>
+      <details><summary>Funciona no meu PC?</summary><p>Em Windows 10 e 11 de 64 bits. Ela se esconde sozinha quando algum programa está em tela cheia.</p></details>
+      <details><summary>Posso usar em mais de um computador?</summary><p>A licença vale em até 2 computadores. Se trocar de PC, é só pedir para liberar a vaga.</p></details>
+      <details><summary>Funciona no Mac?</summary><p>Ainda não: esta versão é para Windows 10 e 11.</p></details>
+    </div>
+  </section>
+
+  <section class="final">
+    <h2>Seu PC fica mais leve com a Irys lá em cima.</h2>
+    <a class="btn acc" href="https://go.perfectpay.com.br/PPU38CQHQA6" target="_blank" rel="noopener" data-price-btn>Comprar</a>
+  </section>
+
+  <footer><span>Irys.ia · a assistente no topo da sua tela · <a href="seguranca.html" style="text-decoration:underline">Segurança e privacidade</a></span><span>Dúvidas? Responda o e-mail da compra.</span></footer>
+</div>
+
+<script>
+(function(){
+  /* ---------- configuração da página: o preço mora só aqui ---------- */
+  var PRECO='R$ 39,90';          // um valor só, usado em todos os pontos da página.
+  var LOTE=null;                 // para lote real: {restam:37,total:50}. Atualize o número à mão; não deixe um contador falso.
+  var CHECKOUT='https://go.perfectpay.com.br/PPU38CQHQA6';   // link do checkout (Perfect Pay)
+
+  document.querySelectorAll('[data-price]').forEach(function(e){e.textContent=PRECO;});
+  if(LOTE){var b=document.getElementById('lote');b.hidden=false;b.textContent='Lote de lançamento: restam '+LOTE.restam+' de '+LOTE.total+' vagas por '+PRECO+'.';}
+  document.querySelectorAll('[data-price-fine]').forEach(function(e){e.textContent='Pagamento único de '+PRECO;});
+  document.querySelectorAll('[data-price-btn]').forEach(function(e){e.textContent='Comprar · '+PRECO;e.setAttribute('href',CHECKOUT);e.setAttribute('target','_blank');e.setAttribute('rel','noopener');});
+  document.querySelectorAll('[data-checkout]').forEach(function(e){e.setAttribute('href',CHECKOUT);e.setAttribute('target','_blank');e.setAttribute('rel','noopener');e.textContent='Comprar por '+PRECO;});
+
+// Mascote da Irys: robozinho de cabeça azul, visor preto, orelhas que acendem e sensor no topo.
+// Desenho próprio. svg(humor, tamanho, {a,b,eye,acc}) devolve o SVG como texto.
+(function () {
+  var uid = 0;
+  var DK = '#04122C';
+
+  function svg(kind, size, o) {
+    o = o || {};
+    var EC = o.eye || 'var(--z-acc2)';
+    var A = o.a || 'var(--z-a)';
+    var B = o.b || 'var(--z-b)';
+
+    function cap(x, y, w, h) { return '<rect x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '" rx="' + (w / 2) + '" fill="' + EC + '"/>'; }
+    function heart(x, y, s, c) { return '<path transform="translate(' + x + ' ' + y + ') scale(' + s + ')" d="M0 3C0-3-7-3-7 2C-7 6 0 9 0 12C0 9 7 6 7 2C7-3 0-3 0 3Z" fill="' + c + '"/>'; }
+    function star(x, y, s, c) { return '<polygon transform="translate(' + x + ' ' + y + ') scale(' + s + ')" points="0,-8 2.4,-2.5 8,-2.5 3.5,1 5.2,7 0,3.5 -5.2,7 -3.5,1 -8,-2.5 -2.4,-2.5" fill="' + c + '"/>'; }
+    function arc(cx, cy, up) { return '<path d="M' + (cx - 7) + ' ' + cy + 'q7 ' + (up ? -11 : 10) + ' 14 0" fill="none" stroke="' + EC + '" stroke-width="4.4" stroke-linecap="round"/>'; }
+
+    var E = {
+      repouso: function () { return cap(34, 41, 8, 18) + cap(58, 41, 8, 18); },
+      ouvindo: function () { return cap(33, 39, 9, 22) + cap(58, 39, 9, 22) + '<path d="M93 43q4 7 0 14M98 37q8 13 0 26" fill="none" stroke="' + EC + '" stroke-width="3" stroke-linecap="round"/>'; },
+      pensando: function () { return cap(36, 37, 8, 17) + cap(60, 37, 8, 17) + '<circle cx="80" cy="24" r="2.6" fill="' + EC + '"/><circle cx="88" cy="15" r="3.8" fill="' + EC + '"/>'; },
+      falando: function () { return cap(34, 38, 8, 16) + cap(58, 38, 8, 16) + '<rect x="44" y="58" width="12" height="4.6" rx="2.3" fill="' + EC + '"/>'; },
+      feliz: function () { return arc(38, 54, true) + arc(62, 54, true); },
+      rindo: function () { return arc(38, 50, true) + arc(62, 50, true) + '<path d="M43 57q7 9 14 0z" fill="' + EC + '"/>'; },
+      carinho: function () { return heart(38, 46, 1, 'var(--z-rose)') + heart(62, 46, 1, 'var(--z-rose)'); },
+      descolado: function () { return '<rect x="30" y="46" width="17" height="7" rx="3.5" fill="' + EC + '"/><rect x="53" y="46" width="17" height="7" rx="3.5" fill="' + EC + '"/>'; },
+      surpreso: function () { return '<circle cx="38" cy="50" r="7" fill="none" stroke="' + EC + '" stroke-width="4"/><circle cx="62" cy="50" r="7" fill="none" stroke="' + EC + '" stroke-width="4"/>'; },
+      bravo: function () { return '<g transform="rotate(16 38 50)">' + cap(34, 41, 8, 18) + '</g><g transform="rotate(-16 62 50)">' + cap(58, 41, 8, 18) + '</g>'; },
+      chorando: function () { return cap(34, 38, 8, 16) + cap(58, 38, 8, 16) + '<path d="M38 57q-3.5 5 0 7.5q3.5-2.5 0-7.5zM62 57q-3.5 5 0 7.5q3.5-2.5 0-7.5z" fill="#fff" fill-opacity=".92"/>'; },
+      dormindo: function () { return '<rect x="31" y="49" width="14" height="4.6" rx="2.3" fill="' + EC + '"/><rect x="55" y="49" width="14" height="4.6" rx="2.3" fill="' + EC + '"/><text x="76" y="30" font-size="13" font-weight="700" fill="' + EC + '" font-family="Sora,Segoe UI,sans-serif">z</text><text x="85" y="20" font-size="9" font-weight="700" fill="' + EC + '" font-family="Sora,Segoe UI,sans-serif">z</text>'; },
+      conseguiu: function () { return star(38, 50, 1.05, 'var(--z-warn)') + star(62, 50, 1.05, 'var(--z-warn)'); }
+    };
+
+    var ACC = {
+      none: '',
+      coroa: '<path d="M30 20L33 5L42 13L50 3L58 13L67 5L70 20Z" fill="#FFC857" stroke="#C98A12" stroke-width="1.2" stroke-linejoin="round"/>',
+      gorro: '<path d="M24 25Q50 -4 76 25Z" fill="#ECF3FF"/><rect x="22" y="22" width="56" height="7" rx="3.5" fill="#CFE0FF"/><circle cx="50" cy="3" r="5" fill="#ECF3FF"/>',
+      fones: '<path d="M21 46C19 12 81 12 79 46" fill="none" stroke="' + EC + '" stroke-width="4" stroke-linecap="round"/>',
+      aureola: '<ellipse cx="50" cy="8" rx="15" ry="4" fill="none" stroke="#FFC857" stroke-width="3"/>'
+    };
+
+    var id = 'g' + (++uid);
+    return '<svg width="' + size + '" height="' + size + '" viewBox="0 0 100 100" aria-hidden="true">' +
+      '<defs><linearGradient id="' + id + '" x1="20" y1="14" x2="80" y2="90" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="' + B + '"/><stop offset="1" stop-color="' + A + '"/></linearGradient></defs>' +
+      '<ellipse cx="50" cy="91" rx="24" ry="4" fill="#000" opacity=".4"/>' +
+      '<rect x="42" y="8" width="16" height="9" rx="4.5" fill="' + EC + '"/>' +
+      '<rect x="11" y="40" width="9" height="22" rx="4.5" fill="' + EC + '"/><rect x="80" y="40" width="9" height="22" rx="4.5" fill="' + EC + '"/>' +
+      '<rect x="20" y="16" width="60" height="62" rx="21" fill="url(#' + id + ')"/>' +
+      '<path d="M27 29q9-8 23-9" fill="none" stroke="#fff" stroke-opacity=".5" stroke-width="3" stroke-linecap="round"/>' +
+      (o.acc === 'fones' ? ACC.fones : '') +
+      '<rect x="27" y="32" width="46" height="36" rx="13" fill="#030813" stroke="' + EC + '" stroke-opacity=".45" stroke-width="1.5"/>' +
+      (E[kind] || E.repouso)() +
+      (o.acc && o.acc !== 'fones' ? (ACC[o.acc] || '') : '') +
+      '</svg>';
+  }
+
+  window.Mascot = { svg: svg, moods: ['repouso', 'ouvindo', 'pensando', 'falando', 'feliz', 'rindo', 'carinho', 'descolado', 'surpreso', 'bravo', 'chorando', 'dormindo', 'conseguiu'] };
+})();
+
+
+  var ICONS={list:'M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01',bell:'M6 16V11a6 6 0 0112 0v5l2 2H4zM10 20a2 2 0 004 0',drop:'M12 3c4 5 6 8 6 11a6 6 0 01-12 0c0-3 2-6 6-11z',timer:'M12 8v5l3 2M9 2h6M12 21a8 8 0 100-16 8 8 0 000 16z',palette:'M12 3a9 9 0 100 18c1.5 0 2-1 1.5-2s0-2 1.5-2h2a3 3 0 003-3c0-5-4-9-8-9z',mic:'M12 3a3 3 0 013 3v5a3 3 0 01-6 0V6a3 3 0 013-3zM6 11a6 6 0 0012 0M12 17v4',spark:'M12 3l2.2 5.8L20 11l-5.8 2.2L12 19l-2.2-5.8L4 11l5.8-2.2z',music:'M9 18V5l11-2v13M9 18a3 3 0 11-6 0 3 3 0 016 0zM20 16a3 3 0 11-6 0 3 3 0 016 0z',web:'M12 3v4M12 17v4M3 12h4M17 12h4M6 6l3 3M15 15l3 3M6 18l3-3M15 9l3-3',monitor:'M3 5h18v11H3zM8 21h8M12 16v5',nodes:'M6 6a2 2 0 100 .01M18 6a2 2 0 100 .01M12 18a2 2 0 100 .01M12 12a2 2 0 100 .01M8 7l3 4M16 7l-3 4M12 14v2',bolt:'M13 2L5 14h6l-1 8 8-12h-6z',clip:'M8 4h8v3H8zM6 6h12v15H6z'};
+  function ic(n){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="'+ICONS[n]+'"/></svg>';}
+
+  /* ---------- marca e mascote ---------- */
+  document.getElementById('brand-m').innerHTML=Mascot.svg('repouso',30);
+  document.getElementById('panel-m').innerHTML=Mascot.svg('feliz',38);
+  document.getElementById('promise-m').innerHTML=Mascot.svg('carinho',96);
+  var pillM=document.getElementById('pill-m'),pillT=document.getElementById('pill-t');
+  function pillMood(k){pillM.innerHTML=Mascot.svg(k,24);} pillMood('repouso');
+  document.getElementById('faces').innerHTML=Mascot.moods.map(function(m){return '<div class="face">'+Mascot.svg(m,60)+'<span>'+m.charAt(0).toUpperCase()+m.slice(1)+'</span></div>';}).join('');
+
+  /* ---------- recursos ---------- */
+  var FEAT=[['list','#3D8BFF','Tarefas','Sua lista do dia, a um pedido de distância.',1],['bell','#6F8CFF','Lembretes','“Me lembra de ligar pro cliente em 30 minutos.”',1],['timer','#38C6E8','Timers','Pizza no forno, foco de 25 minutos, o que precisar.',1],['drop','#3BB2F0','Hábitos','Água, leitura, exercício. Pequenas vitórias do dia.',1],['palette','#FF8FD0','Visual seu','Cor do corpo, dos olhos, acessórios e nome.',1],['monitor','#5B7CFF','Painel rápido','Passe o mouse no topo e o painel abre na hora.',1],['mic','#FF7A9C','Voz offline','Chame “Ei, Irys” e fale. O reconhecimento roda no seu PC, sem internet.',1],['spark','#8B7CFF','IA grátis ou com a sua chave','Conversa livre com Groq ou Gemini (grátis), OpenAI ou IA local.',1],['music','#38BDF8','Música','Pause, pule e ajuste o volume do player que estiver tocando.',1],['nodes','#8B7CFF','Memória','Ela guarda o que você pede e mostra num mapa. Fica só no seu PC.',1],['bolt','#4D6BFF','Rotinas','Uma frase, várias ações: “modo estudo” pausa a música e liga o foco.',1],['clip','#5B7CFF','Copiados','O histórico do que você copiou, a um clique de colar de novo.',1],['monitor','#2F9BFF','Meu PC','Veja CPU, memória e disco, e limpe temporários com confirmação.',1]];
+  document.getElementById('feat').innerHTML=FEAT.map(function(f){return '<div class="card"><span class="ic" style="background:'+f[1]+'">'+ic(f[0])+'</span><h3>'+f[2]+'</h3><p>'+f[3]+'</p><span class="tag'+(f[4]?'':' soon')+'">'+(f[4]?'Disponível':'Em breve')+'</span></div>';}).join('');
+
+  /* ---------- comandos ---------- */
+  var CMDS=['timer de 10 minutos para a pizza','me lembra de ligar pro cliente em 30 minutos','me lembra de pagar a conta às 15h','cria tarefa comprar pão','bebi um copo de água','lembra que minha namorada se chama Ana','próxima música','abre a calculadora','que horas são?'];
+  var SOON=[];
+  document.getElementById('cmds').innerHTML=CMDS.map(function(c){return '<button type="button" class="chip" data-cmd="'+c+'">“'+c+'”</button>';}).join('')+SOON.map(function(c){return '<span class="chip soon" title="Em breve">“'+c+'” · em breve</span>';}).join('');
+
+  /* ---------- demonstração ---------- */
+  var screen=document.getElementById('screen'),pill=document.getElementById('pill'),msgs=document.getElementById('msgs'),inp=document.getElementById('inp'),form=document.getElementById('form');
+  function open(v){screen.classList.toggle('open',v);pill.setAttribute('aria-expanded',v);}
+  pill.addEventListener('mouseenter',function(){open(true);});
+  pill.addEventListener('click',function(){open(!screen.classList.contains('open'));});
+  screen.addEventListener('mouseleave',function(){if(document.activeElement!==inp)open(false);});
+  document.getElementById('sug').innerHTML=CMDS.slice(0,3).map(function(c){return '<button type="button" class="chip" data-cmd="'+c+'">'+c+'</button>';}).join('');
+  function say(t,me){var d=document.createElement('div');d.className='bub'+(me?' me':'');d.textContent=t;msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight;}
+  var timerEnd=0,timerInt=null;
+  function startTimer(sec){timerEnd=Date.now()+sec*1000;pillMood('pensando');clearInterval(timerInt);timerInt=setInterval(function(){var s=Math.max(0,Math.ceil((timerEnd-Date.now())/1000));pillT.textContent=Math.floor(s/60)+':'+('0'+s%60).slice(-2);if(!s){clearInterval(timerInt);pillT.textContent='Timer pronto';pillMood('conseguiu');setTimeout(function(){pillT.textContent='';pillMood('repouso');},3500);}},250);}
+  var ACENTOS=new RegExp('['+String.fromCharCode(768)+'-'+String.fromCharCode(879)+']','g');
+  function norm(s){return s.toLowerCase().normalize('NFD').replace(ACENTOS,'');}
+  function reply(text){
+    var t=norm(text),m;
+    if(m=t.match(/timer(?: de| para)? (\d+)\s*(segundos?|seg|s|minutos?|min|horas?|h)\b(?: (?:para|pra|de|do|da) (.+))?$/)){
+      var u=m[2],mult=(u==='s'||/^seg/.test(u))?1:(/^min/.test(u)?60:3600),sec=+m[1]*mult,nome=(m[3]||'').replace(/^(a|o|as|os|um|uma)\s+/,'');
+      startTimer(Math.min(sec,90)); return 'Pronto, timer de '+m[1]+' '+(mult===1?'segundos':mult===60?'minutos':'horas')+(nome?' para '+nome:'')+' iniciado. (Na demonstração ele roda em até 90 segundos.)';}
+    if(m=t.match(/(?:me lembra|lembre|lembrar)(?: de| que)? (.+?) (?:em|daqui a) (\d+)\s*(minutos?|min|horas?|h)\b/)) return 'Combinado, te lembro de “'+m[1]+'” em '+m[2]+' '+(/^min/.test(m[3])?'minutos':'horas')+'.';
+    if(m=t.match(/(?:me lembra|lembre|lembrar)(?: de| que)? (.+?) as (\d{1,2})/)) return 'Combinado, te lembro de “'+m[1]+'” às '+m[2]+'h.';
+    if(m=t.match(/(?:cria|criar|nova|adiciona|adicionar|anota|anotar)(?: uma| a)? tarefa:? (.+)/)) return 'Tarefa adicionada: “'+m[1]+'”.';
+    if(/(?:bebi|tomei)(?: um| 1)? (?:copo|agua)/.test(t)) return 'Anotado! 1 de 8 copos hoje.';
+    if(/que horas/.test(t)) return 'Agora são '+new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})+'.';
+    return 'Ainda estou no modo simples: entendo timers, lembretes, tarefas e hábitos.';
+  }
+  function ask(text){text=text.trim();if(!text)return;open(true);say(text,true);pillMood('falando');setTimeout(function(){say(reply(text));pillMood(timerInt&&timerEnd>Date.now()?'pensando':'feliz');setTimeout(function(){if(!(timerEnd>Date.now()))pillMood('repouso');},1800);},450);}
+  form.addEventListener('submit',function(e){e.preventDefault();ask(inp.value);inp.value='';});
+  document.addEventListener('click',function(e){var b=e.target.closest('[data-cmd]');if(!b)return;if(b.closest('#cmds')){document.getElementById('demo').scrollIntoView({behavior:'smooth',block:'center'});}ask(b.dataset.cmd);});
+})();
+</script>
+</body>
+</html>
