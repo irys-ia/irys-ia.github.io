@@ -4,6 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Irys</title>
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="favicon.png">
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Sora:wght@600;700;800&display=swap">
 <style>
@@ -129,12 +131,15 @@ details[open] summary::after{content:'–'}
 details p{color:var(--mu);padding-bottom:18px}
 .final{text-align:center;display:flex;flex-direction:column;align-items:center;gap:22px}
 footer{border-top:1px solid var(--line);padding-block:32px 48px;color:var(--mu);font-size:13px;display:flex;gap:16px;flex-wrap:wrap;justify-content:space-between}
+.promise{background:linear-gradient(120deg,color-mix(in srgb,var(--z-acc) 12%,var(--ink2)),var(--ink2) 70%);border:1px solid color-mix(in srgb,var(--z-acc) 35%,transparent);border-radius:24px;padding:28px 30px}
+.promise h2{margin:0 0 8px}
+.promise p{color:var(--mu);font-size:16.5px;max-width:60ch}
 @media (max-width:900px){
   .hero,.pricewrap{grid-template-columns:1fr}
   .g3{grid-template-columns:1fr 1fr}.facts{grid-template-columns:1fr}
   nav .links{display:none}nav .btn{margin-left:auto}
 }
-@media (max-width:560px){nav{gap:10px;padding:12px 0}nav .brand{font-size:18px}nav .btn{padding:9px 14px;font-size:13px}.hero{padding-block:24px 40px;gap:28px}.hero .lead{font-size:16.5px;margin:16px 0 22px}.cta{flex-direction:column}.cta .btn{width:100%;padding:14px 20px}.sechead{margin-bottom:22px}.sechead p{font-size:16px}.pricewrap{gap:20px}.price{padding:24px 20px;border-radius:22px}.card{padding:18px}.step{padding:14px}.faces{grid-template-columns:repeat(3,1fr)}.final h2{font-size:24px}footer{flex-direction:column;gap:8px}.g3,.g2{grid-template-columns:1fr}section{padding-block:52px}.price .big{font-size:46px}}
+@media (max-width:560px){nav{gap:10px;padding:12px 0}nav .brand{font-size:18px}nav .btn{padding:9px 14px;font-size:13px}.hero{padding-block:24px 40px;gap:28px}.hero .lead{font-size:16.5px;margin:16px 0 22px}.cta{flex-direction:column}.cta .btn{width:100%;padding:14px 20px}.sechead{margin-bottom:22px}.sechead p{font-size:16px}.pricewrap{gap:20px}.price{padding:24px 20px;border-radius:22px}.card{padding:18px}.step{padding:14px}.promise{padding:22px 18px}.faces{grid-template-columns:repeat(3,1fr)}.final h2{font-size:24px}footer{flex-direction:column;gap:8px}.g3,.g2{grid-template-columns:1fr}section{padding-block:52px}.price .big{font-size:46px}}
 @media (prefers-reduced-motion:reduce){.panel{transition:none}}
 </style>
 </head>
@@ -170,6 +175,13 @@ footer{border-top:1px solid var(--line);padding-block:32px 48px;color:var(--mu);
       <p class="hint" id="demo-hint">É uma demonstração do painel do app: passe o mouse na pílula do topo e experimente os pedidos e as abas.</p>
     </div>
   </header>
+
+  <section>
+    <div class="promise">
+      <h2>Nós usamos a Irys tanto quanto você.</h2>
+      <p>Por isso ela não vai ficar parada. Cada atualização do app é sua, <b>vitalícia</b>, sem pagar nada a mais. Quando a gente melhora a Irys para o nosso dia a dia, você recebe junto. Pode ficar tranquilo: vai dar tudo certo.</p>
+    </div>
+  </section>
 
   <section>
     <div class="sechead"><div class="eyebrow">Peça do seu jeito</div><h2>Escreva do jeito que você fala.</h2><p>A Irys entende português do dia a dia. Alguns pedidos que ela resolve na hora:</p></div>
