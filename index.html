@@ -227,7 +227,12 @@ footer{border-top:1px solid var(--line);padding-block:32px 48px;color:var(--mu);
     <a class="btn acc" href="https://go.perfectpay.com.br/PPU38CQHQA6" target="_blank" rel="noopener" data-price-btn>Comprar</a>
   </section>
 
-  <footer><span>Irys.ia · a assistente no topo da sua tela · <a href="seguranca.html" style="text-decoration:underline">Segurança e privacidade</a></span><span>Dúvidas? Responda o e-mail da compra.</span></footer>
+  <footer><span>Irys.ia · a assistente no topo da sua tela · <a href="seguranca.html" style="text-decoration:underline">Segurança e privacidade</a></span><span>Dúvidas? Responda o e-mail da compra. · <span id="irys-versao"></span></span></footer>
+  <script>
+  fetch('https://irys-entrega.marcelopvdo.workers.dev/versao').then(function(r){return r.ok?r.json():null}).then(function(j){
+    if(!j||!j.versao)return;var el=document.getElementById('irys-versao');if(el)el.textContent='Versão atual '+j.versao;
+  }).catch(function(){});
+  </script>
 </div>
 
 <script>
