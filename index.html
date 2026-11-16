@@ -388,7 +388,7 @@ footer{border-top:1px solid var(--line);padding-block:32px 48px;color:var(--mu);
   /* ---------- demonstração: o painel do app (aba Início e algumas abas) ---------- */
   var screen=document.getElementById('screen'),pill=document.getElementById('pill'),qside=document.getElementById('qside'),qmain=document.getElementById('qmain'),demoStage=document.getElementById('demoStage');
   var touch=window.matchMedia('(hover:none),(max-width:700px)').matches;
-  if(touch){screen.classList.add('open');document.getElementById('demo-hint').textContent='É uma demonstração do painel do app: escreva um pedido ou toque nas abas.';}
+  if(touch)document.getElementById('demo-hint').textContent='É uma demonstração do painel do app: toque na pílula do topo para abrir.';
   // mesma visão em qualquer tela: encolhe o painel inteiro (não reorganiza), igual ao app de verdade
   function fitStage(){
     var s=Math.min(1,demoStage.clientWidth/680);
