@@ -48,7 +48,8 @@ section{padding-block:72px}
 .cta{display:flex;gap:12px;flex-wrap:wrap}
 .fine{margin-top:18px;font-size:13px;color:var(--mu)}
 .fine b{color:var(--tx)}
-.screen{position:relative;border-radius:22px;overflow:hidden;border:1px solid var(--line);background:radial-gradient(120% 90% at 20% 0%,#17427F 0%,#0B2048 42%,#000 100%);height:470px}
+.demoStage{width:100%;overflow:hidden}
+.screen{position:relative;border-radius:22px;overflow:hidden;border:1px solid var(--line);background:radial-gradient(120% 90% at 20% 0%,#17427F 0%,#0B2048 42%,#000 100%);width:680px;height:470px;transform-origin:top left}
 .pill{position:absolute;top:0;left:50%;transform:translateX(-50%);height:34px;width:136px;border-radius:0 0 18px 18px;background:#000;display:flex;align-items:center;justify-content:center;gap:9px;cursor:pointer;border:1px solid var(--line);border-top:0;font-size:12px;font-weight:700;font-variant-numeric:tabular-nums;z-index:3;box-shadow:0 6px 14px rgba(0,0,0,.5);color:var(--tx);padding:0}
 .pill i{width:7px;height:7px;border-radius:50%;background:var(--z-acc2);box-shadow:0 0 8px var(--z-acc2)}
 /* painel igual ao do app: colado no topo, abas à esquerda, tela de Início */
@@ -87,19 +88,6 @@ section{padding-block:72px}
 .qitem.done span{text-decoration:line-through;color:var(--mu)}
 .qitem .big{font-family:var(--display);font-weight:700;margin-left:auto;font-variant-numeric:tabular-nums}
 .qempty{color:var(--mu);font-size:13px}
-@media (max-width:700px){
-  /* no celular: sem "passe o mouse"; o painel fica aberto e as abas viram uma faixa rolável no topo */
-  .screen{height:auto;padding:0 0 14px}
-  .pill{display:none}
-  .panel{position:relative;left:auto;top:auto;transform:none!important;opacity:1;pointer-events:auto;width:calc(100% - 16px);margin:0 auto;height:auto;grid-template-columns:1fr;border-radius:0 0 20px 20px}
-  .qside{flex-direction:row;overflow-x:auto;border-right:0;border-bottom:1px solid var(--line);padding:10px 10px 8px;gap:4px;align-items:center;-webkit-overflow-scrolling:touch}
-  .qwho{display:none}
-  .qnav{flex:none;width:auto;padding:8px 12px;border-radius:999px;background:var(--ink2)}
-  .qmain{padding:14px 12px;overflow:visible}
-  .qrow{grid-template-columns:1fr;min-height:0}
-  .msgs{max-height:190px}
-  .qstats{grid-template-columns:1fr 1fr}
-}
 .chips{display:flex;gap:8px;flex-wrap:wrap}
 .chip{background:var(--ink3);border:1px solid var(--line);color:var(--tx);border-radius:999px;padding:7px 13px;font:inherit;font-size:13px;font-weight:500;cursor:pointer}
 .chip:hover{border-color:rgba(255,255,255,.25)}
@@ -174,11 +162,13 @@ footer{border-top:1px solid var(--line);padding-block:32px 48px;color:var(--mu);
       <p class="fine"><b data-price-fine></b> · atualizações incluídas · seus dados ficam no seu PC</p>
     </div>
     <div id="demo">
-      <div class="screen" id="screen">
-        <button class="pill" id="pill" type="button" aria-expanded="false" aria-controls="panel"><span id="pill-m"></span><span id="pill-t"></span><i></i></button>
-        <div class="panel" id="panel">
-          <aside class="qside" id="qside"></aside>
-          <main class="qmain" id="qmain"></main>
+      <div class="demoStage" id="demoStage">
+        <div class="screen" id="screen">
+          <button class="pill" id="pill" type="button" aria-expanded="false" aria-controls="panel"><span id="pill-m"></span><span id="pill-t"></span><i></i></button>
+          <div class="panel" id="panel">
+            <aside class="qside" id="qside"></aside>
+            <main class="qmain" id="qmain"></main>
+          </div>
         </div>
       </div>
       <p class="hint" id="demo-hint">É uma demonstração do painel do app: passe o mouse na pílula do topo e experimente os pedidos e as abas.</p>
@@ -399,9 +389,18 @@ footer{border-top:1px solid var(--line);padding-block:32px 48px;color:var(--mu);
   document.getElementById('cmds').innerHTML=CMDS.map(function(c){return '<button type="button" class="chip" data-cmd="'+c+'">“'+c+'”</button>';}).join('')+SOON.map(function(c){return '<span class="chip soon" title="Em breve">“'+c+'” · em breve</span>';}).join('');
 
   /* ---------- demonstração: o painel do app (aba Início e algumas abas) ---------- */
-  var screen=document.getElementById('screen'),pill=document.getElementById('pill'),qside=document.getElementById('qside'),qmain=document.getElementById('qmain');
+  var screen=document.getElementById('screen'),pill=document.getElementById('pill'),qside=document.getElementById('qside'),qmain=document.getElementById('qmain'),demoStage=document.getElementById('demoStage');
   var touch=window.matchMedia('(hover:none),(max-width:700px)').matches;
   if(touch){screen.classList.add('open');document.getElementById('demo-hint').textContent='É uma demonstração do painel do app: escreva um pedido ou toque nas abas.';}
+  // mesma visão em qualquer tela: encolhe o painel inteiro (não reorganiza), igual ao app de verdade
+  function fitStage(){
+    var s=Math.min(1,demoStage.clientWidth/680);
+    screen.style.transform='scale('+s+')';
+    demoStage.style.height=Math.round(470*s)+'px';
+  }
+  fitStage();
+  window.addEventListener('resize',fitStage);
+  if(window.ResizeObserver)new ResizeObserver(fitStage).observe(demoStage);
   function open(v){screen.classList.toggle('open',v||touch);pill.setAttribute('aria-expanded',v);}
   pill.addEventListener('mouseenter',function(){open(true);});
   pill.addEventListener('click',function(){open(!screen.classList.contains('open'));});
