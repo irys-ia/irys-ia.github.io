@@ -19,7 +19,10 @@
 body{background:var(--ink);color:var(--tx);font-family:var(--body);font-size:16px;line-height:1.55;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 *{box-sizing:border-box}
 [hidden]{display:none!important}
-body{margin:0}
+body{margin:0;overflow-x:hidden}
+html{-webkit-text-size-adjust:100%}
+.wrap{overflow-x:clip}
+.hero>*,.pricewrap>*,.grid>*,.facts>*{min-width:0}
 .wrap{max-width:1120px;margin:0 auto}
 a{color:inherit;text-decoration:none}
 h1,h2,h3{font-family:var(--display);letter-spacing:-.02em;margin:0;text-wrap:balance}
@@ -40,25 +43,63 @@ nav .links a:hover{color:var(--tx)}
 .btn:focus-visible,a:focus-visible,summary:focus-visible,input:focus-visible{outline:2px solid var(--z-acc2);outline-offset:3px}
 section{padding-block:72px}
 .eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--z-acc2);font-weight:700;margin-bottom:14px}
-.hero{display:grid;grid-template-columns:1.02fr 1fr;gap:40px;align-items:center;padding-block:48px 72px}
+.hero{display:grid;grid-template-columns:.8fr 1.2fr;gap:40px;align-items:center;padding-block:48px 72px}
 .hero .lead{font-size:18px;color:var(--mu);max-width:48ch;margin:20px 0 28px}
 .cta{display:flex;gap:12px;flex-wrap:wrap}
 .fine{margin-top:18px;font-size:13px;color:var(--mu)}
 .fine b{color:var(--tx)}
-.screen{position:relative;border-radius:22px;overflow:hidden;border:1px solid var(--line);aspect-ratio:16/12;background:radial-gradient(120% 90% at 20% 0%,#17427F 0%,#0B2048 42%,#000 100%);min-height:440px}
-.pill{position:absolute;top:0;left:50%;transform:translateX(-50%);height:36px;min-width:150px;padding:0 18px;border-radius:0 0 20px 20px;background:#000;display:flex;align-items:center;justify-content:center;gap:10px;cursor:pointer;border:1px solid var(--line);border-top:0;font-size:12px;font-weight:700;font-variant-numeric:tabular-nums;z-index:3;box-shadow:0 8px 24px rgba(0,0,0,.5)}
-.pill i{width:8px;height:8px;border-radius:50%;background:var(--z-acc2);box-shadow:0 0 10px var(--z-acc2)}
-.panel{position:absolute;left:5%;right:5%;top:44px;bottom:5%;background:var(--ink);border:1px solid var(--line);border-radius:22px;box-shadow:0 30px 80px rgba(0,0,0,.6),0 0 0 1px rgba(61,139,255,.16);display:flex;flex-direction:column;gap:10px;padding:14px;opacity:0;transform:translateY(-10px) scale(.98);pointer-events:none;transition:opacity .22s,transform .22s;z-index:2}
-.screen.open .panel{opacity:1;transform:none;pointer-events:auto}
-.panel .top{display:flex;align-items:center;gap:10px}
-.panel .top b{font-family:var(--display)}
-.panel .top small{display:block;color:var(--z-acc2);font-size:11px}
-.msgs{flex:1;overflow:auto;min-height:70px;display:flex;flex-direction:column;gap:8px;min-height:0;padding-right:4px}
-.bub{background:var(--ink3);border-radius:14px;padding:9px 12px;font-size:13.5px;max-width:92%}
-.bub.me{background:color-mix(in srgb,var(--z-acc) 26%,var(--ink3));align-self:flex-end}
-.ask{display:flex;gap:8px;align-items:center;background:var(--ink2);border:1px solid var(--line);border-radius:999px;padding:5px 5px 5px 14px}
+.screen{position:relative;border-radius:22px;overflow:hidden;border:1px solid var(--line);background:radial-gradient(120% 90% at 20% 0%,#17427F 0%,#0B2048 42%,#000 100%);height:470px}
+.pill{position:absolute;top:0;left:50%;transform:translateX(-50%);height:34px;width:136px;border-radius:0 0 18px 18px;background:#000;display:flex;align-items:center;justify-content:center;gap:9px;cursor:pointer;border:1px solid var(--line);border-top:0;font-size:12px;font-weight:700;font-variant-numeric:tabular-nums;z-index:3;box-shadow:0 6px 14px rgba(0,0,0,.5);color:var(--tx);padding:0}
+.pill i{width:7px;height:7px;border-radius:50%;background:var(--z-acc2);box-shadow:0 0 8px var(--z-acc2)}
+/* painel igual ao do app: colado no topo, abas à esquerda, tela de Início */
+.panel{position:absolute;left:50%;top:0;width:min(calc(100% - 20px),740px);height:440px;transform:translate(-50%,-12px);opacity:0;pointer-events:none;transition:opacity .22s,transform .22s;z-index:2;background:#000;border:1px solid var(--line);border-top:0;border-radius:0 0 24px 24px;box-shadow:0 30px 80px rgba(0,0,0,.6),inset 0 0 0 1px rgba(61,139,255,.12);display:grid;grid-template-columns:176px 1fr;overflow:hidden;text-align:left}
+.screen.open .panel{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+.qside{padding:12px 9px;display:flex;flex-direction:column;gap:1px;border-right:1px solid var(--line);min-height:0}
+.qwho{display:flex;gap:9px;align-items:center;padding:0 6px 8px}
+.qwho b{font-family:var(--display);font-size:15px;display:block;line-height:1.15}
+.qwho small{color:var(--z-acc2);font-size:11px;display:block}
+.qnav{flex:1 1 0;min-height:0;display:flex;align-items:center;gap:9px;padding:0 9px;border-radius:10px;color:var(--mu);font:inherit;font-size:13px;font-weight:500;white-space:nowrap;text-align:left;width:100%;background:none;border:0;cursor:pointer}
+.qnav:hover{background:var(--ink2)}
+.qnav.on{background:color-mix(in srgb,var(--z-acc) 18%,transparent);color:var(--z-acc)}
+.qnav svg{width:16px;height:16px;flex:none}
+.qnav em{margin-left:auto;font-style:normal;font-size:11px;background:var(--ink3);color:var(--tx);border-radius:999px;padding:1px 8px}
+.qmain{padding:14px 18px;display:flex;flex-direction:column;gap:10px;min-width:0;min-height:0;overflow:auto}
+.qmain .hd h3{font-size:21px}
+.qmain .hd p{font-size:12px;color:var(--mu);margin-top:1px}
+.ask{display:flex;gap:8px;align-items:center;background:var(--ink2);border:1px solid var(--line);border-radius:14px;padding:5px 5px 5px 14px}
 .ask input{flex:1;min-width:0;background:none;border:0;color:var(--tx);font:inherit;font-size:14px;outline:0}
-.ask button{width:32px;height:32px;border-radius:50%;background:var(--z-acc);color:var(--on);border:0;font-weight:800;cursor:pointer}
+.ask button{width:34px;height:34px;border-radius:50%;background:var(--z-acc);color:var(--on);border:0;cursor:pointer;display:grid;place-items:center;flex:none}
+.ask button svg{width:16px;height:16px}
+.qrow{display:grid;grid-template-columns:1fr 1fr;gap:10px;flex:1;min-height:110px}
+.qcard{background:var(--ink2);border:1px solid var(--line);border-radius:16px;padding:11px;display:flex;flex-direction:column;gap:6px;min-width:0;min-height:0}
+.qcard .gl{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--mu)}
+.msgs{flex:1;overflow:auto;min-height:0;display:flex;flex-direction:column;gap:7px}
+.bub{background:var(--ink3);border-radius:12px;padding:8px 11px;font-size:13px;max-width:94%}
+.bub.me{background:color-mix(in srgb,var(--z-acc) 26%,var(--ink3));align-self:flex-end}
+.qstats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.qstat{background:var(--ink2);border:1px solid var(--line);border-radius:14px;padding:9px 10px}
+.qstat i{display:block;width:16px;height:16px;border-radius:5px;margin-bottom:6px}
+.qstat b{display:block;font-family:var(--display);font-size:19px;line-height:1.1}
+.qstat span{font-size:11.5px;color:var(--mu)}
+.qlist{display:flex;flex-direction:column;gap:6px}
+.qitem{display:flex;align-items:center;gap:10px;background:var(--ink2);border:1px solid var(--line);border-radius:12px;padding:9px 12px;font-size:13.5px}
+.qitem button{background:none;border:1px solid var(--line);color:var(--tx);border-radius:999px;padding:3px 11px;font:inherit;font-size:12px;cursor:pointer;margin-left:auto}
+.qitem.done span{text-decoration:line-through;color:var(--mu)}
+.qitem .big{font-family:var(--display);font-weight:700;margin-left:auto;font-variant-numeric:tabular-nums}
+.qempty{color:var(--mu);font-size:13px}
+@media (max-width:700px){
+  /* no celular: sem "passe o mouse"; o painel fica aberto e as abas viram uma faixa rolável no topo */
+  .screen{height:auto;padding:0 0 14px}
+  .pill{display:none}
+  .panel{position:relative;left:auto;top:auto;transform:none!important;opacity:1;pointer-events:auto;width:calc(100% - 16px);margin:0 auto;height:auto;grid-template-columns:1fr;border-radius:0 0 20px 20px}
+  .qside{flex-direction:row;overflow-x:auto;border-right:0;border-bottom:1px solid var(--line);padding:10px 10px 8px;gap:4px;align-items:center;-webkit-overflow-scrolling:touch}
+  .qwho{display:none}
+  .qnav{flex:none;width:auto;padding:8px 12px;border-radius:999px;background:var(--ink2)}
+  .qmain{padding:14px 12px;overflow:visible}
+  .qrow{grid-template-columns:1fr;min-height:0}
+  .msgs{max-height:190px}
+  .qstats{grid-template-columns:1fr 1fr}
+}
 .chips{display:flex;gap:8px;flex-wrap:wrap}
 .chip{background:var(--ink3);border:1px solid var(--line);color:var(--tx);border-radius:999px;padding:7px 13px;font:inherit;font-size:13px;font-weight:500;cursor:pointer}
 .chip:hover{border-color:rgba(255,255,255,.25)}
@@ -109,7 +150,7 @@ footer{border-top:1px solid var(--line);padding-block:32px 48px;color:var(--mu);
   .g3{grid-template-columns:1fr 1fr}.facts{grid-template-columns:1fr}
   nav .links{display:none}nav .btn{margin-left:auto}
 }
-@media (max-width:560px){.g3,.g2{grid-template-columns:1fr}section{padding-block:52px}.price .big{font-size:46px}}
+@media (max-width:560px){nav{gap:10px;padding:12px 0}nav .brand{font-size:18px}nav .btn{padding:9px 14px;font-size:13px}.hero{padding-block:24px 40px;gap:28px}.hero .lead{font-size:16.5px;margin:16px 0 22px}.cta{flex-direction:column}.cta .btn{width:100%;padding:14px 20px}.sechead{margin-bottom:22px}.sechead p{font-size:16px}.pricewrap{gap:20px}.price{padding:24px 20px;border-radius:22px}.card{padding:18px}.step{padding:14px}.promise{padding:22px 18px;gap:14px}.faces{grid-template-columns:repeat(3,1fr)}.final h2{font-size:24px}footer{flex-direction:column;gap:8px}.g3,.g2{grid-template-columns:1fr}section{padding-block:52px}.price .big{font-size:46px}}
 @media (prefers-reduced-motion:reduce){.panel{transition:none}}
 </style>
 </head>
@@ -136,15 +177,23 @@ footer{border-top:1px solid var(--line);padding-block:32px 48px;color:var(--mu);
       <div class="screen" id="screen">
         <button class="pill" id="pill" type="button" aria-expanded="false" aria-controls="panel"><span id="pill-m"></span><span id="pill-t"></span><i></i></button>
         <div class="panel" id="panel">
-          <div class="top"><span id="panel-m"></span><div><b>Irys</b><small>● pronta</small></div></div>
-          <div class="msgs" id="msgs"><div class="bub">Oi! Escreva um pedido aqui embaixo, ou toque em uma das sugestões.</div></div>
-          <div class="chips" id="sug"></div>
-          <form class="ask" id="form" autocomplete="off"><input id="inp" placeholder="Ex.: timer de 10 minutos para a pizza" aria-label="Escreva um pedido"><button type="submit" aria-label="Enviar">→</button></form>
+          <aside class="qside" id="qside"></aside>
+          <main class="qmain" id="qmain"></main>
         </div>
       </div>
-      <p class="hint">É uma demonstração: passe o mouse na pílula do topo e experimente.</p>
+      <p class="hint" id="demo-hint">É uma demonstração do painel do app: passe o mouse na pílula do topo e experimente os pedidos e as abas.</p>
     </div>
   </header>
+
+  <section>
+    <div class="promise">
+      <div id="promise-m"></div>
+      <div>
+        <h2>Nós usamos a Irys tanto quanto você.</h2>
+        <p>Por isso ela não vai ficar parada. Cada atualização do app é sua, <b>vitalícia</b>, sem pagar nada a mais. Quando a gente melhora a Irys para o nosso dia a dia, você recebe junto. Pode ficar tranquilo: vai dar tudo certo.</p>
+      </div>
+    </div>
+  </section>
 
   <section>
     <div class="sechead"><div class="eyebrow">Peça do seu jeito</div><h2>Escreva do jeito que você fala.</h2><p>A Irys entende português do dia a dia. Alguns pedidos que ela resolve na hora:</p></div>
@@ -154,6 +203,20 @@ footer{border-top:1px solid var(--line);padding-block:32px 48px;color:var(--mu);
   <section id="funcoes">
     <div class="sechead"><div class="eyebrow">Tudo num lugar só</div><h2>Sem abrir mil janelas.</h2><p>A Irys fica no topo e abre só quando você precisa.</p></div>
     <div class="grid g3" id="feat"></div>
+  </section>
+
+  <section id="agente">
+    <div class="sechead"><div class="eyebrow">Controle o PC por pedido</div><h2>Peça em português. Ela manda fazer.</h2><p>Conecte o Claude Code ou o Codex, que você já usa, e a Irys repassa a eles o que não é comando pronto. Eles executam no seu computador.</p></div>
+    <div class="facts">
+      <div class="fact"><b>Ela pede, eles fazem</b><span class="mu">Organizar uma pasta, procurar um arquivo, abrir programas e sites, rodar uma tarefa. O agente executa de verdade.</span></div>
+      <div class="fact"><b>Você no controle</b><span class="mu">Cada pedido mostra uma janela do Windows pedindo o seu OK. Escolha controle total ou só edição de arquivos e desligue quando quiser.</span></div>
+      <div class="fact"><b>Usa o seu login</b><span class="mu">Funciona com o Claude Code ou o Codex que você já tem instalado e logado. A cota é a sua; a Irys não cobra nada a mais.</span></div>
+    </div>
+  </section>
+
+  <section id="novidades" hidden>
+    <div class="sechead"><div class="eyebrow">Novidades</div><h2>O que chegou nas últimas versões.</h2><p>O app se atualiza sozinho. Tudo isto já está nas mãos de quem comprou.</p></div>
+    <div class="grid g3" id="news"></div>
   </section>
 
   <section>
@@ -167,18 +230,12 @@ footer{border-top:1px solid var(--line);padding-block:32px 48px;color:var(--mu);
       <div class="fact"><b>No seu PC</b><span class="mu">Tarefas, lembretes, hábitos e conversas ficam salvos no seu computador.</span></div>
       <div class="fact"><b>Sem conta</b><span class="mu">Não precisa criar cadastro para usar a Irys.</span></div>
       <div class="fact"><b>Sem rastreamento</b><span class="mu">O app não envia estatísticas de uso.</span></div>
+      <div class="fact"><b>Chaves protegidas</b><span class="mu">As chaves de IA ficam criptografadas pelo Windows, no seu computador.</span></div>
+      <div class="fact"><b>Você confirma</b><span class="mu">Com o agente ligado, cada pedido pede o seu OK. Desligar o PC ou mexer em arquivos só com o seu sim.</span></div>
+      <div class="fact"><b>Voz opcional</b><span class="mu">Desligada por padrão. Ligada, ela só escuta o seu chamado e nada é gravado nem enviado.</span></div>
     </div>
   </section>
 
-  <section>
-    <div class="promise">
-      <div id="promise-m"></div>
-      <div>
-        <h2>Nós usamos a Irys tanto quanto você.</h2>
-        <p>Por isso ela não vai ficar parada. Cada atualização do app é sua, <b>vitalícia</b>, sem pagar nada a mais. Quando a gente melhora a Irys para o nosso dia a dia, você recebe junto. Pode ficar tranquilo: vai dar tudo certo.</p>
-      </div>
-    </div>
-  </section>
 
   <section id="instalar">
     <div class="sechead"><div class="eyebrow">Instalar</div><h2>Leva 2 minutos.</h2><p>Depois da compra, o link do instalador chega no seu e-mail.</p></div>
@@ -187,6 +244,14 @@ footer{border-top:1px solid var(--line);padding-block:32px 48px;color:var(--mu);
       <div class="step"><div><b>Abra e conclua a instalação</b><span>Se o Windows mostrar um aviso de segurança, a página de instalação explica o que fazer.</span></div></div>
       <div class="step"><div><b>Diga seu nome e escolha o visual</b><span>Cor, olhos e acessório.</span></div></div>
       <div class="step"><div><b>Passe o mouse no topo da tela</b><span>Pronto. Ela já está lá.</span></div></div>
+    </div>
+    <div class="facts" style="margin-top:24px">
+      <div class="fact"><b>Sistema</b><span class="mu">Windows 10 ou 11, 64 bits</span></div>
+      <div class="fact"><b>Espaço</b><span class="mu">cerca de 400 MB, com a voz em português incluída</span></div>
+      <div class="fact"><b>Atualizações</b><span class="mu">O próprio app baixa e instala sozinho</span></div>
+      <div class="fact"><b>Internet</b><span class="mu">Só para IA da nuvem, agente e atualizações</span></div>
+      <div class="fact"><b>Microfone</b><span class="mu">Opcional, para falar com ela</span></div>
+      <div class="fact"><b>Download</b><span class="mu">O link chega no seu e-mail logo depois do pagamento</span></div>
     </div>
   </section>
 
@@ -199,6 +264,7 @@ footer{border-top:1px solid var(--line);padding-block:32px 48px;color:var(--mu);
         <ul>
           <li>Todas as funções disponíveis, sem planos nem limites</li>
           <li>Atualizações vitalícias: nós usamos a Irys todo dia e ela só melhora</li>
+          <li>Conecte o Claude Code ou o Codex e controle o PC por pedido</li>
           <li>Licença pessoal, ligada ao e-mail da compra</li>
           <li>Instalador para Windows 10 e 11</li>
         </ul>
@@ -214,6 +280,9 @@ footer{border-top:1px solid var(--line);padding-block:32px 48px;color:var(--mu);
       <details><summary>Tem mensalidade?</summary><p>Não. Você paga uma vez e a licença é sua, com as atualizações incluídas.</p></details>
       <details><summary>Como eu recebo a Irys?</summary><p>Depois que o pagamento é aprovado (no PIX, na hora), você recebe um e-mail com o link do instalador. Se não achar, olhe a caixa de spam.</p></details>
       <details><summary>Preciso pagar alguma IA?</summary><p>Não. Timers, lembretes, tarefas, música, rotinas e voz funcionam sem IA e sem internet. Para conversar livremente, você liga uma IA: Groq e Gemini têm cota gratuita (você cria uma chave grátis em poucos minutos) e dá para usar a sua chave da OpenAI. Se você já usa o Claude Code ou o Codex, a Irys também pode pedir para eles executarem tarefas no seu PC.</p></details>
+      <details><summary>Como ligo o Claude Code ou o Codex?</summary><p>Instale o programa que você prefere, faça login uma vez no terminal e, na Irys, vá em Configurações > Cérebro > Controlar o PC. Um aviso do Windows pede o seu consentimento e você escolhe controle total ou só edição de arquivos. Com ele ligado, os pedidos que não são comandos prontos vão para o agente, e cada um pede o seu OK antes (dá para desligar). Usa o seu login e a sua cota.</p></details>
+      <details><summary>Ela fica ouvindo tudo o que eu falo?</summary><p>Não. A voz vem desligada. Se você ligar, ela escuta o microfone só para reconhecer o seu chamado, no seu PC, e nada é gravado nem enviado. Também dá para usar só o atalho Ctrl+Alt+Espaço.</p></details>
+      <details><summary>Atrapalha quando eu jogo ou vejo vídeo?</summary><p>Não. Ela fica atrás das janelas e só aparece quando você encosta o mouse na borda de cima da tela, e se esconde sozinha com programas em tela cheia.</p></details>
       <details><summary>Meus dados vão para algum servidor?</summary><p>Tarefas, lembretes, hábitos, memória e conversas ficam no seu computador. O app não envia estatísticas de uso. Só a IA da nuvem, se você ligar, envia suas mensagens ao provedor que você escolheu.</p></details>
       <details><summary>Como funciona a voz?</summary><p>Você liga a voz nas configurações e diz o nome da assistente. Como “Irys” não existe no vocabulário do reconhecedor, você ensina o chamado falando 4 vezes e ela aprende a sua voz. Também dá para chamar pelo atalho Ctrl+Alt+Espaço. O reconhecimento roda no seu PC, sem internet. Se quiser mais precisão, há uma opção (desligada por padrão) que usa a sua chave da Groq para transcrever só o pedido.</p></details>
       <details><summary>Funciona no meu PC?</summary><p>Em Windows 10 e 11 de 64 bits. Ela se esconde sozinha quando algum programa está em tela cheia.</p></details>
@@ -231,6 +300,8 @@ footer{border-top:1px solid var(--line);padding-block:32px 48px;color:var(--mu);
   <script>
   fetch('https://irys-entrega.marcelopvdo.workers.dev/versao').then(function(r){return r.ok?r.json():null}).then(function(j){
     if(!j||!j.versao)return;var el=document.getElementById('irys-versao');if(el)el.textContent='Versão atual '+j.versao;
+    var h=(j.historico||[]).slice(0,3),box=document.getElementById('news'),sec=document.getElementById('novidades');
+    if(h.length&&box&&sec){box.innerHTML=h.map(function(v){var d=v.data?new Date(v.data).toLocaleDateString('pt-BR'):'';return '<div class="card"><b>Versão '+v.versao+'</b><span class="mu" style="font-size:12.5px">'+d+'</span><ul style="margin:4px 0 0;padding-left:18px;color:var(--mu);font-size:14.5px">'+(v.notas||[]).map(function(n){return '<li>'+String(n).replace(/</g,'&lt;')+'</li>';}).join('')+'</ul></div>';}).join('');sec.hidden=false;}
   }).catch(function(){});
   </script>
 </div>
@@ -313,7 +384,6 @@ footer{border-top:1px solid var(--line);padding-block:32px 48px;color:var(--mu);
 
   /* ---------- marca e mascote ---------- */
   document.getElementById('brand-m').innerHTML=Mascot.svg('repouso',30);
-  document.getElementById('panel-m').innerHTML=Mascot.svg('feliz',38);
   document.getElementById('promise-m').innerHTML=Mascot.svg('carinho',96);
   var pillM=document.getElementById('pill-m'),pillT=document.getElementById('pill-t');
   function pillMood(k){pillM.innerHTML=Mascot.svg(k,24);} pillMood('repouso');
@@ -328,33 +398,80 @@ footer{border-top:1px solid var(--line);padding-block:32px 48px;color:var(--mu);
   var SOON=[];
   document.getElementById('cmds').innerHTML=CMDS.map(function(c){return '<button type="button" class="chip" data-cmd="'+c+'">“'+c+'”</button>';}).join('')+SOON.map(function(c){return '<span class="chip soon" title="Em breve">“'+c+'” · em breve</span>';}).join('');
 
-  /* ---------- demonstração ---------- */
-  var screen=document.getElementById('screen'),pill=document.getElementById('pill'),msgs=document.getElementById('msgs'),inp=document.getElementById('inp'),form=document.getElementById('form');
-  function open(v){screen.classList.toggle('open',v);pill.setAttribute('aria-expanded',v);}
+  /* ---------- demonstração: o painel do app (aba Início e algumas abas) ---------- */
+  var screen=document.getElementById('screen'),pill=document.getElementById('pill'),qside=document.getElementById('qside'),qmain=document.getElementById('qmain');
+  var touch=window.matchMedia('(hover:none),(max-width:700px)').matches;
+  if(touch){screen.classList.add('open');document.getElementById('demo-hint').textContent='É uma demonstração do painel do app: escreva um pedido ou toque nas abas.';}
+  function open(v){screen.classList.toggle('open',v||touch);pill.setAttribute('aria-expanded',v);}
   pill.addEventListener('mouseenter',function(){open(true);});
   pill.addEventListener('click',function(){open(!screen.classList.contains('open'));});
-  screen.addEventListener('mouseleave',function(){if(document.activeElement!==inp)open(false);});
-  document.getElementById('sug').innerHTML=CMDS.slice(0,3).map(function(c){return '<button type="button" class="chip" data-cmd="'+c+'">'+c+'</button>';}).join('');
-  function say(t,me){var d=document.createElement('div');d.className='bub'+(me?' me':'');d.textContent=t;msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight;}
-  var timerEnd=0,timerInt=null;
-  function startTimer(sec){timerEnd=Date.now()+sec*1000;pillMood('pensando');clearInterval(timerInt);timerInt=setInterval(function(){var s=Math.max(0,Math.ceil((timerEnd-Date.now())/1000));pillT.textContent=Math.floor(s/60)+':'+('0'+s%60).slice(-2);if(!s){clearInterval(timerInt);pillT.textContent='Timer pronto';pillMood('conseguiu');setTimeout(function(){pillT.textContent='';pillMood('repouso');},3500);}},250);}
+  screen.addEventListener('mouseleave',function(){if(!qmain.contains(document.activeElement))open(false);});
+  var NAV=[['inicio','home','Início'],['conversa','chat','Conversa'],['memoria','nodes','Memória'],['tarefas','list','Tarefas'],['lembretes','bell','Lembretes'],['habitos','drop','Hábitos'],['timers','timer','Timers'],['musica','music','Música'],['copiados','clip','Copiados'],['rotinas','bolt','Rotinas'],['meupc','monitor','Meu PC'],['config','sliders','Configurações']];
+  var EXTRA_IC={home:'M4 11l8-7 8 7v9H4zM10 20v-6h4v6',chat:'M4 5h16v11H9l-5 4z',sliders:'M4 7h10M18 7h2M4 17h4M12 17h8M14 4v6M8 14v6'};
+  function icx(n){var p=EXTRA_IC[n]||ICONS[n]||'';return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="'+p+'"/></svg>';}
+  var INFO={memoria:['Memória','Ela guarda o que você pede (“lembra que minha namorada se chama Ana”) e mostra num mapa. Fica só no seu PC.'],musica:['Música','Pause, pule e ajuste o volume do player que estiver tocando, falando ou pelo painel.'],copiados:['Copiados','O histórico do que você copiou, a um clique de colar de novo.'],rotinas:['Rotinas','Uma frase, várias ações: “modo estudo” pausa a música e liga o foco.'],meupc:['Meu PC','CPU, memória e disco ao vivo, e limpeza de temporários com confirmação.'],config:['Configurações','Voz, cor e acessórios, cérebro (IA) e agente de PC, atualizações.']};
+  var S={tab:'inicio',tasks:[{t:'Passe o mouse no topo da tela para abrir o painel rápido',d:false},{t:'Peça: “timer de 5 minutos”',d:false},{t:'Peça: “me lembra de beber água em 30 minutos”',d:false}],reminders:[],timers:[],
+    habits:[{n:'Água',goal:8,v:0,u:'copos'},{n:'Ler',goal:1,v:0,u:'vez'},{n:'Exercício',goal:1,v:0,u:'vez'}],chat:[{me:false,t:'Oi! Já estou por aqui. Passe o mouse no topo da tela quando precisar de mim.'}]};
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+  function pendTasks(){return S.tasks.filter(function(x){return !x.d;}).length;}
+  function habDone(){return S.habits.filter(function(h){return h.v>=h.goal;}).length;}
+  function liveTimers(){return S.timers.filter(function(t){return t.end>Date.now();});}
+  function fmt(ms){var s=Math.max(0,Math.ceil(ms/1000));return Math.floor(s/60)+':'+('0'+s%60).slice(-2);}
+  function badge(id){var n=id==='tarefas'?pendTasks():id==='lembretes'?S.reminders.length:id==='timers'?liveTimers().length:0;if(id==='habitos')return '<em>'+habDone()+'/'+S.habits.length+'</em>';return n?'<em>'+n+'</em>':'';}
+  function msgsHtml(){return S.chat.map(function(m){return '<div class="bub'+(m.me?' me':'')+'">'+esc(m.t)+'</div>';}).join('');}
+  function agora(){var t=liveTimers()[0];if(t)return '<div class="gl">Agora</div><div><b data-left="'+t.end+'" style="font-family:var(--display);font-size:26px">'+fmt(t.end-Date.now())+'</b><div class="qempty">'+esc(t.name)+'</div></div>';if(S.reminders.length)return '<div class="gl">Agora</div><div><b>'+esc(S.reminders[S.reminders.length-1])+'</b><div class="qempty">lembrete criado</div></div>';return '<div class="gl">Agora</div><div class="qempty">Nada agendado. Tente “timer de 5 minutos”.</div>';}
+  function askBox(){return '<form class="ask" id="qform" autocomplete="off"><input id="qinp" placeholder="Peça algo… ex.: timer de 10 minutos" aria-label="Escreva um pedido"><button type="submit" aria-label="Enviar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/></svg></button></form>';}
+  function view(){
+    var t=S.tab;
+    if(t==='inicio')return '<div class="hd"><h3>Oi!</h3><p>Escreva um pedido ou chame “Ei, Irys”.</p></div>'+askBox()+'<div class="qrow"><div class="qcard"><div class="msgs" id="msgs">'+msgsHtml()+'</div></div><div class="qcard" id="agora">'+agora()+'</div></div>'+
+      '<div class="qstats"><div class="qstat"><i style="background:#6F8CFF"></i><b>'+S.reminders.length+'</b><span>lembretes</span></div><div class="qstat"><i style="background:#3D8BFF"></i><b>'+pendTasks()+'</b><span>tarefas</span></div><div class="qstat"><i style="background:#5FD7FF"></i><b>'+habDone()+'/'+S.habits.length+'</b><span>hábitos hoje</span></div><div class="qstat"><i style="background:#38BDF8"></i><b>'+liveTimers().length+'</b><span>timers</span></div></div>';
+    if(t==='conversa')return '<div class="hd"><h3>Conversa</h3><p>O que você pediu e o que ela respondeu.</p></div><div class="qcard" style="flex:1"><div class="msgs" id="msgs">'+msgsHtml()+'</div></div>'+askBox();
+    if(t==='tarefas')return '<div class="hd"><h3>Tarefas</h3><p>Sua lista do dia. Toque para concluir.</p></div><div class="qlist">'+S.tasks.map(function(x,i){return '<div class="qitem'+(x.d?' done':'')+'"><span>'+esc(x.t)+'</span><button data-task="'+i+'">'+(x.d?'Reabrir':'Concluir')+'</button></div>';}).join('')+'</div>'+askBox();
+    if(t==='lembretes')return '<div class="hd"><h3>Lembretes</h3><p>Peça: “me lembra de ligar pro cliente em 30 minutos”.</p></div><div class="qlist">'+(S.reminders.length?S.reminders.map(function(r){return '<div class="qitem"><span>'+esc(r)+'</span></div>';}).join(''):'<div class="qempty">Nenhum lembrete ainda.</div>')+'</div>'+askBox();
+    if(t==='habitos')return '<div class="hd"><h3>Hábitos</h3><p>Pequenas vitórias do dia.</p></div><div class="qlist">'+S.habits.map(function(h,i){return '<div class="qitem"><span>'+h.n+' · '+h.v+'/'+h.goal+' '+h.u+'</span><button data-hab="'+i+'">+1</button></div>';}).join('')+'</div>'+askBox();
+    if(t==='timers'){var L=liveTimers();return '<div class="hd"><h3>Timers</h3><p>Peça: “timer de 10 minutos para a pizza”.</p></div><div class="qlist">'+(L.length?L.map(function(x){return '<div class="qitem"><span>'+esc(x.name)+'</span><b class="big" data-left="'+x.end+'">'+fmt(x.end-Date.now())+'</b></div>';}).join(''):'<div class="qempty">Nenhum timer rodando.</div>')+'</div>'+askBox();}
+    var i=INFO[t]||['',''];return '<div class="hd"><h3>'+i[0]+'</h3><p>'+i[1]+'</p></div><div class="qcard"><div class="qempty">Essa aba está disponível no app instalado.</div></div>';
+  }
+  function render(keep){
+    var v=document.getElementById('qinp'),val=v?v.value:'',foc=v&&document.activeElement===v;
+    qside.innerHTML='<div class="qwho"><span id="qwho-m"></span><div><b>Irys</b><small>● pronta</small></div></div>'+NAV.map(function(n){return '<button class="qnav'+(n[0]===S.tab?' on':'')+'" data-tab="'+n[0]+'">'+icx(n[1])+n[2]+badge(n[0])+'</button>';}).join('');
+    var wm=document.getElementById('qwho-m');if(wm)wm.innerHTML=Mascot.svg('feliz',34);
+    qmain.innerHTML=view();
+    var nv=document.getElementById('qinp');if(nv&&keep){nv.value=val;if(foc)nv.focus();}
+    var ms=document.getElementById('msgs');if(ms)ms.scrollTop=ms.scrollHeight;
+  }
+  var pillTimer=null;
+  function pillTick(){var L=liveTimers();pillT.textContent=L.length?fmt(L[0].end-Date.now()):'';if(!L.length){pillMood('repouso');}document.querySelectorAll('[data-left]').forEach(function(e){e.textContent=fmt(Number(e.dataset.left)-Date.now());});if(S.tab==='inicio'&&!L.length&&document.getElementById('agora')&&/data-left/.test(document.getElementById('agora').innerHTML)){render(true);}}
+  setInterval(pillTick,500);
   var ACENTOS=new RegExp('['+String.fromCharCode(768)+'-'+String.fromCharCode(879)+']','g');
   function norm(s){return s.toLowerCase().normalize('NFD').replace(ACENTOS,'');}
   function reply(text){
     var t=norm(text),m;
     if(m=t.match(/timer(?: de| para)? (\d+)\s*(segundos?|seg|s|minutos?|min|horas?|h)\b(?: (?:para|pra|de|do|da) (.+))?$/)){
       var u=m[2],mult=(u==='s'||/^seg/.test(u))?1:(/^min/.test(u)?60:3600),sec=+m[1]*mult,nome=(m[3]||'').replace(/^(a|o|as|os|um|uma)\s+/,'');
-      startTimer(Math.min(sec,90)); return 'Pronto, timer de '+m[1]+' '+(mult===1?'segundos':mult===60?'minutos':'horas')+(nome?' para '+nome:'')+' iniciado. (Na demonstração ele roda em até 90 segundos.)';}
-    if(m=t.match(/(?:me lembra|lembre|lembrar)(?: de| que)? (.+?) (?:em|daqui a) (\d+)\s*(minutos?|min|horas?|h)\b/)) return 'Combinado, te lembro de “'+m[1]+'” em '+m[2]+' '+(/^min/.test(m[3])?'minutos':'horas')+'.';
-    if(m=t.match(/(?:me lembra|lembre|lembrar)(?: de| que)? (.+?) as (\d{1,2})/)) return 'Combinado, te lembro de “'+m[1]+'” às '+m[2]+'h.';
-    if(m=t.match(/(?:cria|criar|nova|adiciona|adicionar|anota|anotar)(?: uma| a)? tarefa:? (.+)/)) return 'Tarefa adicionada: “'+m[1]+'”.';
-    if(/(?:bebi|tomei)(?: um| 1)? (?:copo|agua)/.test(t)) return 'Anotado! 1 de 8 copos hoje.';
-    if(/que horas/.test(t)) return 'Agora são '+new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})+'.';
-    return 'Ainda estou no modo simples: entendo timers, lembretes, tarefas e hábitos.';
+      S.timers.push({name:nome?'Timer · '+nome:'Timer de '+m[1]+' '+(mult===1?'s':mult===60?'min':'h'),end:Date.now()+Math.min(sec,90)*1000});pillMood('pensando');
+      return 'Pronto, timer de '+m[1]+' '+(mult===1?'segundos':mult===60?'minutos':'horas')+(nome?' para '+nome:'')+' iniciado. (Na demonstração ele roda em até 90 segundos.)';}
+    if(m=t.match(/(?:me lembra|lembre|lembrar)(?: de| que)? (.+?) (?:em|daqui a) (\d+)\s*(minutos?|min|horas?|h)\b/)){S.reminders.push(m[1]+' · em '+m[2]+(/^min/.test(m[3])?' min':' h'));return 'Combinado, te lembro de “'+m[1]+'” em '+m[2]+' '+(/^min/.test(m[3])?'minutos':'horas')+'.';}
+    if(m=t.match(/(?:me lembra|lembre|lembrar)(?: de| que)? (.+?) as (\d{1,2})/)){S.reminders.push(m[1]+' · às '+m[2]+'h');return 'Combinado, te lembro de “'+m[1]+'” às '+m[2]+'h.';}
+    if(m=t.match(/(?:cria|criar|nova|adiciona|adicionar|anota|anotar)(?: uma| a)? tarefa:? (.+)/)){S.tasks.push({t:m[1],d:false});return 'Tarefa adicionada: “'+m[1]+'”.';}
+    if(/(?:bebi|tomei)(?: um| 1)? (?:copo|agua)/.test(t)){S.habits[0].v=Math.min(S.habits[0].goal,S.habits[0].v+1);return 'Anotado! '+S.habits[0].v+' de '+S.habits[0].goal+' copos hoje.';}
+    if(/que horas/.test(t))return 'Agora são '+new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})+'.';
+    return 'Ainda estou no modo simples: entendo timers, lembretes, tarefas e hábitos. No app instalado você liga uma IA ou o Claude Code/Codex para mais.';
   }
-  function ask(text){text=text.trim();if(!text)return;open(true);say(text,true);pillMood('falando');setTimeout(function(){say(reply(text));pillMood(timerInt&&timerEnd>Date.now()?'pensando':'feliz');setTimeout(function(){if(!(timerEnd>Date.now()))pillMood('repouso');},1800);},450);}
-  form.addEventListener('submit',function(e){e.preventDefault();ask(inp.value);inp.value='';});
+  function ask(text){
+    text=text.trim();if(!text)return;open(true);
+    if(S.tab!=='inicio'&&S.tab!=='conversa'&&S.tab!=='tarefas'&&S.tab!=='lembretes'&&S.tab!=='habitos'&&S.tab!=='timers')S.tab='inicio';
+    S.chat.push({me:true,t:text});pillMood('falando');render();
+    setTimeout(function(){S.chat.push({me:false,t:reply(text)});render();pillMood(liveTimers().length?'pensando':'feliz');setTimeout(function(){if(!liveTimers().length)pillMood('repouso');},1800);},450);
+  }
+  qside.addEventListener('click',function(e){var b=e.target.closest('[data-tab]');if(!b)return;S.tab=b.dataset.tab;render();});
+  qmain.addEventListener('click',function(e){
+    var a=e.target.closest('[data-task]');if(a){S.tasks[+a.dataset.task].d=!S.tasks[+a.dataset.task].d;render();return;}
+    var h=e.target.closest('[data-hab]');if(h){var x=S.habits[+h.dataset.hab];x.v=Math.min(x.goal,x.v+1);render();}
+  });
+  qmain.addEventListener('submit',function(e){if(e.target.id!=='qform')return;e.preventDefault();var i=document.getElementById('qinp');var v=i.value;i.value='';ask(v);});
   document.addEventListener('click',function(e){var b=e.target.closest('[data-cmd]');if(!b)return;if(b.closest('#cmds')){document.getElementById('demo').scrollIntoView({behavior:'smooth',block:'center'});}ask(b.dataset.cmd);});
+  render();
 })();
 </script>
 </body>
