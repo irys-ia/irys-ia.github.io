@@ -1,0 +1,1844 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Demonstração da Irys</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+<!-- Gerado por site/monta_site.mjs: o painel de verdade do app (mesmos arquivos), com um "bridge" falso e dados de exemplo.
+     Nada aqui abre programa, toca música ou sai da página. -->
+<style>
+/* Identidade: preto 100% e azul Safira. Fontes do sistema por enquanto (empacotar Sora e DM Sans depois). */
+:root {
+  --z-a: #2F7BFF;
+  --z-b: #AFD3FF;
+  --z-acc: #3D8BFF;
+  --z-acc2: #5FD7FF;
+  --z-ink: #000000;
+  --z-ink2: #0B0B0C;
+  --z-ink3: #161617;
+  --z-line: rgba(255, 255, 255, .08);
+  --z-tx: #F5F6F8;
+  --z-mu: #8C9097;
+  --z-warn: #FFC857;
+  --z-rose: #FF7A9C;
+  --z-ok: #4ADE9B;
+  --z-on: #04101F;
+  --display: 'Sora', 'Segoe UI Variable Display', 'Segoe UI', system-ui, sans-serif;
+  --body: 'DM Sans', 'Segoe UI Variable Text', 'Segoe UI', system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; }
+body { font-family: var(--body); font-size: 14px; line-height: 1.4; color: var(--z-tx); background: transparent; -webkit-font-smoothing: antialiased; user-select: none; }
+input, textarea, button { font: inherit; color: inherit; }
+input, textarea { user-select: text; }
+button { cursor: pointer; border: 0; background: none; }
+svg { display: block; }
+:focus-visible { outline: 2px solid var(--z-acc); outline-offset: 2px; }
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-thumb { background: #222; border-radius: 10px; border: 2px solid transparent; background-clip: content-box; }
+
+/* ---------- componentes comuns ---------- */
+.ic { width: 18px; height: 18px; flex: none; }
+.hd { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.hd h3 { font-family: var(--display); font-size: 22px; margin: 0; letter-spacing: -.01em; }
+.hd p { margin: 2px 0 0; color: var(--z-mu); font-size: 13px; }
+.ask { display: flex; align-items: center; gap: 8px; background: var(--z-ink2); border: 1px solid var(--z-line); border-radius: 999px; padding: 5px 5px 5px 16px; }
+.ask input { flex: 1; background: none; border: 0; outline: 0; min-width: 0; }
+.ask input::placeholder, .field::placeholder { color: var(--z-mu); }
+.rb { width: 32px; height: 32px; border-radius: 50%; background: var(--z-ink3); display: grid; place-items: center; flex: none; }
+.rb svg { width: 16px; height: 16px; }
+.rb.acc { background: var(--z-acc); color: var(--z-on); }
+.rb:hover { filter: brightness(1.25); }
+.card { background: var(--z-ink2); border: 1px solid var(--z-line); border-radius: 18px; padding: 14px; }
+.bub { background: var(--z-ink3); border-radius: 14px; padding: 10px 12px; font-size: 13px; max-width: 92%; white-space: pre-line; user-select: text; cursor: text; }
+.bub.me { background: color-mix(in srgb, var(--z-acc) 24%, var(--z-ink3)); align-self: flex-end; }
+.tiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.tile { background: var(--z-ink2); border: 1px solid var(--z-line); border-radius: 16px; padding: 12px; text-align: left; }
+.tile i { display: block; width: 22px; height: 22px; border-radius: 7px; margin-bottom: 10px; }
+.tile b { font-family: var(--display); font-size: 20px; display: block; }
+.tile span { font-size: 12px; color: var(--z-mu); }
+.tile:hover { border-color: rgba(255, 255, 255, .18); }
+.btn { display: inline-flex; align-items: center; gap: 8px; border-radius: 999px; padding: 8px 16px; font-weight: 700; background: var(--z-ink3); }
+.btn.acc { background: var(--z-acc); color: var(--z-on); }
+.btn.sm { padding: 6px 12px; font-size: 12.5px; }
+.btn.ghost { background: transparent; border: 1px solid var(--z-line); }
+.btn[disabled] { opacity: .45; cursor: default; }
+.btn:not([disabled]):hover { filter: brightness(1.15); }
+.field { background: var(--z-ink2); border: 1px solid var(--z-line); border-radius: 12px; padding: 9px 12px; outline: 0; min-width: 0; }
+.field:focus { border-color: var(--z-acc); }
+.chips { display: flex; gap: 8px; flex-wrap: wrap; }
+.chip { background: var(--z-ink3); border-radius: 999px; padding: 6px 12px; font-weight: 500; font-size: 12.5px; }
+.chip.on { background: color-mix(in srgb, var(--z-acc) 22%, var(--z-ink3)); color: var(--z-acc2); }
+.chip:hover { filter: brightness(1.2); }
+.list { display: flex; flex-direction: column; gap: 8px; }
+.row { display: flex; align-items: center; gap: 12px; background: var(--z-ink2); border: 1px solid var(--z-line); border-radius: 14px; padding: 10px 12px; }
+.row .grow { flex: 1; min-width: 0; }
+.row small { color: var(--z-mu); display: block; font-size: 12px; }
+.check { width: 22px; height: 22px; border-radius: 50%; border: 2px solid #3a3d44; flex: none; display: grid; place-items: center; }
+.check.on { background: var(--z-acc); border-color: var(--z-acc); color: var(--z-on); }
+.check svg { width: 13px; height: 13px; }
+.done { color: var(--z-mu); text-decoration: line-through; }
+.bar { height: 6px; border-radius: 6px; background: var(--z-ink3); overflow: hidden; }
+.bar i { display: block; height: 100%; background: var(--z-acc2); border-radius: 6px; }
+.empty { color: var(--z-mu); padding: 18px 4px; }
+.badge { font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 999px; background: var(--z-ink3); color: var(--z-mu); }
+.badge.ok { background: color-mix(in srgb, var(--z-ok) 18%, transparent); color: var(--z-ok); }
+.badge.soon { background: color-mix(in srgb, var(--z-warn) 16%, transparent); color: var(--z-warn); }
+.sw { width: 44px; height: 26px; border-radius: 26px; background: #2a2d33; position: relative; flex: none; transition: background .15s; }
+.sw::after { content: ''; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%; background: #fff; transition: transform .15s; }
+.sw[aria-checked="true"] { background: var(--z-acc); }
+.sw[aria-checked="true"]::after { transform: translateX(18px); }
+.seg { display: inline-flex; background: var(--z-ink3); border-radius: 999px; padding: 3px; }
+.seg button { padding: 6px 14px; border-radius: 999px; color: var(--z-mu); font-weight: 600; font-size: 13px; }
+.seg button.on { background: var(--z-ink); color: var(--z-tx); box-shadow: 0 0 0 1px var(--z-line); }
+.kbd { font-family: ui-monospace, 'Cascadia Mono', monospace; font-size: 12px; background: var(--z-ink3); border: 1px solid var(--z-line); border-radius: 7px; padding: 3px 8px; }
+.gl { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--z-mu); padding: 14px 4px 6px; }
+.tleft { font-variant-numeric: tabular-nums; font-family: var(--display); font-weight: 700; }
+
+/* ---------- painel rápido (entalho aberto) ---------- */
+.quick { width: 100%; height: 100%; display: grid; grid-template-columns: 210px 1fr; background: var(--z-ink); border-radius: 26px; border: 1px solid var(--z-line); overflow: hidden; box-shadow: inset 0 0 0 1px rgba(61, 139, 255, .14); }
+.qside { padding: 16px 12px; display: flex; flex-direction: column; gap: 3px; border-right: 1px solid var(--z-line); }
+.who { display: flex; gap: 10px; align-items: center; padding: 0 6px 10px; }
+.who b { font-family: var(--display); font-size: 16px; display: block; }
+.who small { color: var(--z-acc2); font-size: 11px; display: block; }
+.nav { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 12px; color: var(--z-mu); font-weight: 500; white-space: nowrap; text-align: left; width: 100%; }
+.nav:hover { background: var(--z-ink2); }
+.nav.on { background: color-mix(in srgb, var(--z-acc) 18%, transparent); color: var(--z-acc); }
+.nav em { margin-left: auto; font-style: normal; font-size: 11px; background: var(--z-ink3); color: var(--z-tx); border-radius: 999px; padding: 2px 8px; }
+.spacer { flex: 1; }
+.qmain { padding: 18px 20px; display: flex; flex-direction: column; gap: 12px; min-width: 0; overflow: auto; }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; flex: 1; min-height: 0; }
+.chatbox { display: flex; flex-direction: column; gap: 8px; overflow: auto; }
+
+/* ---------- janela de configurações ---------- */
+.shell { display: grid; grid-template-columns: 68px 1fr; height: 100vh; background: var(--z-ink); }
+.rail { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 46px 0 14px; border-right: 1px solid var(--z-line); }
+.rail .logo { margin-bottom: 10px; }
+.rb2 { width: 44px; height: 44px; border-radius: 14px; display: grid; place-items: center; color: var(--z-mu); position: relative; }
+.rb2 svg { width: 20px; height: 20px; }
+.rb2:hover { background: var(--z-ink2); color: var(--z-tx); }
+.rb2.on { background: color-mix(in srgb, var(--z-acc) 20%, transparent); color: var(--z-acc); }
+.rb2.on::before { content: ''; position: absolute; left: -12px; top: 12px; bottom: 12px; width: 3px; border-radius: 3px; background: var(--z-acc); }
+.rsep { width: 26px; height: 1px; background: var(--z-line); margin: 8px 0; }
+.page { overflow: auto; padding: 46px 40px 48px; }
+.page-in { max-width: 1040px; display: flex; flex-direction: column; gap: 18px; }
+.ph { display: flex; gap: 16px; align-items: center; }
+.ph .tile-ic { width: 52px; height: 52px; border-radius: 16px; display: grid; place-items: center; color: #fff; background: var(--z-acc); }
+.ph .tile-ic svg { width: 26px; height: 26px; }
+.ph h2 { font-family: var(--display); font-size: 26px; margin: 0; letter-spacing: -.01em; }
+.ph p { margin: 2px 0 0; color: var(--z-mu); }
+.back { color: var(--z-mu); font-weight: 600; width: fit-content; display: flex; gap: 6px; align-items: center; }
+.back:hover { color: var(--z-tx); }
+.hero { display: grid; grid-template-columns: 1fr 250px; gap: 14px; }
+.herocard { background: linear-gradient(120deg, color-mix(in srgb, var(--z-acc) 12%, var(--z-ink2)), var(--z-ink2) 70%); border: 1px solid var(--z-line); border-radius: 22px; padding: 22px; display: flex; gap: 22px; align-items: center; }
+.herocard h4 { font-family: var(--display); font-size: 28px; margin: 0 0 4px; }
+.herocard p { margin: 0 0 14px; color: var(--z-mu); }
+.grid2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+.grid4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.gcard { background: var(--z-ink2); border: 1px solid var(--z-line); border-radius: 18px; padding: 16px; display: flex; flex-direction: column; gap: 10px; text-align: left; min-height: 118px; }
+.gcard:not(.static):hover { border-color: rgba(255, 255, 255, .2); }
+.gcard .badge, .opt .badge { align-self: flex-start; }
+.gcard b { font-family: var(--display); font-size: 15px; display: block; }
+.gcard small { color: var(--z-mu); font-size: 12.5px; }
+.gi { width: 36px; height: 36px; border-radius: 11px; display: grid; place-items: center; color: #fff; }
+.gi svg { width: 19px; height: 19px; }
+.opt { background: var(--z-ink2); border: 1px solid var(--z-line); border-radius: 16px; padding: 14px; text-align: left; display: flex; flex-direction: column; gap: 4px; }
+.opt.on { border-color: var(--z-acc); background: color-mix(in srgb, var(--z-acc) 10%, var(--z-ink2)); }
+.opt b { font-family: var(--display); font-size: 14px; }
+.opt small { color: var(--z-mu); }
+.setrow { display: flex; align-items: center; gap: 14px; padding: 14px 16px; border-bottom: 1px solid var(--z-line); }
+.setrow:last-child { border-bottom: 0; }
+.setrow .grow { flex: 1; min-width: 0; }
+.setrow b { display: block; font-weight: 600; }
+.setrow small { color: var(--z-mu); font-size: 12.5px; }
+.group { background: var(--z-ink2); border: 1px solid var(--z-line); border-radius: 18px; overflow: hidden; }
+.prog { color: var(--z-mu); }
+.swatches { display: flex; gap: 10px; flex-wrap: wrap; }
+.swatch { width: 34px; height: 34px; border-radius: 50%; border: 2px solid transparent; box-shadow: 0 0 0 1px var(--z-line); }
+.swatch.on { border-color: var(--z-ink); box-shadow: 0 0 0 2px var(--z-acc); }
+.personal { display: grid; grid-template-columns: 300px 1fr; gap: 14px; }
+.preview { background: radial-gradient(90% 80% at 50% 25%, color-mix(in srgb, var(--z-acc) 16%, var(--z-ink2)), var(--z-ink2)); border: 1px solid var(--z-line); border-radius: 20px; padding: 22px; display: flex; flex-direction: column; gap: 16px; align-items: center; }
+.avs { display: flex; flex-direction: column; gap: 6px; }
+.avs time { color: var(--z-mu); font-size: 12px; }
+
+/* paleta de busca (Ctrl+K) */
+.pal-back { position: fixed; inset: 0; background: rgba(0, 0, 0, .6); display: flex; justify-content: center; padding-top: 14vh; z-index: 20; }
+.pal { width: 520px; max-width: 92vw; height: fit-content; background: var(--z-ink2); border: 1px solid var(--z-line); border-radius: 18px; box-shadow: 0 30px 80px rgba(0, 0, 0, .7); overflow: hidden; }
+.pal input { width: 100%; border: 0; border-bottom: 1px solid var(--z-line); background: none; padding: 16px 18px; outline: 0; font-size: 15px; }
+.pal ul { list-style: none; margin: 0; padding: 6px; max-height: 320px; overflow: auto; }
+.pal li { padding: 10px 12px; border-radius: 10px; display: flex; gap: 10px; align-items: center; color: var(--z-mu); }
+.pal li.on { background: color-mix(in srgb, var(--z-acc) 18%, transparent); color: var(--z-tx); }
+.pal li small { margin-left: auto; color: var(--z-mu); }
+
+/* ---------- compactação do painel rápido (12 abas sem rolagem) + telas novas ---------- */
+.quick { grid-template-columns: 188px 1fr; }
+.qside { padding: 12px 9px; gap: 1px; }
+.who { padding: 0 6px 8px; gap: 9px; }
+.who b { font-size: 15px; }
+.nav { padding: 4px 9px; gap: 9px; font-size: 13px; border-radius: 10px; line-height: 1.25; }
+.nav .ic { width: 16px; height: 16px; }
+/* painel colado na borda superior (cantos de cima retos, de baixo arredondados) e lista de abas ocupando toda a altura */
+.quick { border-radius: 0 0 26px 26px; border-top: 0; }
+.qside .nav { flex: 1 1 0; min-height: 0; padding-block: 0; }
+.qmain { padding: 14px 18px; gap: 9px; }
+.qmain .hd h3 { font-size: 20px; }
+.qmain .hd p { font-size: 12px; margin-top: 1px; }
+.qmain .card { padding: 11px; border-radius: 16px; }
+.qmain .ask { padding: 3px 3px 3px 14px; }
+.qmain .rb { width: 28px; height: 28px; }
+.qmain .tile { padding: 9px 11px; border-radius: 14px; }
+.qmain .tile i { width: 16px; height: 16px; border-radius: 5px; margin-bottom: 6px; }
+.qmain .tile b { font-size: 17px; }
+.qmain .btn { padding: 6px 14px; }
+.qmain .btn.sm { padding: 5px 11px; font-size: 12px; }
+.qmain .chip { padding: 4px 10px; font-size: 12px; }
+.qmain .two { gap: 9px; }
+.qmain .bub { padding: 7px 10px; font-size: 12.5px; }
+.row.sm { padding: 6px 10px; border-radius: 12px; gap: 10px; }
+.row.sm .ic { width: 16px; height: 16px; }
+.gi.sm { width: 30px; height: 30px; border-radius: 9px; }
+.gi.sm svg { width: 16px; height: 16px; }
+.mini { width: 58px; flex: none; text-align: center; background: var(--z-ink3); border: 0; border-radius: 999px; padding: 5px; color: var(--z-tx); outline: 0; }
+.field.sm { padding: 5px 10px; border-radius: 999px; font-size: 12px; }
+.scroll { overflow: auto; min-height: 0; flex: 1; }
+.bub.dots { color: var(--z-mu); font-style: italic; }
+.hint { color: var(--z-mu); font-size: 12px; margin: 0; }
+.btnrow { display: inline-flex; gap: 6px; }
+.okmsg { color: var(--z-ok); }
+
+.graph { width: 100%; height: 100%; display: block; }
+.empty-graph { flex: 1; min-height: 0; position: relative; padding: 0 !important; }
+.empty-graph .mid { position: absolute; inset: 58% 0 0; text-align: center; color: var(--z-mu); font-size: 12.5px; }
+
+.player { display: flex; gap: 14px; align-items: center; background: linear-gradient(150deg, color-mix(in srgb, var(--z-acc) 14%, var(--z-ink2)), var(--z-ink2)); }
+.cover { width: 74px; height: 74px; border-radius: 16px; flex: none; display: grid; place-items: center; color: var(--z-on); background: linear-gradient(140deg, var(--z-acc), var(--z-acc2)); }
+.cover svg { width: 32px; height: 32px; }
+.ptitle { display: block; font-family: var(--display); font-size: 16px; }
+.player small { color: var(--z-mu); }
+.ctl { display: flex; gap: 8px; align-items: center; margin-top: 10px; }
+.ctl .sp { flex: 1; }
+.pbar { height: 4px; border-radius: 999px; background: var(--z-ink3); margin-top: 8px; overflow: hidden; }
+.pbar i { display: block; height: 100%; background: var(--z-acc2); border-radius: 999px; }
+.mini-player { display: flex; gap: 10px; align-items: center; }
+.mini-player .cover { width: 34px; height: 34px; border-radius: 10px; }
+.mini-player .cover svg { width: 16px; height: 16px; }
+.mini-player .grow { min-width: 0; }
+.mini-player .ctl { margin-top: 0; gap: 2px; }
+.mini-player .ctl button.play { width: 28px; height: 28px; }
+.mini-player .ctl button.play svg, .mini-player .ctl .rb svg { width: 14px; height: 14px; }
+.play { width: 40px; height: 40px; border-radius: 50%; background: #fff; color: #000; display: grid; place-items: center; }
+.play svg { width: 18px; height: 18px; }
+
+.clip { width: 100%; text-align: left; }
+.clip:hover { border-color: rgba(255, 255, 255, .22); }
+
+.verify { display: flex; align-items: center; gap: 12px; text-align: left; width: 100%; padding: 9px 12px; border-radius: 14px; border: 1px solid color-mix(in srgb, var(--z-acc) 40%, transparent); background: linear-gradient(120deg, color-mix(in srgb, var(--z-acc) 14%, var(--z-ink2)), var(--z-ink2)); }
+.verify .grow { flex: 1; }
+.verify b { display: block; }
+.verify small { color: var(--z-mu); }
+.stat { flex: none !important; }
+.sl { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 4px; }
+.sl span { color: var(--z-mu); }
+.tools { display: grid; grid-template-columns: repeat(4, 1fr); gap: 7px; }
+.tool { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 8px 4px; border-radius: 12px; background: var(--z-ink2); border: 1px solid var(--z-line); font-size: 11.5px; color: var(--z-mu); }
+.tool:hover { color: var(--z-tx); border-color: rgba(255, 255, 255, .22); }
+.tool.warn { color: var(--z-warn); border-color: rgba(255, 200, 87, .5); }
+.scanbox { display: flex; flex-direction: column; gap: 10px; }
+.scanbox small { display: block; color: var(--z-mu); }
+.scanbox .heavy { font-size: 12px; color: var(--z-mu); }
+.scanbox .heavy b { color: var(--z-tx); font-weight: 600; }
+.finding { background: var(--z-ink2); border-radius: 10px; padding: 9px 11px; align-items: center; }
+
+/* ---------- Cérebro, Voz, Rotinas ---------- */
+.prov { display: flex; flex-direction: column; gap: 10px; }
+.provh { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+.provh small { display: block; color: var(--z-mu); margin-top: 3px; }
+.errmsg { color: #ff8a8a; }
+.dotst { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 7px; }
+.rot { display: flex; flex-direction: column; gap: 10px; }
+.roth { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.mu2 { color: var(--z-mu); font-size: 12.5px; }
+.step { width: 22px; height: 22px; border-radius: 50%; background: var(--z-ink3); display: grid; place-items: center; font-size: 11px; font-weight: 700; flex: none; }
+.stepform { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; background: var(--z-ink3); border-radius: 14px; padding: 10px; }
+select.field { appearance: none; padding-right: 22px; }
+input[type=range] { accent-color: var(--z-acc); }
+
+.chip .x { margin-left: 6px; color: var(--z-mu); font-size: 15px; line-height: 1; }
+.chip .x:hover { color: var(--z-tx); }
+.btn[disabled] { opacity: .45; cursor: default; }
+
+.notas { margin: 6px 0 0; padding-left: 18px; color: var(--z-mu); }
+.notas li { margin: 4px 0; }
+
+/* ---------- capa de álbum de verdade, volume e barra clicável ---------- */
+.cover { overflow: hidden; }
+.cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.cover.big { width: 86px; height: 86px; border-radius: 18px; }
+.pbar.seek { cursor: pointer; height: 5px; }
+.pbar.seek:hover { height: 7px; margin-top: 6px; }
+.volrow { margin-top: 8px; }
+.volrow input[type=range] { accent-color: var(--z-acc2); min-width: 0; }
+/* player ocupando o quadrado inteiro do Início (quando toca algo): capa grande centralizada, tudo empilhado.
+   overflow:hidden é rede de segurança: se um dia não couber tudo, corta dentro do próprio card em vez de
+   vazar por cima dos cards de hábitos/timers logo abaixo. O volume fica de fora aqui (cabe na aba Música). */
+.player.big-square { flex-direction: column; align-items: stretch; justify-content: center; height: 100%; gap: 0; text-align: center; overflow: hidden; }
+.player.big-square .cover.big { width: 72px; height: 72px; border-radius: 18px; margin: 0 auto 8px; box-shadow: 0 10px 30px rgba(0, 0, 0, .35); }
+.player.big-square .ptitle { font-size: 16px; }
+.player.big-square .ctl { justify-content: center; margin-top: 8px; }
+.player.big-square .ctl .play { width: 38px; height: 38px; }
+.player.big-square .ctl .sp { flex: none; width: 14px; }
+.player.big-square .pbar { margin-top: 8px; }
+.player.big-square .volrow { display: none; }
+
+/* ---------- radar do "Verificando seu PC..." ---------- */
+.scanning { display: flex; gap: 18px; align-items: center; }
+.radarbox { display: flex; flex-direction: column; align-items: center; gap: 6px; flex: none; }
+.radar { position: relative; width: 118px; height: 118px; }
+.radar .ring { position: absolute; border-radius: 50%; border: 1px solid color-mix(in srgb, var(--z-acc2) 32%, transparent); }
+.radar .r1 { inset: 0; }
+.radar .r2 { inset: 16px; border-color: color-mix(in srgb, var(--z-acc2) 22%, transparent); }
+.radar .r3 { inset: 32px; border-color: color-mix(in srgb, var(--z-acc2) 14%, transparent); }
+.radar .sweep { position: absolute; inset: 0; border-radius: 50%; background: conic-gradient(from 0deg, color-mix(in srgb, var(--z-acc2) 38%, transparent), transparent 24%); animation: varredura 2.4s linear infinite; }
+@keyframes varredura { to { transform: rotate(360deg); } }
+.radar .rmask { position: absolute; inset: 0; display: grid; place-items: center; }
+.rpct { font-family: var(--display); font-size: 19px; color: var(--z-acc2); }
+.rsteps { min-width: 0; }
+.sstep { display: flex; align-items: center; gap: 9px; padding: 2.5px 0; color: var(--z-mu); font-size: 13px; }
+.sstep.now { color: var(--z-tx); font-weight: 600; }
+.sstep.feita { color: var(--z-mu); }
+.sdot { width: 16px; height: 16px; border-radius: 50%; background: var(--z-ink3); flex: none; display: grid; place-items: center; }
+.sdot.now { background: var(--z-rose); box-shadow: 0 0 8px var(--z-rose); }
+.sdot.ok { background: color-mix(in srgb, var(--z-ok) 30%, transparent); color: var(--z-ok); }
+.sdot.ok svg { width: 10px; height: 10px; }
+.rfile { display: flex; align-items: center; gap: 7px; margin-top: 7px; color: var(--z-mu); font-size: 11.5px; font-family: ui-monospace, 'Cascadia Mono', monospace; white-space: nowrap; overflow: hidden; }
+.rfile .ic { width: 13px; height: 13px; }
+.scanchips { margin-top: 5px; }
+.scanchips .chip { display: inline-flex; align-items: center; gap: 6px; font-size: 11.5px; padding: 4px 10px; }
+.scanchips .chip i { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+
+/* ---------- Personalizar: cartões de formato de olho e acessório ---------- */
+.pickgrid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+.pickcard { background: var(--z-ink3); border: 1px solid transparent; border-radius: 14px; padding: 9px 4px 7px; display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 11.5px; color: var(--z-mu); }
+.pickcard svg { pointer-events: none; }
+.pickcard.on { border-color: var(--z-acc); color: var(--z-acc2); background: color-mix(in srgb, var(--z-acc) 12%, var(--z-ink3)); }
+.pickcard:hover { filter: brightness(1.15); }
+.visorrow { display: flex; align-items: center; gap: 12px; margin-top: 10px; }
+.swatch.sm { width: 26px; height: 26px; }
+
+/* uso do agente (sessão de 5 h e semana) dentro do card */
+.uso { margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--z-line); display: grid; gap: 8px; }
+.usol { display: grid; grid-template-columns: 96px 1fr 40px 150px; align-items: center; gap: 12px; font-size: 12.5px; }
+.usol span { color: var(--z-mu); }
+.usol b { text-align: right; font-variant-numeric: tabular-nums; }
+.usol small { color: var(--z-mu); white-space: nowrap; }
+.usol .bar { height: 6px; }
+
+/* grafo vivo da memória */
+.mgraph-card { flex: 1; min-height: 0; position: relative; padding: 0 !important; overflow: hidden; background: radial-gradient(circle at 50% 45%, #12151c 0%, #0b0d12 70%); }
+.mgraph { position: absolute; inset: 0; width: 100%; height: 100%; display: block; touch-action: none; }
+.mgraph-card .mid { position: absolute; inset: 62% 0 0; text-align: center; color: var(--z-mu); font-size: 12.5px; pointer-events: none; }
+.mgraph-dica { position: absolute; left: 12px; bottom: 9px; color: var(--z-mu); font-size: 11px; opacity: .6; pointer-events: none; }
+
+/* quadro da conversa no Início: clicar abre a página Conversa */
+.chatbox.golink { cursor: pointer; transition: border-color .15s; }
+.chatbox.golink:hover { border-color: color-mix(in srgb, var(--z-acc) 45%, var(--z-line)); }
+.chatbox.golink .bub { cursor: pointer; }
+
+/* Personalizar: rótulo na frente de cada fileira de cores (Corpo, Visor, Olhos), todos iguais */
+.corrow { display: flex; align-items: center; gap: 14px; }
+.corrow + .corrow { margin-top: 12px; }
+.corlbl { flex: none; width: 54px; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--z-mu); }
+
+</style>
+<style>
+  html, body { background: transparent; overflow: hidden; }
+  body { user-select: none; }
+  #screen { position: relative; width: 860px; height: 480px; overflow: hidden; border-radius: 22px; background: radial-gradient(120% 90% at 20% 0%, #17427F 0%, #0B2048 42%, #000 100%); }
+  /* entalho igual ao do app (pill.html), com a música tocando */
+  #pill { position: absolute; top: 0; left: 50%; transform: translateX(-50%); z-index: 3; height: 34px; border-radius: 0 0 18px 18px; background: #000; border: 1px solid var(--z-line); border-top: 0; display: flex; align-items: center; justify-content: center; gap: 9px; box-shadow: 0 6px 14px rgba(0,0,0,.5), 0 1px 3px rgba(0,0,0,.6); padding: 0 12px; cursor: pointer; min-width: 136px; transition: opacity .15s; }
+  #pill .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--z-acc2); box-shadow: 0 0 8px var(--z-acc2); flex: none; }
+  #txt { font-size: 12px; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--z-tx); white-space: nowrap; }
+  #txt:empty { display: none; }
+  #mu { display: flex; align-items: center; gap: 7px; min-width: 0; }
+  #mu[hidden] { display: none; }
+  #mu .nt { width: 14px; height: 14px; color: var(--z-rose); flex: none; }
+  .eq { display: flex; align-items: flex-end; gap: 2px; height: 12px; flex: none; }
+  .eq i { width: 3px; border-radius: 2px; background: var(--z-ok); animation: eq 1s ease-in-out infinite; }
+  .eq i:nth-child(1) { height: 7px; } .eq i:nth-child(2) { height: 11px; animation-delay: .25s; } .eq i:nth-child(3) { height: 5px; animation-delay: .5s; } .eq i:nth-child(4) { height: 9px; animation-delay: .75s; }
+  @keyframes eq { 0%, 100% { transform: scaleY(.45); } 50% { transform: scaleY(1); } }
+  .still .eq i { animation: none; }
+  #mt { font-size: 12px; font-weight: 700; color: var(--z-tx); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 108px; }
+  #ma { font-size: 12px; color: var(--z-mu); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 72px; }
+  /* painel: o mesmo do quick.html (nasce do tamanho da pílula e cresce até o painel) */
+  #shape { position: absolute; z-index: 2; top: 0; left: var(--px, 50%); transform: translateX(-50%); overflow: hidden; background: #000;
+    width: var(--pw, 136px); height: var(--ph, 34px); border: 1px solid var(--z-line); border-top: 0; border-radius: 0 0 18px 18px;
+    opacity: 0; pointer-events: none; will-change: width, height; contain: layout paint; box-shadow: 0 30px 80px rgba(0,0,0,.6);
+    transition: left .42s cubic-bezier(.3, 1.08, .4, 1), width .42s cubic-bezier(.3, 1.2, .4, 1), height .42s cubic-bezier(.3, 1.12, .4, 1), border-radius .42s ease; }
+  #shape.vis { opacity: 1; }
+  #shape.open { left: 50%; width: var(--qw, 780px); height: var(--qh, 440px); border-radius: 0 0 26px 26px; pointer-events: auto; }
+  #shape .quick { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: var(--qw, 780px); height: var(--qh, 440px);
+    border: 0; border-radius: 0; opacity: 0; transition: opacity .12s ease; }
+  #shape.open .quick { opacity: 1; transition: opacity .22s ease .1s; }
+  #screen.open #pill { opacity: 0; pointer-events: none; }
+  #toast { position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%); background: rgba(0,0,0,.85); border: 1px solid var(--z-line); color: var(--z-tx); font-size: 12.5px; padding: 7px 14px; border-radius: 999px; opacity: 0; transition: opacity .2s; pointer-events: none; z-index: 5; white-space: nowrap; }
+  #toast.on { opacity: 1; }
+  @media (prefers-reduced-motion: reduce) { #shape, #shape .quick { transition: none !important; } }
+</style>
+</head>
+<body>
+<div id="screen">
+  <div id="pill" role="button" tabindex="0" aria-label="Abrir o painel da Irys"><span id="m"></span><span id="txt"></span><span id="mu" hidden><svg class="nt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l11-2v13M9 18a3 3 0 11-6 0 3 3 0 016 0zM20 16a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span class="eq"><i></i><i></i><i></i><i></i></span><b id="mt"></b><small id="ma"></small></span><i class="dot"></i></div>
+  <div id="shape"><div class="quick" id="q"><aside class="qside" id="qs"></aside><main class="qmain" id="qm"></main></div></div>
+  <div id="toast"></div>
+</div>
+<script>
+/* ---------- bridge falso: faz o papel do Electron com dados de exemplo ---------- */
+(function () {
+  var CFG = {"APP_NAME":"Irys","WAKE_WORD":"Ei, Irys","SHORTCUT_QUICK":"Control+Alt+I","SHORTCUT_SETTINGS":"Control+Alt+P","SHORTCUT_TALK":"Control+Alt+Space","PRICE_LABEL":"R$ 39,90","CHECKOUT_URL":"https://go.perfectpay.com.br/PPU38CQHQA6","PILL":{"w":136,"wMusic":330,"h":34,"pad":18},"QUICK":{"w":780,"h":440},"WIN_SIZES":{"compacta":{"w":800,"h":610},"media":{"w":920,"h":704},"grande":{"w":1120,"h":740}},"WIN":{"w":920,"h":704}};
+  var subs = {};
+  window.demoEmit = function (ch, v) { emit(ch, v); };
+  function emit(ch, v) { (subs[ch] || []).forEach(function (f) { try { f(v); } catch (e) {} }); }
+  var agora = Date.now();
+  var store = {
+    settings: { userName: '', assistantName: 'Irys', look: { body: 'safira', visor: 'noite', eyes: 'ciano', shape: 'ovais', acc: 'none', antenna: false, size: 'medio', anim: true, blink: true, play: true, follow: 1 },
+      brain: 'simple', notch: { show: true, open: 'hover' }, winSize: 'media', startup: false, notifications: true, clipboard: true, autoUpdate: true, agentConfirm: true, agentCwd: '',
+      voice: { enabled: false, wake: true, speak: false, rate: 0, volume: 100, learned: [], cloud: false, pushToTalk: true, pttKey: 'ctrl' }, avisosLidos: [] },
+    memories: [
+      { id: 'm1', text: 'Minha namorada se chama Ana', t: agora - 9e6 },
+      { id: 'm2', text: 'O aniversário da Ana é em 12 de março', t: agora - 8e6 },
+      { id: 'm3', text: 'Meu irmão se chama Pedro', t: agora - 7e6 },
+      { id: 'm4', text: 'Gosto de café sem açúcar', t: agora - 6e6 },
+      { id: 'm5', text: 'Amo ouvir lo-fi pra trabalhar', t: agora - 5e6 },
+      { id: 'm6', text: 'Treino na academia às 7h', t: agora - 4e6 },
+      { id: 'm7', text: 'Tenho reunião toda segunda às 9h', t: agora - 3e6 },
+      { id: 'm8', text: 'Moro perto do centro', t: agora - 2e6 },
+      { id: 'm9', text: 'Sou alérgico a camarão', t: agora - 1e6 }
+    ],
+    routines: [
+      { id: 'estudo', name: 'Modo estudo', phrase: 'modo estudo', steps: [{ t: 'music', a: 'pause' }, { t: 'timer', name: 'Estudo', min: 25 }, { t: 'say', text: 'Bora focar! Te aviso em 25 minutos.' }] },
+      { id: 'bomdia', name: 'Bom dia', phrase: 'bom dia', steps: [{ t: 'summary' }] },
+      { id: 'pausa', name: 'Pausa', phrase: 'hora da pausa', steps: [{ t: 'timer', name: 'Pausa', min: 5 }, { t: 'habit', id: 'agua' }, { t: 'say', text: 'Pausa de 5 minutos. Bebe uma água!' }] }
+    ],
+    tasks: [
+      { id: 't1', text: 'Responder os e-mails da manhã', done: false },
+      { id: 't2', text: 'Mandar o orçamento pro cliente', done: false },
+      { id: 't3', text: 'Comprar pão', done: true }
+    ],
+    reminders: [], timers: [], chat: [],
+    habits: [
+      { id: 'agua', name: 'Água', icon: 'drop', goal: 8, unit: 'copos', log: {} },
+      { id: 'ler', name: 'Ler', icon: 'list', goal: 1, unit: 'vez', log: {} },
+      { id: 'mexer', name: 'Exercício', icon: 'bolt', goal: 1, unit: 'vez', log: {} }
+    ]
+  };
+  var hoje = new Date(); store.habits[0].log[hoje.getFullYear() + '-' + ('0' + (hoje.getMonth() + 1)).slice(-2) + '-' + ('0' + hoje.getDate()).slice(-2)] = 3;
+  // capa de exemplo (desenhada aqui mesmo, não é de nenhum artista)
+  var capa = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2F7BFF"/><stop offset="1" stop-color="#FF7A9C"/></linearGradient></defs><rect width="120" height="120" fill="url(#g)"/><circle cx="84" cy="36" r="16" fill="#FFC857" opacity=".9"/><path d="M0 92 Q30 70 60 88 T120 80 V120 H0z" fill="#04101F" opacity=".55"/></svg>';
+  var music = { ok: true, app: 'Spotify', title: 'Café da Tarde', artist: 'Lo-fi de exemplo', status: 'Playing', posMs: 48000, durMs: 192000, vol: 62, muted: false,
+    thumb: btoa(capa), thumbMime: 'image/svg+xml' };
+  var t0 = Date.now();
+  function musicNow() { if (/playing/i.test(music.status)) { music.posMs = Math.min(music.durMs, music.posMs + (Date.now() - t0)); if (music.posMs >= music.durMs) music.posMs = 0; } t0 = Date.now(); return JSON.parse(JSON.stringify(music)); }
+  var FAIXAS = [['Café da Tarde', 'Lo-fi de exemplo'], ['Chuva na Janela', 'Lo-fi de exemplo'], ['Foco Total', 'Lo-fi de exemplo']], fx = 0;
+  function trocar(d) { fx = (fx + d + FAIXAS.length) % FAIXAS.length; music.title = FAIXAS[fx][0]; music.artist = FAIXAS[fx][1]; music.posMs = 0; music.status = 'Playing'; }
+  var clips = [
+    { id: 'c1', text: 'Reunião amanhã às 10h na sala 2', t: agora - 6e5 },
+    { id: 'c2', text: 'https://irys-ia.github.io', t: agora - 2e6 },
+    { id: 'c3', text: 'Orçamento: 3 páginas, entrega em 5 dias', t: agora - 5e6 }
+  ];
+  function toast(msg) { var el = document.getElementById('toast'); if (!el) return; el.textContent = msg; el.classList.add('on'); clearTimeout(toast.t); toast.t = setTimeout(function () { el.classList.remove('on'); }, 2600); }
+  window.demoToast = toast;
+  var handlers = {
+    'music:get': function () { return musicNow(); },
+    'music:cmd': function (c) {
+      musicNow();
+      if (c === 'playpause') music.status = /playing/i.test(music.status) ? 'Paused' : 'Playing';
+      else if (c === 'pause') music.status = 'Paused';
+      else if (c === 'play') music.status = 'Playing';
+      else if (c === 'next') trocar(1);
+      else if (c === 'prev') trocar(-1);
+      else if (c === 'volup') music.vol = Math.min(100, music.vol + 10);
+      else if (c === 'voldown') music.vol = Math.max(0, music.vol - 10);
+      else if (c === 'mute') music.muted = !music.muted;
+      else if (c && typeof c === 'object' && typeof c.vol === 'number') music.vol = c.vol;
+      else if (c && typeof c === 'object' && typeof c.seek === 'number') music.posMs = c.seek;
+      setTimeout(function () { emit('music:state', musicNow()); }, 60);
+      return true;
+    },
+    'clips:list': function () { return clips.slice(); },
+    'clips:copy': function () { toast('Copiado de novo (na demonstração não mexe na sua área de transferência).'); return true; },
+    'clips:clear': function () { clips = []; emit('clips:changed', []); return true; },
+    'sys:apps': function () { return ['Calculadora', 'Bloco de notas', 'Spotify', 'Google Chrome', 'Discord']; },
+    'sys:stats': function () { return { cpu: 18 + Math.round(Math.random() * 14), memPct: 58 + Math.round(Math.random() * 6), disk: { free: 182e9, total: 476e9 } }; },
+    'sys:scan': function () { return new Promise(function (r) { setTimeout(function () { r({ temp: { files: 412, bytes: 912e6 }, heavy: [{ Name: 'chrome' }, { Name: 'Discord' }, { Name: 'Spotify' }], startup: 5, lixeira: { files: 14, bytes: 230e6 } }); }, 1600); }); },
+    'sys:clean': function () { toast('Na demonstração nada é apagado.'); return { ok: true, freed: 912e6, files: 412 }; },
+    'sys:weather': function () { return { ok: true, cidade: '', desc: 'Parcialmente nublado', temp: 24, sensacao: 25, max: 27, min: 17, chuva: 20 }; },
+    'weather:show': function () { return true; },
+    'sys:open': function () { toast('No app instalado isso abre de verdade.'); return true; },
+    'sys:openapp': function () { toast('No app instalado isso abre de verdade.'); return true; },
+    'sys:close': function () { toast('No app instalado isso fecha de verdade.'); return true; },
+    'sys:closeapp': function () { toast('No app instalado isso fecha de verdade.'); return true; },
+    'sys:tool': function () { toast('No app instalado isso abre de verdade.'); return true; },
+    'tts:speak': function () { return true; },
+    'ai:chat': function () { return { ok: false, error: 'Na demonstração a IA fica desligada.' }; },
+    'agent:run': function () { return { ok: false, error: 'Na demonstração o agente fica desligado.' }; }
+  };
+  window.bridge = {
+    config: function () { return Promise.resolve(CFG); },
+    get: function () { return Promise.resolve(store); },
+    set: function (k, v) { store[k] = v; setTimeout(function () { emit('store:changed', store); }, 0); return Promise.resolve(store); },
+    invoke: function (ch, p) { var h = handlers[ch]; try { return Promise.resolve(h ? h(p) : true); } catch (e) { return Promise.reject(e); } },
+    on: function (ch, f) { (subs[ch] = subs[ch] || []).push(f); },
+    openSettings: function () { toast('As Configurações abrem numa janela própria no app instalado.'); },
+    hideQuick: function () { window.demoOpen && window.demoOpen(false); }, leaveQuick: function () { window.demoOpen && window.demoOpen(false); }, openQuick: function () {}, dragPill: function () {}, quit: function () {}
+  };
+  // a música anda sozinha
+  setInterval(function () { if (/playing/i.test(music.status)) emit('music:state', musicNow()); }, 1000);
+  // os timers acabam (no app quem faz isso é o processo principal)
+  setInterval(function () {
+    var mudou = false;
+    store.timers.forEach(function (t) { if (!t.done && t.end <= Date.now()) { t.done = true; mudou = true; store.chat.push({ who: 'bot', text: '⏰ ' + t.name + ' acabou!', t: Date.now() }); toast('⏰ ' + t.name + ' acabou!'); } });
+    if (mudou) emit('store:changed', store);
+  }, 500);
+})();
+</script>
+<script>
+// Mascote da Irys: robozinho de cabeça azul, visor preto, orelhas que acendem e sensor no topo.
+// Desenho próprio. svg(humor, tamanho, {a,b,eye,visor,shape,acc,antenna,dx,dy}) devolve o SVG como texto.
+// shape muda o formato dos olhos neutros; dx/dy desloca os olhos (pra seguirem o mouse); 'ARCO' vira degradê arco-íris.
+(function () {
+  var uid = 0;
+
+  function svg(kind, size, o) {
+    o = o || {};
+    var id = 'g' + (++uid);
+    var defs = '';
+    var A = o.a || 'var(--z-a)';
+    var B = o.b || 'var(--z-b)';
+    var RAINBOW = ['#FF5A5A', '#FFC857', '#4ADE9B', '#38BDF8', '#8B7CFF', '#FF7AA8'];
+    function rainbowGrad(gid, x1, y1, x2, y2) {
+      var stops = RAINBOW.map(function (c, i) { return '<stop offset="' + (i / (RAINBOW.length - 1)) + '" stop-color="' + c + '"/>'; }).join('');
+      return '<linearGradient id="' + gid + '" x1="' + x1 + '" y1="' + y1 + '" x2="' + x2 + '" y2="' + y2 + '" gradientUnits="userSpaceOnUse">' + stops + '</linearGradient>';
+    }
+    if (A === 'ARCO' || B === 'ARCO') { defs += rainbowGrad(id + 'b', 20, 14, 80, 90); }
+    else defs += '<linearGradient id="' + id + 'b" x1="20" y1="14" x2="80" y2="90" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="' + B + '"/><stop offset="1" stop-color="' + A + '"/></linearGradient>';
+    var EC = o.eye || 'var(--z-acc2)';
+    if (EC === 'ARCO') { defs += rainbowGrad(id + 'e', 27, 40, 73, 62); EC = 'url(#' + id + 'e)'; }
+    var VC = o.visor || '#030813';
+    if (VC === 'ARCO') { defs += rainbowGrad(id + 'v', 27, 32, 73, 68); VC = 'url(#' + id + 'v)'; }
+
+    var shape = o.shape || 'ovais';
+    // olho "neutro": cada formato redesenha a cápsula padrão mantendo o centro
+    function cap(x, y, w, h) {
+      var cx = x + w / 2, cy = y + h / 2;
+      if (shape === 'redondos') return '<circle cx="' + cx + '" cy="' + cy + '" r="' + (w * 0.95) + '" fill="' + EC + '"/>';
+      if (shape === 'pixel') { var pw = w * 1.3, phh = h * 0.75; return '<rect x="' + (cx - pw / 2) + '" y="' + (cy - phh / 2) + '" width="' + pw + '" height="' + phh + '" rx="1.5" fill="' + EC + '"/>'; }
+      if (shape === 'grandoes') { var gw = w * 1.65, gh = h * 1.12; return '<rect x="' + (cx - gw / 2) + '" y="' + (cy - gh / 2) + '" width="' + gw + '" height="' + gh + '" rx="' + (gw / 2) + '" fill="' + EC + '"/><circle cx="' + (cx + gw * 0.16) + '" cy="' + (cy - gh * 0.22) + '" r="' + (gw * 0.14) + '" fill="#fff" fill-opacity=".85"/>'; }
+      if (shape === 'tracinho') { var tw = w * 1.8; return '<rect x="' + (cx - tw / 2) + '" y="' + (cy - 2.4) + '" width="' + tw + '" height="4.8" rx="2.4" fill="' + EC + '"/>'; }
+      return '<rect x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '" rx="' + (w / 2) + '" fill="' + EC + '"/>';
+    }
+    function heart(x, y, s, c) { return '<path transform="translate(' + x + ' ' + y + ') scale(' + s + ')" d="M0 3C0-3-7-3-7 2C-7 6 0 9 0 12C0 9 7 6 7 2C7-3 0-3 0 3Z" fill="' + c + '"/>'; }
+    function star(x, y, s, c) { return '<polygon transform="translate(' + x + ' ' + y + ') scale(' + s + ')" points="0,-8 2.4,-2.5 8,-2.5 3.5,1 5.2,7 0,3.5 -5.2,7 -3.5,1 -8,-2.5 -2.4,-2.5" fill="' + c + '"/>'; }
+    function arc(cx, cy, up) { return '<path d="M' + (cx - 7) + ' ' + cy + 'q7 ' + (up ? -11 : 10) + ' 14 0" fill="none" stroke="' + EC + '" stroke-width="4.4" stroke-linecap="round"/>'; }
+
+    var E = {
+      repouso: function () { return cap(34, 41, 8, 18) + cap(58, 41, 8, 18); },
+      ouvindo: function () { return cap(33, 39, 9, 22) + cap(58, 39, 9, 22) + '<path d="M93 43q4 7 0 14M98 37q8 13 0 26" fill="none" stroke="' + EC + '" stroke-width="3" stroke-linecap="round"/>'; },
+      pensando: function () { return cap(36, 37, 8, 17) + cap(60, 37, 8, 17) + '<circle cx="80" cy="24" r="2.6" fill="' + EC + '"/><circle cx="88" cy="15" r="3.8" fill="' + EC + '"/>'; },
+      falando: function () { return cap(34, 38, 8, 16) + cap(58, 38, 8, 16) + '<rect x="44" y="58" width="12" height="4.6" rx="2.3" fill="' + EC + '"/>'; },
+      feliz: function () { return arc(38, 54, true) + arc(62, 54, true); },
+      rindo: function () { return arc(38, 50, true) + arc(62, 50, true) + '<path d="M43 57q7 9 14 0z" fill="' + EC + '"/>'; },
+      carinho: function () { return heart(38, 46, 1, 'var(--z-rose)') + heart(62, 46, 1, 'var(--z-rose)'); },
+      descolado: function () { return '<rect x="30" y="46" width="17" height="7" rx="3.5" fill="' + EC + '"/><rect x="53" y="46" width="17" height="7" rx="3.5" fill="' + EC + '"/>'; },
+      surpreso: function () { return '<circle cx="38" cy="50" r="7" fill="none" stroke="' + EC + '" stroke-width="4"/><circle cx="62" cy="50" r="7" fill="none" stroke="' + EC + '" stroke-width="4"/>'; },
+      bravo: function () { return '<g transform="rotate(16 38 50)">' + cap(34, 41, 8, 18) + '</g><g transform="rotate(-16 62 50)">' + cap(58, 41, 8, 18) + '</g>'; },
+      chorando: function () { return cap(34, 38, 8, 16) + cap(58, 38, 8, 16) + '<path d="M38 57q-3.5 5 0 7.5q3.5-2.5 0-7.5zM62 57q-3.5 5 0 7.5q3.5-2.5 0-7.5z" fill="#fff" fill-opacity=".92"/>'; },
+      dormindo: function () { return '<rect x="31" y="49" width="14" height="4.6" rx="2.3" fill="' + EC + '"/><rect x="55" y="49" width="14" height="4.6" rx="2.3" fill="' + EC + '"/><text x="76" y="30" font-size="13" font-weight="700" fill="' + EC + '" font-family="Sora,Segoe UI,sans-serif">z</text><text x="85" y="20" font-size="9" font-weight="700" fill="' + EC + '" font-family="Sora,Segoe UI,sans-serif">z</text>'; },
+      piscar: function () { return '<rect x="31" y="48" width="14" height="4.6" rx="2.3" fill="' + EC + '"/><rect x="55" y="48" width="14" height="4.6" rx="2.3" fill="' + EC + '"/>'; },
+      conseguiu: function () { return star(38, 50, 1.05, 'var(--z-warn)') + star(62, 50, 1.05, 'var(--z-warn)'); }
+    };
+
+    var ACC = {
+      none: '',
+      chapeu: '<path d="M39 19L50 2L61 19Z" fill="#FF6FA8"/><path d="M42 14L58 8" stroke="#FFE066" stroke-width="2.4" stroke-linecap="round"/><circle cx="50" cy="3" r="3.2" fill="#FFE066"/>',
+      coroa: '<path d="M30 20L33 5L42 13L50 3L58 13L67 5L70 20Z" fill="#FFC857" stroke="#C98A12" stroke-width="1.2" stroke-linejoin="round"/>',
+      fones: '<path d="M21 46C19 12 81 12 79 46" fill="none" stroke="' + EC + '" stroke-width="4" stroke-linecap="round"/>',
+      laco: '<path d="M66 11l-10-5.5v11zM66 11l10-5.5v11z" fill="#FF7AA8"/><circle cx="66" cy="11" r="3" fill="#E85C8F"/>',
+      gorro: '<path d="M24 25Q50 -4 76 25Z" fill="#ECF3FF"/><rect x="22" y="22" width="56" height="7" rx="3.5" fill="#CFE0FF"/><circle cx="50" cy="3" r="5" fill="#ECF3FF"/>',
+      bone: '<path d="M27 22Q50 1 73 22Z" fill="#3D8BFF"/><path d="M50 21q24-3 28 3q-3 4-28 3z" fill="#2F66CC"/><rect x="25" y="20" width="50" height="6" rx="3" fill="#2F66CC"/>',
+      oculos: '<circle cx="38" cy="50" r="10.5" fill="#0B0B0C" fill-opacity=".55" stroke="#F5F6F8" stroke-width="3"/><circle cx="62" cy="50" r="10.5" fill="#0B0B0C" fill-opacity=".55" stroke="#F5F6F8" stroke-width="3"/><path d="M48.5 50h3" stroke="#F5F6F8" stroke-width="3" stroke-linecap="round"/>',
+      aureola: '<ellipse cx="50" cy="8" rx="15" ry="4" fill="none" stroke="#FFC857" stroke-width="3"/>',
+      chifrinhos: '<path d="M31 20Q26 6 36 9Q33 15 37 20Z" fill="#FF5A5A"/><path d="M69 20Q74 6 64 9Q67 15 63 20Z" fill="#FF5A5A"/>',
+      florzinha: '<g transform="translate(33 10)"><circle cx="0" cy="-4.5" r="3.4" fill="#FF9FC2"/><circle cx="4.3" cy="-1.4" r="3.4" fill="#FF9FC2"/><circle cx="2.7" cy="3.6" r="3.4" fill="#FF9FC2"/><circle cx="-2.7" cy="3.6" r="3.4" fill="#FF9FC2"/><circle cx="-4.3" cy="-1.4" r="3.4" fill="#FF9FC2"/><circle cx="0" cy="0" r="2.6" fill="#FFE066"/></g>',
+      natal: '<path d="M26 22Q40 -2 68 6Q74 8 72 14L70 20Q48 10 30 25Z" fill="#E04545"/><rect x="24" y="20" width="50" height="7" rx="3.5" fill="#F5F6F8"/><circle cx="72" cy="8" r="4.5" fill="#F5F6F8"/>',
+    };
+
+    // os olhos (e só eles) podem se deslocar um pouco: é o "olhos seguem o mouse"
+    var dx = Math.max(-4.5, Math.min(4.5, o.dx || 0));
+    var dy = Math.max(-3, Math.min(3, o.dy || 0));
+    var eyes = (E[kind] || E.repouso)();
+    if (dx || dy) eyes = '<g transform="translate(' + dx.toFixed(1) + ' ' + dy.toFixed(1) + ')">' + eyes + '</g>';
+
+    var antena = o.antenna ? '<rect x="48.6" y="3" width="2.8" height="9" rx="1.4" fill="' + EC + '"/><circle cx="50" cy="3" r="3.2" fill="' + EC + '"/>' : '';
+    var accTop = o.acc && o.acc !== 'fones' ? (ACC[o.acc] || '') : '';
+
+    return '<svg width="' + size + '" height="' + size + '" viewBox="0 0 100 100" aria-hidden="true">' +
+      '<defs>' + defs + '</defs>' +
+      '<ellipse cx="50" cy="91" rx="24" ry="4" fill="#000" opacity=".4"/>' +
+      '<rect x="42" y="8" width="16" height="9" rx="4.5" fill="' + EC + '"/>' + antena +
+      '<rect x="11" y="40" width="9" height="22" rx="4.5" fill="' + EC + '"/><rect x="80" y="40" width="9" height="22" rx="4.5" fill="' + EC + '"/>' +
+      '<rect x="20" y="16" width="60" height="62" rx="21" fill="url(#' + id + 'b)"/>' +
+      '<path d="M27 29q9-8 23-9" fill="none" stroke="#fff" stroke-opacity=".5" stroke-width="3" stroke-linecap="round"/>' +
+      (o.acc === 'fones' ? ACC.fones : '') +
+      '<rect x="27" y="32" width="46" height="36" rx="13" fill="' + VC + '" stroke="' + EC + '" stroke-opacity=".45" stroke-width="1.5"/>' +
+      eyes +
+      accTop +
+      '</svg>';
+  }
+
+  window.Mascot = { svg: svg, moods: ['repouso', 'ouvindo', 'pensando', 'falando', 'feliz', 'rindo', 'carinho', 'descolado', 'surpreso', 'bravo', 'chorando', 'dormindo', 'conseguiu'] };
+})();
+
+</script>
+<script>
+// Núcleo compartilhado pelas telas: dados, ícones, aparência do mascote e interpretação dos pedidos em português.
+(function () {
+  var Core = { d: null, cfg: null, subs: [], live: { music: { ok: false }, clips: [], stats: null }, ui: {}, pending: null, busy: false, lastSite: null };
+
+  var BODIES = {
+    safira: ['#AFD3FF', '#2F7BFF'], cobalto: ['#A8BBFF', '#2748FF'], gelo: ['#EAF3FF', '#8DB4F5'],
+    grafite: ['#CDD3DE', '#5C6577'], menta: ['#C5F7EA', '#1FBFA0'], rosa: ['#FFD3E6', '#F0508C'], ambar: ['#FFE8B0', '#F0A020'],
+    pessego: ['#FFD9C2', '#F07A3B'], lilas: ['#E4D6FF', '#8E5BFF'], limao: ['#EDF7B8', '#9CC922'], arco: ['ARCO', 'ARCO']
+  };
+  var EYES = { ciano: '#5FD7FF', branco: '#FFFFFF', menta: '#6BF2C4', ambar: '#FFC857', rosa: '#FF7AA8', violeta: '#B69CFF', vermelho: '#FF6B5E', lima: '#A8F56B', arco: 'ARCO' };
+  var VISORS = { noite: '#030813', preto: '#000000', roxo: '#1D1030', verde: '#06231E', marrom: '#241310', branco: '#EFF3FA', arco: 'ARCO' };
+  var SHAPES = ['redondos', 'ovais', 'pixel', 'grandoes', 'tracinho'];
+  var ACCS = [['none', 'Nenhum'], ['chapeu', 'Chapéu de festa'], ['coroa', 'Coroa'], ['fones', 'Fones'], ['laco', 'Laço'], ['bone', 'Boné'], ['oculos', 'Óculos'], ['aureola', 'Auréola'], ['chifrinhos', 'Chifrinhos'], ['natal', 'Gorro de Natal']];
+  Core.BODIES = BODIES;
+  Core.EYES = EYES;
+  Core.VISORS = VISORS;
+  Core.SHAPES = SHAPES;
+  Core.ACCS = ACCS;
+
+  var P = {
+    home: 'M3 11l9-8 9 8M5 10v10h14V10', chat: 'M4 5h16v11H9l-5 4z',
+    spark: 'M12 3l2.2 5.8L20 11l-5.8 2.2L12 19l-2.2-5.8L4 11l5.8-2.2z',
+    palette: 'M12 3a9 9 0 100 18c1.5 0 2-1 1.5-2s0-2 1.5-2h2a3 3 0 003-3c0-5-4-9-8-9z',
+    mic: 'M12 3a3 3 0 013 3v5a3 3 0 01-6 0V6a3 3 0 013-3zM6 11a6 6 0 0012 0M12 17v4',
+    bolt: 'M13 2L5 14h6l-1 8 8-12h-6z', monitor: 'M3 5h18v11H3zM8 21h8M12 16v5',
+    phone: 'M8 2h8a1 1 0 011 1v18a1 1 0 01-1 1H8a1 1 0 01-1-1V3a1 1 0 011-1zM11 18h2',
+    lock: 'M6 11h12v10H6zM8 11V8a4 4 0 018 0v3', key: 'M3 7h18v10H3zM7 11h.01M11 11h.01M15 11h.01M8 14h8',
+    plus: 'M12 5v14M5 12h14', minus: 'M5 12h14', music: 'M9 18V5l11-2v13M9 18a3 3 0 11-6 0 3 3 0 016 0zM20 16a3 3 0 11-6 0 3 3 0 016 0z',
+    bell: 'M6 16V11a6 6 0 0112 0v5l2 2H4zM10 20a2 2 0 004 0', check: 'M4 12l5 5L20 6',
+    timer: 'M12 8v5l3 2M9 2h6M12 21a8 8 0 100-16 8 8 0 000 16z', drop: 'M12 3c4 5 6 8 6 11a6 6 0 01-12 0c0-3 2-6 6-11z',
+    list: 'M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01', send: 'M3 11l18-8-8 18-2-8z',
+    play: 'M7 4l13 8-13 8z', pause: 'M8 4v16M16 4v16', next: 'M6 5l9 7-9 7zM18 5v14', prev: 'M18 5l-9 7 9 7zM6 5v14',
+    volup: 'M4 9v6h4l5 4V5L8 9zM16 8a5 5 0 010 8M19 5a9 9 0 010 14', voldown: 'M4 9v6h4l5 4V5L8 9zM16 9a4 4 0 010 6',
+    mute: 'M4 9v6h4l5 4V5L8 9zM17 9l5 6M22 9l-5 6',
+    ear: 'M7 9a5 5 0 0110 0c0 4-3 4-3 8a2 2 0 01-4 0',
+    search: 'M11 4a7 7 0 100 14 7 7 0 000-14zM20 20l-4-4', grid: 'M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z',
+    sliders: 'M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M14 4v4M8 10v4M16 16v4',
+    megaphone: 'M3 11v2a1 1 0 001 1h2l5 4V6L6 10H4a1 1 0 00-1 1zM15 9a4 4 0 010 6', help: 'M12 3a9 9 0 100 18 9 9 0 000-18zM9.5 9.5a2.5 2.5 0 114 2c-1 .7-1.5 1.2-1.5 2.5M12 17h.01',
+    shield: 'M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z', refresh: 'M20 11a8 8 0 10-2.3 5.7M20 4v7h-7',
+    back: 'M15 5l-7 7 7 7', close: 'M6 6l12 12M18 6L6 18', web: 'M12 3v4M12 17v4M3 12h4M17 12h4M6 6l3 3M15 15l3 3M6 18l3-3M15 9l3-3',
+    nodes: 'M6 6a2 2 0 100 .01M18 6a2 2 0 100 .01M12 18a2 2 0 100 .01M12 12a2 2 0 100 .01M8 7l3 4M16 7l-3 4M12 14v2',
+    clip: 'M8 4h8v3H8zM6 6h12v15H6z', copy: 'M9 9h10v11H9zM5 15V4h10', camera: 'M4 7h4l2-3h4l2 3h4v12H4zM12 16a3 3 0 100-6 3 3 0 000 6z',
+    folder: 'M3 6h6l2 2h10v11H3z', calc: 'M6 3h12v18H6zM9 7h6M9 12h.01M12 12h.01M15 12h.01M9 16h.01M12 16h.01M15 16h.01',
+    note: 'M5 3h14v18H5zM8 8h8M8 12h8M8 16h5', brush: 'M14 4l6 6-9 9H5v-6zM12 6l6 6', trash: 'M5 7h14M10 7V4h4v3M7 7l1 13h8l1-13',
+    gear: 'M12 15a3 3 0 100-6 3 3 0 000 6zM19 12h2M3 12h2M12 3v2M12 19v2M5.6 5.6L7 7M17 17l1.4 1.4M5.6 18.4L7 17M17 7l1.4-1.4'
+  };
+  Core.ic = function (n) {
+    return '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="' + (P[n] || P.spark) + '"/></svg>';
+  };
+  Core.esc = function (s) {
+    return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; });
+  };
+  Core.uid = function () { return Math.random().toString(36).slice(2, 9); };
+  Core.today = function () {
+    var d = new Date();
+    return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2);
+  };
+  Core.norm = function (s) {
+    return String(s).toLowerCase().replace(/[áàâãäéèêëíìîïóòôõöúùûüç]/g, function (c) { return 'aaaaaeeeeiiiiooooouuuuc'['áàâãäéèêëíìîïóòôõöúùûüç'.indexOf(c)]; });
+  };
+  Core.kbd = function (accel) { return String(accel).replace('Control', 'Ctrl').replace(/\+/g, ' + '); };
+  Core.when = function (ms) { return new Date(ms).toLocaleString('pt-BR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' }); };
+  Core.left = function (end) {
+    var s = Math.max(0, Math.ceil((end - Date.now()) / 1000)), h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), x = s % 60;
+    return (h ? h + ':' + ('0' + m).slice(-2) : m) + ':' + ('0' + x).slice(-2);
+  };
+  Core.bytes = function (n) { return n > 1e9 ? (n / 1e9).toFixed(1) + ' GB' : n > 1e6 ? Math.round(n / 1e6) + ' MB' : Math.round(n / 1e3) + ' KB'; };
+
+  Core.apps = [];                 // atalhos (.lnk/.exe) da área de trabalho, pra abrir/fechar qualquer programa pelo nome
+  Core.refreshApps = function () { return bridge.invoke('sys:apps').then(function (l) { Core.apps = l || []; }).catch(function () {}); };
+  Core.init = function () {
+    return Promise.all([bridge.config(), bridge.get(), bridge.invoke('music:get'), bridge.invoke('clips:list')]).then(function (r) {
+      Core.cfg = r[0]; Core.d = r[1]; Core.live.music = r[2] || { ok: false }; Core.live.clips = r[3] || [];
+      bridge.on('store:changed', function (d) { Core.d = d; Core.notify(); });
+      bridge.on('music:state', function (s) { Core.live.music = s; Core.notify(); });
+      bridge.on('clips:changed', function (l) { Core.live.clips = l; Core.notify(); });
+      bridge.on('scan:progress', function (p) { Core.ui.scanProg = p; if (Core.ui.scanning) Core.notify(); });
+      Core.refreshApps();
+      setInterval(Core.refreshApps, 60000); // pega atalhos novos que você colocar na área de trabalho depois
+      return Core;
+    });
+  };
+  Core.notify = function () { Core.subs.forEach(function (f) { f(); }); };
+  Core.onChange = function (f) { Core.subs.push(f); };
+  Core.save = function (key) { return bridge.set(key, Core.d[key]); };
+  Core.refreshStats = function () { return bridge.invoke('sys:stats').then(function (s) { Core.live.stats = s; return s; }); };
+
+  // bom dia das 5h ao meio-dia, boa tarde até as 18h, boa noite das 18h às 5h
+  Core.saudacao = function () {
+    var h = new Date().getHours();
+    return h >= 5 && h < 12 ? 'Bom dia' : (h >= 12 && h < 18 ? 'Boa tarde' : 'Boa noite');
+  };
+  Core.name = function () { return (Core.d && Core.d.settings.assistantName) || Core.cfg.APP_NAME; };
+  Core.look = function (extra) {
+    var l = (Core.d && Core.d.settings.look) || {};
+    var b = BODIES[l.body] || BODIES.safira;
+    var out = {
+      b: b[0], a: b[1],
+      eye: EYES[l.eyes] || EYES.ciano,
+      visor: VISORS[l.visor] || VISORS.noite,
+      shape: SHAPES.indexOf(l.shape) >= 0 ? l.shape : 'ovais',
+      acc: l.acc || 'none',
+      antenna: !!l.antenna
+    };
+    if (extra) for (var k in extra) out[k] = extra[k];
+    return out;
+  };
+  Core.face = function (mood, size, extra) { return Mascot.svg(mood, size, Core.look(extra)); };
+
+  Core.stats = function () {
+    var d = Core.d, t = Core.today();
+    return {
+      tasks: d.tasks.filter(function (x) { return !x.done; }).length,
+      reminders: d.reminders.filter(function (x) { return !x.done; }).length,
+      timers: d.timers.filter(function (x) { return !x.done; }).length,
+      habitsDone: d.habits.filter(function (h) { return (h.log[t] || 0) >= h.goal; }).length,
+      habits: d.habits.length
+    };
+  };
+
+  /* ---------- interpretação dos pedidos ---------- */
+  function unit(u) { if (u === 's' || /^seg/.test(u)) return 1000; if (/^min/.test(u)) return 60000; return 3600000; }
+  function dur(ms) {
+    if (ms < 60000) return Math.round(ms / 1000) + ' segundos';
+    if (ms < 3600000) { var m = Math.round(ms / 60000); return m + (m === 1 ? ' minuto' : ' minutos'); }
+    var h = Math.round(ms / 360000) / 10; return h + (h === 1 ? ' hora' : ' horas');
+  }
+  function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+  var SITES = { youtube: 'https://www.youtube.com', google: 'https://www.google.com', gmail: 'https://mail.google.com', instagram: 'https://www.instagram.com', 'whatsapp web': 'https://web.whatsapp.com', whatsapp: 'https://web.whatsapp.com', netflix: 'https://www.netflix.com', spotify: 'spotify:' };
+  // programas que a Irys sabe fechar pelo nome (lista fixa, sem precisar de IA nem de agente). Peça pra adicionar mais.
+  var CLOSE_APPS = { spotify: 'Spotify.exe', discord: 'Discord.exe', chrome: 'chrome.exe', word: 'WINWORD.EXE', excel: 'EXCEL.EXE', notepad: 'notepad.exe', steam: 'Steam.exe', vscode: 'Code.exe' };
+  var FILLER_TRAIL = /\b(do desktop|da area de trabalho|na area de trabalho|por favor|pfv|por gentileza|de uma vez|ai|la|logo|agora)\b/g;
+  // acha um atalho da área de trabalho pelo nome, tolerando enchimento, acento e nome parcial ("abre o whats" acha "WhatsApp")
+  function findApp(pedido) {
+    var g = Core.norm(String(pedido || '').replace(FILLER_TRAIL, ' ')).replace(/^(o |a |esse |essa |aquele |aquela )/, '').trim();
+    if (!g || g.length < 2) return null;
+    var lista = Core.apps || [];
+    var exato = lista.find(function (n) { return Core.norm(n) === g; });
+    if (exato) return exato;
+    return lista.find(function (n) { var ng = Core.norm(n); return ng.indexOf(g) >= 0 || g.indexOf(ng) >= 0; }) || null;
+  }
+
+  Core.push = function (who, text) {
+    Core.d.chat.push({ who: who, text: text, t: Date.now() });
+    if (Core.d.chat.length > 60) Core.d.chat = Core.d.chat.slice(-60);
+  };
+
+  Core.summary = function () {
+    var d = Core.d, s = Core.stats(), parts = [];
+    var tasks = d.tasks.filter(function (x) { return !x.done; }).slice(0, 3).map(function (x) { return x.text; });
+    parts.push(s.tasks ? 'Você tem ' + s.tasks + (s.tasks === 1 ? ' tarefa pendente' : ' tarefas pendentes') + ': ' + tasks.join('; ') + '.' : 'Nenhuma tarefa pendente.');
+    var rems = d.reminders.filter(function (x) { return !x.done; }).sort(function (a, b) { return a.at - b.at; }).slice(0, 3);
+    parts.push(rems.length ? 'Próximos lembretes: ' + rems.map(function (r) { return r.text + ' (' + Core.when(r.at) + ')'; }).join('; ') + '.' : 'Nenhum lembrete agendado.');
+    parts.push('Hábitos de hoje: ' + s.habitsDone + ' de ' + s.habits + ' concluídos.');
+    return parts.join(' ');
+  };
+
+  Core.pcReply = function (s) {
+    return 'CPU em ' + s.cpu + '%, memória em ' + s.memPct + '% (' + Core.bytes(s.memUsed) + ' de ' + Core.bytes(s.memTotal) + '), disco com ' + Core.bytes(s.disk.free) + ' livres, ligado há ' + Math.floor(s.uptime / 3600) + ' h.';
+  };
+
+  Core.runRoutine = function (r) {
+    var d = Core.d, out = [], keys = {};
+    r.steps.forEach(function (s) {
+      if (s.t === 'music') { bridge.invoke('music:cmd', s.a === 'pause' ? 'pause' : s.a === 'next' ? 'next' : 'play'); }
+      else if (s.t === 'timer') { d.timers.push({ id: Core.uid(), name: s.name || 'Timer', end: Date.now() + (s.min || 1) * 60000, done: false }); keys.timers = 1; }
+      else if (s.t === 'say') out.push(s.text);
+      else if (s.t === 'habit') { d.habits.forEach(function (h) { if (h.id === s.id) h.log[Core.today()] = (h.log[Core.today()] || 0) + 1; }); keys.habits = 1; }
+      else if (s.t === 'summary') out.push(Core.summary());
+      else if (s.t === 'open') bridge.invoke('sys:open', s.url);
+    });
+    Object.keys(keys).forEach(function (k) { Core.save(k); });
+    return out.length ? out.join(' ') : 'Rotina “' + r.name + '” executada.';
+  };
+
+  // números por extenso (o reconhecedor de voz escreve "dois", não "2"). Converte no texto normalizado.
+  var UNITS = { zero: 0, um: 1, uma: 1, dois: 2, duas: 2, tres: 3, quatro: 4, cinco: 5, seis: 6, sete: 7, oito: 8, nove: 9, dez: 10, onze: 11, doze: 12, treze: 13, catorze: 14, quatorze: 14, quinze: 15, dezesseis: 16, dezessete: 17, dezoito: 18, dezenove: 19 };
+  var TENS = { vinte: 20, trinta: 30, quarenta: 40, cinquenta: 50, sessenta: 60, setenta: 70, oitenta: 80, noventa: 90 };
+  Core.numWords = function (t) {
+    t = t.replace(/\bmeia hora\b/g, '30 minutos').replace(/\buma hora e meia\b/g, '90 minutos').replace(/\bmeia\b/g, '30');
+    var w = t.split(' '), out = [], i = 0;
+    while (i < w.length) {
+      var a = w[i], n = null, used = 1;
+      if (TENS[a] !== undefined) {
+        n = TENS[a];
+        if (w[i + 1] === 'e' && UNITS[w[i + 2]] !== undefined && UNITS[w[i + 2]] > 0 && UNITS[w[i + 2]] < 10) { n += UNITS[w[i + 2]]; used = 3; }
+      } else if (UNITS[a] !== undefined) { n = UNITS[a]; }
+      // "um"/"uma" só viram número quando seguidos de unidade de tempo (evita mexer em "um timer", "uma tarefa")
+      if (n !== null && (a === 'um' || a === 'uma') && !/^(minutos?|min|segundos?|seg|horas?|h|copos?)$/.test(w[i + 1] || '')) n = null;
+      if (n !== null) { out.push(String(n)); i += used; } else { out.push(a); i++; }
+    }
+    return out.join(' ');
+  };
+
+  // tenta resolver sem IA. Devolve texto de resposta ou null.
+  function local(text, t, keys) {
+    var d = Core.d, m;
+    // a voz costuma ouvir "timer" como "de" ou "taimer"; e escreve os números por extenso
+    t = Core.numWords(t).replace(/\b(taimer|tai mer|temporizador|cronometro)\b/g, 'timer');
+    t = t.replace(/^(?:me )?(?:coloca|bota|marca|inicia|inicie|faz|cria|liga|programa|quero|poe)\s+(?:um |uma )?(?=timer)/, '');
+    t = t.replace(/^de (?=\d+\s*(?:segundos?|seg|minutos?|min|horas?|h)\b)/, 'timer de ');
+    var tn = Core.norm(text);
+    // devolve o trecho com a grafia original (acentos e maiúsculas), procurando no texto sem acentos, que tem o mesmo tamanho
+    function orig(g) { var i = tn.length === text.length ? tn.indexOf(g) : -1; return i < 0 ? g : text.substr(i, g.length); }
+
+    // confirmação de ação sensível
+    if (Core.pending) {
+      var p = Core.pending; Core.pending = null;
+      if (/^(sim|confirmo|pode|claro|isso|manda ver|bora)\b/.test(t)) return p.run();
+      if (/^(nao|cancela|deixa|esquece|melhor nao)\b/.test(t)) return 'Tudo bem, cancelei.';
+    }
+    // rotinas pela frase
+    for (var i = 0; i < d.routines.length; i++) {
+      var r = d.routines[i], ph = Core.norm(r.phrase || '').trim();
+      if (ph && (t === ph || t === 'modo ' + ph || t.replace(/^(ei |ola |oi )/, '') === ph)) return Core.runRoutine(r);
+    }
+    if ((m = t.match(/timer(?: de| para)? (\d+)\s*(segundos?|seg|s|minutos?|min|horas?|h)\b(?: (?:para|pra|de|do|da) (.+))?$/))) {
+      var ms = parseInt(m[1], 10) * unit(m[2]);
+      var nome = m[3] ? orig(m[3]).replace(/^(a|o|as|os|um|uma)\s+/i, '') : '';
+      d.timers.push({ id: Core.uid(), name: nome ? cap(nome) : 'Timer', end: Date.now() + ms, done: false });
+      keys.push('timers');
+      return 'Pronto, timer de ' + dur(ms) + (nome ? ' para ' + nome : '') + ' iniciado.';
+    }
+    if ((m = t.match(/(?:me lembra|lembre|lembrar)(?: de| que)? (.+?) (?:em|daqui a) (\d+)\s*(minutos?|min|horas?|h)\b/))) {
+      var ms2 = parseInt(m[2], 10) * unit(m[3]);
+      d.reminders.push({ id: Core.uid(), text: cap(orig(m[1])), at: Date.now() + ms2, done: false });
+      keys.push('reminders');
+      return 'Combinado, te lembro de “' + orig(m[1]) + '” em ' + dur(ms2) + '.';
+    }
+    if ((m = t.match(/(?:me lembra|lembre|lembrar)(?: de| que)? (.+?) as (\d{1,2})(?:(?::|h)(\d{2}))?\s*(?:h|horas?)?$/))) {
+      var at = new Date(); at.setHours(parseInt(m[2], 10), m[3] ? parseInt(m[3], 10) : 0, 0, 0);
+      if (at.getTime() <= Date.now()) at.setDate(at.getDate() + 1);
+      d.reminders.push({ id: Core.uid(), text: cap(orig(m[1])), at: at.getTime(), done: false });
+      keys.push('reminders');
+      return 'Combinado, te lembro de “' + orig(m[1]) + '” em ' + Core.when(at.getTime()) + '.';
+    }
+    if ((m = t.match(/(?:cria|criar|nova|adiciona|adicionar|anota|anotar)(?: uma| a)? tarefa:? (.+)/))) {
+      d.tasks.push({ id: Core.uid(), text: cap(orig(m[1])), done: false });
+      keys.push('tasks');
+      return 'Tarefa adicionada: “' + orig(m[1]) + '”.';
+    }
+    if (/(?:bebi|tomei)(?: um| 1| mais um)? (?:copo|agua)/.test(t)) {
+      var h = d.habits.filter(function (x) { return x.id === 'agua'; })[0];
+      if (h) { h.log[Core.today()] = (h.log[Core.today()] || 0) + 1; keys.push('habits'); return 'Anotado! ' + h.log[Core.today()] + ' de ' + h.goal + ' copos hoje.'; }
+    }
+    // memória
+    if ((m = t.match(/^(?:lembra que|lembre que|guarda que|guarde que|anota que|memoriza que|saiba que) (.+)/))) {
+      d.memories.push({ id: Core.uid(), text: cap(orig(m[1])), t: Date.now() });
+      keys.push('memories');
+      return 'Guardei: “' + orig(m[1]) + '”.';
+    }
+    if (/(o que (?:voce )?(?:sabe|lembra) (?:sobre|de) mim|minhas memorias|o que voce guardou)/.test(t)) {
+      return d.memories.length ? 'Eu sei que: ' + d.memories.slice(-8).map(function (x) { return x.text; }).join('; ') + '.' : 'Ainda não guardei nada sobre você. Diga “lembra que minha namorada se chama Ana”, por exemplo.';
+    }
+    if ((m = t.match(/^esquece(?: que)? (.+)/))) {
+      var q = m[1], before = d.memories.length;
+      d.memories = d.memories.filter(function (x) { return Core.norm(x.text).indexOf(q) < 0; });
+      if (d.memories.length < before) { keys.push('memories'); return 'Pronto, esqueci.'; }
+      return 'Não achei nada sobre isso na memória.';
+    }
+    // música
+    if (/^(pausa|pausar|para a musica|pausa a musica|pausa o som)\b/.test(t)) { bridge.invoke('music:cmd', 'pause'); return 'Música pausada.'; }
+    // "toca"/"play" sozinhos: comando de playback. "toca" seguido de algo mais específico cai no bloco de busca
+    // de artista logo abaixo, por isso só esses dois ficam travados a bater a frase inteira.
+    if (/^(toca|tocar|play|bota uma musica)$/.test(t) || /^(?:da play|dá play|de play|dar play|continua|retoma|toca uma musica|toca musica)\b/.test(t)) {
+      return Core.tocar();
+    }
+    if (/(proxima(?: musica)?|passa a musica|pula a musica)/.test(t)) { bridge.invoke('music:cmd', 'next'); return 'Próxima.'; }
+    if (/(musica anterior|volta a musica|anterior$)/.test(t)) { bridge.invoke('music:cmd', 'prev'); return 'Voltando.'; }
+    if (/(aumenta|sobe) (?:o )?(?:som|volume)|mais alto|volume mais/.test(t)) { bridge.invoke('music:cmd', 'volup'); return 'Aumentei o volume.'; }
+    if (/(abaixa|diminui|baixa) (?:o )?(?:som|volume)|mais baixo|volume menos/.test(t)) { bridge.invoke('music:cmd', 'voldown'); return 'Abaixei o volume.'; }
+    if (/^(muta|mudo|silencio|silencia)\b/.test(t)) { bridge.invoke('music:cmd', 'mute'); return 'Pronto.'; }
+    if ((m = t.match(/^(?:toca|tocar|coloca|bota|poe|ouvir|pesquisa|pesquisar|procura|procurar|busca|buscar) (.+)/))) {
+      var term = orig(m[1]).replace(/^(a |o |um |uma )?(musica|música|som|banda|cantor|cantora)(?: (do|da|de) )?/i, '').trim();
+      if (!term) return Core.tocar(); // "toca a música"/"toca essa música": sem nome, só dá o play
+      bridge.invoke('sys:open', 'spotify:search:' + encodeURIComponent(term));
+      return 'Abri a busca por “' + term + '” no Spotify. É só tocar no play.';
+    }
+    // ferramentas e sites
+    var tools = [[/(abre|abra|abrir) (?:a )?calculadora/, 'calc', 'Abrindo a calculadora.'], [/(abre|abra|abrir) (?:o )?(?:explorador|arquivos|meus arquivos)/, 'files', 'Abrindo seus arquivos.'],
+      [/(captura|print) de tela|tira um print/, 'shot', 'Pode selecionar a área da captura.'], [/(mostra|mostrar|vai para) (?:a )?area de trabalho/, 'desktop', 'Pronto.'],
+      [/gerenciador de tarefas/, 'taskmgr', 'Abrindo o gerenciador de tarefas.'], [/bloco de notas/, 'notepad', 'Abrindo o bloco de notas.']];
+    for (var k = 0; k < tools.length; k++) if (tools[k][0].test(t)) { bridge.invoke('sys:tool', tools[k][1]); return tools[k][2]; }
+    // tolera enchimento de linguagem entre o verbo e o nome do site: "abre a droga do spotify", "abre esse whatsapp logo"
+    if ((m = t.match(/^(?:abre|abra|abrir|entra no|entre no|vai para o|vai pro)\b[\s\S]{0,24}?\b(youtube|google|gmail|instagram|whatsapp web|whatsapp|netflix|spotify)\b/))) {
+      Core.lastSite = m[1];
+      if (m[1] === 'spotify') {
+        Core.spotifyAbertoEm = Date.now();
+        // "abre o spotify tocando" / "abre o spotify e da play" numa frase só: abre e já dá o play quando ele estiver pronto
+        if (/\b(play|toca|tocar|tocando|coloca musica|bota musica|solta o som)\b/.test(t.slice(m.index + m[0].length))) {
+          bridge.invoke('sys:open', SITES.spotify);
+          Core.tocar();
+          return 'Abrindo o Spotify e dando play.';
+        }
+      }
+      bridge.invoke('sys:open', SITES[m[1]]); return 'Abrindo ' + m[1] + '.';
+    }
+    // "abre ele"/"abre isso" repetindo o último site aberto nesta sessão
+    if (/^(?:abre|abra|abrir|bota|poe|toca)\b.*\b(ele|ela|isso|essa|esse)\b/.test(t) && Core.lastSite) {
+      bridge.invoke('sys:open', SITES[Core.lastSite]); return 'Abrindo ' + Core.lastSite + ' de novo.';
+    }
+    if ((m = t.match(/^(?:fecha|feche|fechar|encerra|encerrar|mata|matar)\b[\s\S]{0,24}?\b(spotify|discord|chrome|word|excel|notepad|steam|vscode)\b/))) {
+      bridge.invoke('sys:close', CLOSE_APPS[m[1]]); return 'Fechando ' + m[1] + '.';
+    }
+    // qualquer outro programa: procura um atalho com esse nome na área de trabalho (sem precisar de IA nem de agente)
+    if ((m = t.match(/^(?:abre|abra|abrir|entra no|entre no|executa|executar|inicia|iniciar)\s+(?:o |a )?(.+)/))) {
+      var achadoAbrir = findApp(m[1]);
+      if (achadoAbrir) { Core.lastSite = null; bridge.invoke('sys:openapp', achadoAbrir); return 'Abrindo ' + achadoAbrir + '.'; }
+    }
+    if ((m = t.match(/^(?:fecha|feche|fechar|encerra|encerrar|mata|matar)\s+(?:o |a )?(.+)/))) {
+      var achadoFechar = findApp(m[1]);
+      if (achadoFechar) { bridge.invoke('sys:closeapp', achadoFechar); return 'Fechando ' + achadoFechar + '.'; }
+    }
+    if (/(bloqueia|bloquear|trava) (?:o )?(?:pc|computador|tela)/.test(t)) {
+      Core.pending = { run: function () { bridge.invoke('sys:tool', 'lock'); return 'Bloqueando o PC.'; } };
+      return 'Quer mesmo bloquear o PC agora? Responda “sim” para confirmar.';
+    }
+    if (/(como esta|status d[oa]|meu pc esta lento|saude d[oa]) ?(?:meu )?(?:pc|computador)?/.test(t) && /pc|computador/.test(t)) {
+      return Core.refreshStats().then(Core.pcReply);
+    }
+    if (/(resumo do dia|o que (?:eu )?tenho (?:hoje|pra hoje)|minha agenda)/.test(t)) return Core.summary();
+    if (/(previsao (?:do tempo)?|vai chover|vai fazer sol|como (?:esta|ta) o tempo|que tempo (?:faz|vai fazer)|tempo (?:hoje|agora)|clima (?:hoje|agora))\b/.test(t)) {
+      bridge.invoke('weather:show').catch(function () { /* widget indisponível */ });
+      return bridge.invoke('sys:weather').then(function (w) {
+        if (!w || !w.ok) return 'Não consegui ver a previsão agora. Confira a internet.';
+        var chuva = w.chuva >= 50 ? 'Boa chance de chuva, uns ' + w.chuva + '%.' : (w.chuva >= 20 ? 'Pouca chance de chuva, uns ' + w.chuva + '%.' : 'Sem previsão de chuva.');
+        // formato pedido: "A previsão em BH é garoa Chefe, 23°C com sensação de 25°. Máxima de 26° e mínima de 18°. ... Ajudo em algo mais Chefe?"
+        var nome = d.settings.userName ? ' ' + d.settings.userName : '';
+        return 'A previsão ' + (w.cidade ? 'em ' + w.cidade : 'aqui') + ' é ' + w.desc.toLowerCase() + nome + ', ' + w.temp + '°C com sensação de ' + w.sensacao + '°. Máxima de ' + w.max + '° e mínima de ' + w.min + '°. ' + chuva + ' Ajudo em algo mais' + nome + '?';
+      });
+    }
+    if (/que horas/.test(t)) return 'Agora são ' + new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }) + '.';
+    if (/que dia/.test(t)) return 'Hoje é ' + new Date().toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long' }) + '.';
+    if (/^(oi|ola|e ai|bom dia|boa tarde|boa noite)\b/.test(t)) return 'Oi' + (d.settings.userName ? ', ' + d.settings.userName : '') + '! Como posso ajudar?';
+    if (/(ajuda|o que voce faz|comandos)/.test(t)) {
+      return 'Eu resolvo: “timer de 10 minutos para a pizza”, “me lembra de ligar pro cliente em 30 minutos”, “cria tarefa comprar pão”, “bebi um copo de água”, “lembra que minha namorada se chama Ana”, “toca Henrique e Juliano”, “próxima”, “abaixa o volume”, “abre a calculadora”, “como está meu PC?” e suas rotinas, como “modo estudo”.';
+    }
+    return null;
+  }
+
+  function systemPrompt() {
+    var d = Core.d, s = d.settings, mem = d.memories.slice(-20).map(function (x) { return '- ' + x.text; }).join('\n');
+    return 'Você é ' + Core.name() + ', uma assistente que mora no topo da tela do Windows' + (s.userName ? ' e conversa com ' + s.userName : '') + '. ' +
+      'Responda sempre em português do Brasil, de forma simpática, direta e curta (no máximo 3 frases), sem markdown. ' +
+      'Você é só texto: NUNCA afirme que abriu, fechou, instalou, cliclou ou executou algo no computador, mesmo que peçam com insistência ou xingamento — isso seria mentira, porque você não tem esse poder nesta conversa. ' +
+      'Proibido dizer frases como "Abrindo X agora", "Pronto, abri", "Estou fazendo isso" ou qualquer variação. Se o pedido for um timer, lembrete, tarefa, música ou abrir algo, diga o comando exato que a pessoa pode digitar, por exemplo “timer de 10 minutos” ou “abre o spotify”. ' +
+      'Se a pessoa insistir que quer uma ação de verdade no PC (abrir programas, mexer em arquivos, rodar comandos), explique que isso só funciona ligando o Claude Code ou o Codex em Configurações > Cérebro > Controlar o PC. ' +
+      'Agora é ' + new Date().toLocaleString('pt-BR') + '.' + (mem ? '\nFatos que você sabe sobre o usuário:\n' + mem : '');
+  }
+
+  Core.speak = function (text) {
+    var v = Core.d.settings.voice;
+    if (v && v.speak) bridge.invoke('tts:speak', { text: text });
+  };
+
+  // Dá play na música. Se o Spotify acabou de ser aberto (ou nem está aberto), espera ele aparecer nos controles
+  // de mídia do Windows e só então manda o play — antes, o play chegava antes do Spotify carregar e se perdia.
+  Core.tocar = function () {
+    var spotifyPronto = function () { var mu = Core.live.music || {}; return mu.ok && /spotify/i.test(mu.app || ''); };
+    var tocando = function () { var mu = Core.live.music || {}; return mu.ok && /playing/i.test(mu.status || ''); };
+    var recemAberto = Core.spotifyAbertoEm && Date.now() - Core.spotifyAbertoEm < 20000;
+    var temPlayer = !!(Core.live.music || {}).ok;
+    if (temPlayer && !(recemAberto && !spotifyPronto())) { bridge.invoke('music:cmd', 'play'); return 'Tocando.'; }
+    if (!temPlayer && !recemAberto) { Core.spotifyAbertoEm = Date.now(); bridge.invoke('sys:open', SITES.spotify); }
+    var inicio = Date.now();
+    (function espera() {
+      if (spotifyPronto()) {
+        // o Spotify aparece um instante antes de aceitar comandos: dá play e confere; se não tocou, tenta de novo
+        setTimeout(function () {
+          bridge.invoke('music:cmd', 'play');
+          setTimeout(function () { if (!tocando()) bridge.invoke('music:cmd', 'play'); }, 2500);
+        }, 1200);
+        return;
+      }
+      if (Date.now() - inicio < 25000) setTimeout(espera, 400);
+      else bridge.invoke('music:cmd', 'play'); // não apareceu a tempo: manda o play mesmo assim (tecla de mídia)
+    })();
+    return temPlayer ? 'Tocando.' : 'Abrindo o Spotify e dando play.';
+  };
+
+  // Processa um pedido. Devolve uma Promise com a resposta. opts.speak = falar a resposta em voz alta.
+  Core.run = function (raw, opts) {
+    var text = String(raw || '').trim();
+    if (!text) return Promise.resolve(null);
+    opts = opts || {};
+    var keys = ['chat'], t = Core.norm(text);
+    Core.push('me', text);
+    // pedido composto ("dá play na música e abre o google"): só separa quando CADA pedaço começa com um verbo de
+    // comando de verdade — assim nunca quebra um pedido de uma coisa só que por acaso tem "e" no meio
+    // (ex. "toca Henrique e Juliano", onde "Juliano" sozinho não começa com verbo nenhum).
+    var VERBO_CMD = /^(abre|abra|abrir|entra|entre|vai|fecha|feche|fechar|encerra|encerrar|mata|matar|executa|executar|inicia|iniciar|toca|tocar|play|d[aá]|dar|pausa|pausar|continua|retoma|bota|p[oõ]e|liga|desliga|cria|criar|anota|anotar|lembra|lembre|timer|aumenta|sobe|abaixa|diminui|baixa|muta|bloqueia|bloquear|trava)(?=\s|$)/i; // (\b não fecha depois de letra acentuada: "dá play" nunca era separado)
+    var partes = text.split(/\s*(?:,|;| e )\s*/i).filter(Boolean);
+    var composto = partes.length > 1 && partes.slice(1).every(function (p) { return VERBO_CMD.test(p); });
+    var r = composto ? null : local(text, t, keys);
+    if (composto) {
+      var respostas = partes.map(function (p) { return local(p, Core.norm(p), keys); });
+      if (respostas.every(function (x) { return x !== null; })) {
+        r = Promise.all(respostas.map(function (x) { return Promise.resolve(x); })).then(function (xs) { return xs.join(' '); });
+      } else {
+        r = local(text, t, keys); // algum pedaço não é um comando de verdade: trata a frase inteira como uma coisa só
+      }
+    }
+    function finish(reply, mood) {
+      Core.push('bot', reply);
+      keys.forEach(function (k) { Core.save(k); });
+      Core.busy = false; Core.notify();
+      if (opts.speak) Core.speak(reply);
+      return reply;
+    }
+    if (r !== null) return Promise.resolve(r).then(function (x) { return finish(String(x)); });
+
+    var brain = Core.d.settings.brain;
+    if (!brain || brain === 'simple') {
+      return Promise.resolve(finish('Ainda estou no modo simples: entendo timers, lembretes, tarefas, música e outros pedidos práticos. Digite “ajuda” para ver exemplos. Para conversar livremente, ligue uma IA em Cérebro (IA).'));
+    }
+    if (brain === 'claude' || brain === 'codex') {
+      // agente de PC: o pedido que não é um comando pronto vai para o Claude Code / Codex, que executa no computador
+      Core.busy = true; Core.save('chat'); Core.notify();
+      var ctx = Core.d.chat.filter(function (c) { return c.who === 'me' || c.who === 'bot'; }).slice(-7, -1).map(function (c) { return (c.who === 'me' ? 'Usuário: ' : 'Irys: ') + c.text; }).join(String.fromCharCode(10));
+      return bridge.invoke('agent:run', { agent: brain, prompt: text, history: ctx }).then(function (res) {
+        return finish(res.ok ? res.text : res.error);
+      }, function () { return finish('Não consegui acionar o agente agora.'); });
+    }
+    // por voz (chamando o nome ou segurando Ctrl), nunca cai numa conversa de texto que não faz nada:
+    // se não é um comando pronto e o cérebro é só bate-papo (não o agente de PC), avisa em vez de inventar.
+    if (opts.voice) {
+      return Promise.resolve(finish('Não entendi esse comando. Tente “abre o spotify”, “toca uma música”, “timer de 10 minutos” ou “qual a previsão do tempo”.'));
+    }
+    Core.busy = true; Core.save('chat'); Core.notify();
+    var history = Core.d.chat.filter(function (c) { return c.who === 'me' || c.who === 'bot'; }).slice(-9, -1).map(function (c) { return { role: c.who === 'me' ? 'user' : 'assistant', content: c.text }; });
+    var messages = [{ role: 'system', content: systemPrompt() }].concat(history, [{ role: 'user', content: text }]);
+    return bridge.invoke('ai:chat', { provider: brain, messages: messages }).then(function (res) {
+      return finish(res.ok ? res.text : res.error + ' Enquanto isso, ainda resolvo timers, lembretes, tarefas e música.');
+    });
+  };
+
+  window.Core = Core;
+})();
+
+</script>
+<script>
+// Telas compartilhadas entre o painel rápido e a janela de configurações + tratamento dos cliques.
+(function () {
+  var C = Core, esc = C.esc, ic = C.ic;
+  var V = {};
+
+  function head(title, sub, extra) {
+    return '<div class="hd"><div><h3>' + title + '</h3>' + (sub ? '<p>' + sub + '</p>' : '') + '</div>' + (extra || '') + '</div>';
+  }
+  function ask(id, ph) {
+    return '<div class="ask"><input id="' + id + '" data-enter="ask:' + id + '" placeholder="' + ph + '" autocomplete="off">' +
+      '<button class="rb acc" data-act="ask" data-id="' + id + '" title="Enviar">' + ic('send') + '</button></div>';
+  }
+  function bubbles(list) {
+    return list.map(function (b) { return '<div class="bub' + (b.who === 'me' ? ' me' : '') + '">' + esc(b.text) + '</div>'; }).join('');
+  }
+  function typing() { return C.busy ? '<div class="bub dots">pensando…</div>' : ''; }
+  // barra de progresso da música (posMs/durMs vêm dos controles de mídia do Windows; nem todo player informa).
+  // Dá pra clicar e arrastar: o mouse solto manda um "seek" pro player.
+  function musicBar(m) {
+    if (!m.durMs) return '';
+    var pct = Math.max(0, Math.min(100, (m.posMs / m.durMs) * 100));
+    return '<div class="pbar seek" title="Clique ou arraste para pular" data-pos="' + (m.posMs || 0) + '" data-dur="' + m.durMs + '" data-t0="' + Date.now() + '" data-playing="' + /playing/i.test(m.status || '') + '"><i style="width:' + pct + '%"></i></div>';
+  }
+  // capa de verdade quando o player informa (thumb em base64); senão, o ícone de música
+  function cover(m, cls) {
+    if (m && m.thumb) return '<div class="cover ' + (cls || '') + '"><img alt="" src="data:' + (m.thumbMime || 'image/jpeg') + ';base64,' + m.thumb + '"></div>';
+    return '<div class="cover ' + (cls || '') + '">' + ic('music') + '</div>';
+  }
+  // card cheio do player: capa, título/artista, barra de progresso, prev/play/next e volume. Usado na aba Música
+  // e também no Início — enquanto toca algo, ele toma o lugar inteiro do quadrado "Agora".
+  function fullPlayer(m, extraClass) {
+    var on = m && m.ok, playing = on && /playing/i.test(m.status || '');
+    var temVol = on && typeof m.vol === 'number';
+    var volRow = temVol ? '<div class="ctl volrow">' + iconBtn('music-cmd', m.muted ? 'mute' : 'voldown', m.muted ? 'Com som' : 'Silenciar', ' data-c="mute"') +
+      '<input type="range" id="vol-slider" min="0" max="100" value="' + (m.muted ? 0 : m.vol) + '" data-vol="1" aria-label="Volume" style="flex:1">' +
+      '<span class="mu2" style="min-width:34px;text-align:right">' + (m.muted ? 'mudo' : m.vol + '%') + '</span></div>' : '';
+    return '<div class="card player' + (extraClass ? ' ' + extraClass : '') + '">' + cover(m, 'big') + '<div class="grow"><b class="ptitle">' + esc(on ? (m.title || 'Sem título') : 'Nenhuma música') + '</b><small>' + esc(on ? (m.artist || '') : 'Abra o Spotify ou qualquer player') + '</small>' + (on ? musicBar(m) : '') +
+      '<div class="ctl">' + iconBtn('music-cmd', 'prev', 'Anterior', ' data-c="prev"') +
+      '<button class="play" data-act="music-cmd" data-c="playpause" aria-label="' + (playing ? 'Pausar' : 'Tocar') + '">' + ic(playing ? 'pause' : 'play') + '</button>' +
+      iconBtn('music-cmd', 'next', 'Próxima', ' data-c="next"') + '<span class="sp"></span>' +
+      iconBtn('music-cmd', 'voldown', 'Volume menos', ' data-c="voldown"') + iconBtn('music-cmd', 'volup', 'Volume mais', ' data-c="volup"') + '</div>' + volRow + '</div></div>';
+  }
+  function iconBtn(act, icon, title, extra) { return '<button class="rb" data-act="' + act + '" title="' + title + '" aria-label="' + title + '"' + (extra || '') + '>' + ic(icon) + '</button>'; }
+
+  // ----- Início do painel rápido -----
+  V.inicio = function () {
+    var d = C.d, s = C.stats(), name = d.settings.userName, last = d.chat.slice(-3), mu = C.live.music;
+    var agenda = [];
+    d.timers.filter(function (t) { return !t.done; }).slice(0, 2).forEach(function (t) {
+      agenda.push('<div class="row sm">' + ic('timer') + '<div class="grow">' + esc(t.name) + '</div><span class="tleft" data-end="' + t.end + '">' + C.left(t.end) + '</span></div>');
+    });
+    d.reminders.filter(function (r) { return !r.done; }).sort(function (a, b) { return a.at - b.at; }).slice(0, 3 - agenda.length).forEach(function (r) {
+      agenda.push('<div class="row sm">' + ic('bell') + '<div class="grow">' + esc(r.text) + '<small>' + C.when(r.at) + '</small></div></div>');
+    });
+    // tocando alguma coisa: o quadrado inteiro vira o player, bem mais completo que só um texto
+    var cardAgora = mu.ok ? fullPlayer(mu, 'big-square')
+      : agenda.length ? '<div class="card"><div class="gl" style="padding-top:0">Agora</div><div class="list">' + agenda.join('') + '</div></div>'
+      : '<div class="card"></div>'; // sem música e sem nada agendado: quadro em branco, igual ao da conversa
+    return head(C.saudacao() + (name ? ', ' + esc(name) : '') + '!', 'Estou à disposição pra atender qualquer pedido.') +
+      ask('ask-q', 'Ex: qual a previsão do tempo hoje?') +
+      '<div class="two"><div class="card chatbox golink" data-act="nav" data-v="conversa" title="Abrir a conversa">' + (last.length ? bubbles(last) : '') + typing() + '</div>' +
+      cardAgora + '</div>' +
+      '<div class="tiles">' +
+      '<button class="tile" data-act="nav" data-v="lembretes"><i style="background:#7C9CFF"></i><b>' + s.reminders + '</b><span>lembretes</span></button>' +
+      '<button class="tile" data-act="nav" data-v="tarefas"><i style="background:var(--z-acc)"></i><b>' + s.tasks + '</b><span>tarefas</span></button>' +
+      '<button class="tile" data-act="nav" data-v="habitos"><i style="background:var(--z-acc2)"></i><b>' + s.habitsDone + '/' + s.habits + '</b><span>hábitos hoje</span></button>' +
+      '<button class="tile" data-act="nav" data-v="timers"><i style="background:#38BDF8"></i><b>' + s.timers + '</b><span>timers</span></button></div>';
+  };
+
+  V.conversa = function () {
+    var d = C.d;
+    var agente = d.settings.brain === 'claude' || d.settings.brain === 'codex';
+    var sub = d.settings.brain === 'simple' ? 'Modo simples. Ligue uma IA em Cérebro para conversar livremente.'
+      : agente ? 'Ligada ao ' + (d.settings.brain === 'claude' ? 'Claude Code' : 'Codex') + ': ela pede, ele executa de verdade no seu PC.'
+      : 'Conversando com a IA ' + esc(d.settings.brain) + ' — só texto, não abre nem executa nada no PC.';
+    return head('Conversa', sub, '<button class="btn sm ghost" data-act="clear-chat">Limpar</button>') +
+      '<div class="card chatbox" id="chatbox" style="flex:1;min-height:120px">' + (d.chat.length ? bubbles(d.chat) : '<div class="bub">Oi! Digite “ajuda” para ver o que eu entendo.</div>') + typing() + '</div>' +
+      ask('ask-c', 'Escreva para a ' + esc(C.name()) + '…');
+  };
+
+  // ----- Memória: grafo + lista -----
+  V.memoria = function () {
+    var all = C.d.memories, q = C.norm(C.ui.memQ || '');
+    var list = all.filter(function (m) { return !q || C.norm(m.text).indexOf(q) >= 0; });
+    var body;
+    if (C.ui.memList) {
+      body = '<div class="card" style="flex:1;min-height:0;overflow:auto"><div class="list">' + (list.map(function (m) {
+        return '<div class="row sm"><div class="grow">' + esc(m.text) + '</div>' + iconBtn('mem-del', 'close', 'Esquecer', ' data-id="' + m.id + '"') + '</div>';
+      }).join('') || '<div class="empty">Nada por aqui ainda.</div>') + '</div></div>';
+    } else {
+      // grafo vivo (graph.js): você no centro, categorias em volta e as lembranças ligadas a elas
+      body = '<div class="card mgraph-card"><canvas class="mgraph"></canvas>' +
+        (list.length ? '<small class="mgraph-dica">Arraste os pontos · roda do mouse dá zoom · duplo clique centraliza</small>'
+          : '<div class="mid">' + (q ? 'Nada encontrado.' : 'Ainda não sei nada sobre você.<br>Diga “lembra que…” ou escreva abaixo.') + '</div>') + '</div>';
+    }
+    return head('Memória', all.length + (all.length === 1 ? ' lembrança' : ' lembranças') + ' · fica só no seu PC',
+      '<div style="display:flex;gap:8px"><input id="mem-q" class="field sm" data-enter="mem-find:x" placeholder="Procurar…" value="' + esc(C.ui.memQ || '') + '" style="width:130px"><button class="btn sm ghost" data-act="mem-toggle">' + (C.ui.memList ? 'Ver grafo' : 'Ver lista') + '</button></div>') +
+      body +
+      '<div class="ask"><input id="in-mem" data-enter="mem-add:x" placeholder="Guardar algo importante (ex.: minha namorada se chama Ana)" autocomplete="off"><button class="rb acc" data-act="mem-add" title="Guardar">' + ic('plus') + '</button></div>';
+  };
+
+  V.tarefas = function () {
+    var d = C.d;
+    return head('Tarefas', 'Toque no círculo para concluir.') +
+      '<div class="ask"><input id="in-task" data-enter="task-add:x" placeholder="Nova tarefa e Enter" autocomplete="off"><button class="rb acc" data-act="task-add" title="Adicionar">' + ic('plus') + '</button></div>' +
+      '<div class="list scroll">' + (d.tasks.map(function (t) {
+        return '<div class="row sm"><button class="check' + (t.done ? ' on' : '') + '" data-act="task-toggle" data-id="' + t.id + '" aria-label="Concluir">' + (t.done ? ic('check') : '') + '</button>' +
+          '<div class="grow' + (t.done ? ' done' : '') + '">' + esc(t.text) + '</div>' + iconBtn('task-del', 'close', 'Excluir', ' data-id="' + t.id + '"') + '</div>';
+      }).join('') || '<div class="empty">Nenhuma tarefa. Que tal criar a primeira?</div>') + '</div>';
+  };
+
+  V.lembretes = function () {
+    var rows = C.d.reminders.slice().sort(function (a, b) { return a.at - b.at; });
+    return head('Lembretes', 'Ou diga: “me lembra de ligar pro cliente em 30 minutos”.') +
+      '<div class="ask"><input id="in-rem" data-enter="rem-add:x" placeholder="Lembrar de…" autocomplete="off">' +
+      '<input id="in-rem-min" type="number" min="1" placeholder="min" class="mini"><button class="btn acc sm" data-act="rem-add">Criar</button></div>' +
+      '<div class="chips">' + [[10, '10 min'], [30, '30 min'], [60, '1 hora'], [180, '3 horas']].map(function (c) { return '<button class="chip" data-act="rem-quick" data-min="' + c[0] + '">' + c[1] + '</button>'; }).join('') + '</div>' +
+      '<div class="list scroll">' + (rows.map(function (r) {
+        return '<div class="row sm">' + ic('bell') + '<div class="grow' + (r.done ? ' done' : '') + '">' + esc(r.text) + '<small>' + C.when(r.at) + (r.done ? ' · feito' : '') + '</small></div>' + iconBtn('rem-del', 'close', 'Excluir', ' data-id="' + r.id + '"') + '</div>';
+      }).join('') || '<div class="empty">Tudo tranquilo por aqui.</div>') + '</div>';
+  };
+
+  V.habitos = function () {
+    var d = C.d, t = C.today();
+    return head('Hábitos', 'Pequenas vitórias de hoje.') +
+      '<div class="list scroll">' + d.habits.map(function (h) {
+        var n = h.log[t] || 0, pct = Math.min(100, Math.round(n / h.goal * 100));
+        return '<div class="row sm"><span class="gi sm" style="background:var(--z-acc)">' + ic(h.icon) + '</span><div class="grow"><b>' + esc(h.name) + '</b><small>' + n + '/' + h.goal + ' ' + esc(h.unit) + '</small><div class="bar" style="margin-top:5px"><i style="width:' + pct + '%"></i></div></div>' +
+          iconBtn('hab-dec', 'minus', 'Menos', ' data-id="' + h.id + '"') + '<button class="rb acc" data-act="hab-inc" data-id="' + h.id + '" aria-label="Mais">' + ic('plus') + '</button></div>';
+      }).join('') + '</div>' +
+      '<div class="ask"><input id="in-hab" data-enter="hab-add:x" placeholder="Novo hábito (ex.: Alongar)" autocomplete="off"><button class="btn acc sm" data-act="hab-add">Adicionar</button></div>';
+  };
+
+  V.timers = function () {
+    var act = C.d.timers.filter(function (t) { return !t.done; });
+    return head('Timers', 'O timer ativo aparece ao lado da pílula, no topo.') +
+      '<div class="ask"><input id="in-tim" data-enter="tim-add:x" placeholder="Nome (ex.: Pizza no forno)" autocomplete="off">' +
+      '<input id="in-tim-min" type="number" min="1" placeholder="min" class="mini"><button class="btn acc sm" data-act="tim-add">Iniciar</button></div>' +
+      '<div class="chips">' + [1, 5, 10, 15, 25, 45, 60].map(function (m) { return '<button class="chip" data-act="tim-quick" data-min="' + m + '">' + m + ' min</button>'; }).join('') + '</div>' +
+      '<div class="list scroll">' + (act.map(function (t) {
+        return '<div class="row sm">' + ic('timer') + '<div class="grow">' + esc(t.name) + '</div><span class="tleft" data-end="' + t.end + '">' + C.left(t.end) + '</span>' + iconBtn('tim-del', 'close', 'Parar', ' data-id="' + t.id + '"') + '</div>';
+      }).join('') || '<div class="empty">Nenhum timer ativo. Escolha um tempo acima.</div>') + '</div>';
+  };
+
+  // ----- Música (controles de mídia do Windows) -----
+  V.musica = function () {
+    var m = C.live.music, on = m.ok, playing = on && /playing/i.test(m.status || '');
+    return head('Música', on ? (playing ? 'Tocando agora' : 'Pausada') + (m.app ? ' · ' + esc(String(m.app).replace(/\.exe$/i, '').replace(/^.*!/, '')) : '') : 'Nada tocando no momento') +
+      fullPlayer(m) +
+      '<div class="ask"><input id="in-song" data-enter="music-search:x" placeholder="Buscar no Spotify (ex.: Henrique e Juliano)" autocomplete="off"><button class="btn acc sm" data-act="music-search">Buscar</button></div>' +
+      '<div class="chips"><button class="chip" data-act="open-url" data-u="spotify:">Abrir o Spotify</button><button class="chip" data-act="open-url" data-u="https://music.youtube.com">YouTube Music</button></div>' +
+      '<p class="hint">Controla qualquer player aberto no Windows. A busca abre o resultado no app do Spotify.</p>';
+  };
+
+  // ----- Copiados -----
+  V.copiados = function () {
+    var cl = C.live.clips;
+    return head('Copiados', 'O que você copiou recentemente. Fica só na memória e some ao fechar.', '<button class="btn sm ghost" data-act="clip-clear">Limpar</button>') +
+      '<div class="list scroll">' + (cl.map(function (c) {
+        var t = c.text.replace(/\s+/g, ' ');
+        return '<button class="row sm clip" data-act="clip-copy" data-id="' + c.id + '" title="Clique para copiar de novo">' + ic('copy') + '<div class="grow">' + esc(t.length > 90 ? t.slice(0, 89) + '…' : t) + '<small>' + new Date(c.t).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }) + '</small></div></button>';
+      }).join('') || '<div class="empty">Nada copiado ainda. Copie um texto (Ctrl+C) e ele aparece aqui.</div>') + '</div>';
+  };
+
+  // ----- Rotinas -----
+  function stepText(s) {
+    return { music: 'Música: ' + ({ pause: 'pausar', play: 'tocar', next: 'próxima' }[s.a] || s.a), timer: 'Timer ' + (s.name || '') + ' · ' + s.min + ' min', say: 'Falar: ' + s.text, habit: 'Hábito: ' + s.id, summary: 'Resumo do dia', open: 'Abrir ' + s.url }[s.t] || s.t;
+  }
+  V.rotinas = function () {
+    return head('Rotinas', 'Uma frase, várias ações. Diga “Ei, ' + esc(C.name()) + ', modo estudo”.') +
+      '<div class="list scroll">' + (C.d.routines.map(function (r) {
+        return '<div class="row"><span class="gi sm" style="background:#4D6BFF">' + ic('bolt') + '</span><div class="grow"><b>' + esc(r.name) + '</b><small>diga: “' + esc(r.phrase) + '” · ' + r.steps.length + (r.steps.length === 1 ? ' ação' : ' ações') + '</small></div><button class="btn acc sm" data-act="rot-run" data-id="' + r.id + '">Rodar</button></div>';
+      }).join('') || '<div class="empty">Nenhuma rotina ainda.</div>') + '</div>' +
+      '<button class="btn sm ghost" style="width:fit-content" data-act="open-settings-page" data-v="rotinas">Criar ou editar rotinas ↗</button>';
+  };
+
+  // ----- Meu PC -----
+  // aro de pontuação (0-100), mesmo truque do círculo de progresso, só que redondo e com o número no meio
+  function gauge(score, cor) {
+    var r = 28, c = Math.round(2 * Math.PI * r);
+    return '<svg viewBox="0 0 68 68" style="width:60px;height:60px;flex:none"><circle cx="34" cy="34" r="' + r + '" fill="none" stroke="var(--z-ink3)" stroke-width="7"/>' +
+      '<circle cx="34" cy="34" r="' + r + '" fill="none" stroke="' + cor + '" stroke-width="7" stroke-linecap="round" stroke-dasharray="' + c + '" stroke-dashoffset="' + Math.round(c * (1 - score / 100)) + '" transform="rotate(-90 34 34)"/>' +
+      '<text x="34" y="39" text-anchor="middle" font-family="var(--display)" font-weight="800" font-size="18" fill="var(--z-tx)">' + score + '</text></svg>';
+  }
+  function finding(cor, icone, titulo, desc, acao) {
+    return '<div class="row sm finding" style="border-left:3px solid ' + cor + '"><span class="gi sm" style="background:' + cor + '">' + ic(icone) + '</span><div class="grow"><b style="display:block;font-size:13px">' + titulo + '</b><small>' + desc + '</small></div>' + (acao || '') + '</div>';
+  }
+  // nomes amigáveis dos processos mais comuns
+  var NOMES_PROC = { chrome: 'Google Chrome', msedge: 'Microsoft Edge', Code: 'Visual Studio Code', claude: 'Claude', Spotify: 'Spotify', Discord: 'Discord', svchost: 'Processos do Windows', explorer: 'Explorador do Windows', WINWORD: 'Word', EXCEL: 'Excel', Steam: 'Steam', firefox: 'Firefox', opera: 'Opera' };
+  var FASES_SCAN = [['mem', 'Olhando a memória'], ['cpu', 'Vendo quem usa o processador'], ['startup', 'Programas que abrem com o PC'], ['temp', 'Procurando arquivos temporários'], ['disco', 'Medindo o disco'], ['lixeira', 'Conferindo a lixeira']];
+  function radar() {
+    var p = C.ui.scanProg || { pct: 2, fase: 'mem', file: '' };
+    var idx = FASES_SCAN.findIndex(function (f) { return f[0] === p.fase; });
+    if (idx < 0) idx = FASES_SCAN.length - 1;
+    var passos = FASES_SCAN.map(function (f, i) {
+      var cls = i < idx ? 'feita' : i === idx ? 'now' : '';
+      var dot = i < idx ? '<span class="sdot ok">' + ic('check') + '</span>' : i === idx ? '<span class="sdot now"></span>' : '<span class="sdot"></span>';
+      return '<div class="sstep ' + cls + '">' + dot + '<span>' + f[1] + '</span></div>';
+    }).join('');
+    return '<div class="card scanning"><div class="radarbox"><div class="radar"><div class="ring r1"></div><div class="ring r2"></div><div class="ring r3"></div><div class="sweep"></div><div class="rmask">' + C.face('pensando', 56) + '</div></div><b class="rpct">' + (p.pct || 2) + '%</b></div>' +
+      '<div class="grow rsteps"><b style="font-family:var(--display);font-size:19px;display:block;margin-bottom:8px">Verificando seu PC…</b>' + passos +
+      (p.file ? '<div class="rfile">' + ic('note') + '<span>' + esc(p.file) + '</span></div>' : '') +
+      '<div class="bar" style="margin-top:8px"><i style="width:' + (p.pct || 2) + '%"></i></div></div></div>';
+  }
+  V.meupc = function () {
+    var s = C.live.stats, sc = C.ui.scan;
+    var bars = s ? '<div class="two stat"><div><div class="sl"><b>CPU</b><span>' + s.cpu + '%</span></div><div class="bar"><i style="width:' + s.cpu + '%;background:var(--z-acc)"></i></div></div>' +
+      '<div><div class="sl"><b>Memória</b><span>' + s.memPct + '%</span></div><div class="bar"><i style="width:' + s.memPct + '%"></i></div></div></div>' : '<div class="empty">Lendo o estado do PC…</div>';
+    var tools = [['desktop', 'monitor', 'Área de trabalho'], ['shot', 'camera', 'Captura'], ['files', 'folder', 'Arquivos'], ['calc', 'calc', 'Calculadora'], ['notepad', 'note', 'Bloco de notas'], ['taskmgr', 'list', 'Tarefas'], ['winsettings', 'gear', 'Ajustes do Windows'], ['lock', 'lock', 'Bloquear']];
+    var scan = '';
+    if (C.ui.scanning) scan = radar();
+    else if (sc && s) {
+      var lixoMB = Math.round(sc.temp.bytes / 1048576);
+      var score = Math.max(5, Math.min(100, Math.round(100 - s.memPct * 0.25 - s.cpu * 0.15 - Math.min(20, lixoMB / 50) - Math.min(12, (sc.startup || 0)))));
+      var cor = score >= 70 ? 'var(--z-ok)' : score >= 40 ? 'var(--z-warn)' : 'var(--z-rose)';
+      var vivos = (sc.heavy || []).filter(function (h) { return !(C.ui.pcFechados || []).includes(h.Name); });
+      function nomeProc(n) { return NOMES_PROC[n] || n; }
+      var chips = '<div class="chips scanchips">' +
+        '<span class="chip"><i style="background:var(--z-rose)"></i>Memória ' + s.memPct + '%</span>' +
+        '<span class="chip"><i style="background:var(--z-warn)"></i>CPU ' + s.cpu + '%</span>' +
+        '<span class="chip"><i style="background:var(--z-acc2)"></i>' + C.bytes(s.disk.free) + ' livres</span>' +
+        '<span class="chip"><i style="background:var(--z-mu)"></i>' + (sc.temp.files ? C.bytes(sc.temp.bytes) + ' de lixo' : 'sem lixo') + '</span></div>';
+      var achados = [];
+      achados.push(finding(s.memPct >= 75 ? 'var(--z-rose)' : cor, 'nodes', (s.memPct >= 75 ? 'Memória no limite' : 'Memória bem usada') + ' (' + s.memPct + '%)', 'Quem mais usa: ' + (vivos.slice(0, 3).map(function (h) { return esc(nomeProc(h.Name)); }).join(', ') || '—') + '.'));
+      achados.push(finding(sc.temp.files ? 'var(--z-warn)' : 'var(--z-ok)', 'trash', sc.temp.files ? C.bytes(sc.temp.bytes) + ' de arquivos temporários' : 'Nada de lixo temporário', sc.temp.files ? 'Dá pra apagar sem medo e liberar espaço.' : 'Já está tudo limpo.',
+        sc.temp.files ? (C.ui.confirmClean ? '<span class="btnrow"><button class="btn sm acc" data-act="pc-clean">Confirmar</button><button class="btn sm ghost" data-act="pc-clean-cancel">Cancelar</button></span>' : '<button class="btn sm acc" data-act="pc-clean-ask">Limpar ' + C.bytes(sc.temp.bytes) + '</button>') : ''));
+      if (sc.startup >= 4) achados.push(finding('var(--z-rose)', 'bolt', sc.startup + ' programas abrem junto com o PC', 'Isso deixa o PC lento para ligar. Desative os que você não usa sempre.', '<button class="btn sm ghost" data-act="pc-tool" data-t="startupapps">Escolher</button>'));
+      if (sc.lixeira && sc.lixeira.files > 0) achados.push(finding('var(--z-mu)', 'trash', sc.lixeira.files + (sc.lixeira.files === 1 ? ' item na lixeira' : ' itens na lixeira') + (sc.lixeira.bytes ? ' (' + C.bytes(sc.lixeira.bytes) + ')' : ''), 'Esvaziar a lixeira também libera espaço.'));
+      scan = '<div class="card scanbox"><div class="row sm" style="align-items:center;gap:14px;border:0;background:none;padding:0">' + gauge(score, cor) + '<div class="grow"><b style="font-family:var(--display);font-size:17px">' + (score >= 70 ? 'Seu PC está bem' : score >= 40 ? 'Dá para deixar mais rápido' : 'Seu PC está pesado') + '</b>' + chips + '</div>' + iconBtn('pc-scan', 'refresh', 'Verificar de novo') + '</div>' +
+        '<div class="gl">O que eu achei</div>' + achados.join('') +
+        (vivos.length ? '<div class="gl">Quem mais pesa agora</div><div class="list">' + vivos.map(function (h) {
+          var tam = h.mb >= 1024 ? (h.mb / 1024).toFixed(1).replace('.', ',') + ' GB' : h.mb + ' MB';
+          return '<div class="row sm"><div class="grow">' + esc(nomeProc(h.Name)) + (h.count > 1 ? ' <span class="mu2">×' + h.count + '</span>' : '') + '</div><span class="mu2" style="margin-right:6px">' + tam + '</span><button class="rb" data-act="pc-fechar" data-n="' + esc(h.Name) + '" title="Fechar ' + esc(nomeProc(h.Name)) + '">' + ic('close') + '</button></div>';
+        }).join('') + '</div>' : '') +
+        (C.ui.cleaned ? '<small class="okmsg">' + esc(C.ui.cleaned) + '</small>' : '') + '</div>';
+    }
+    return head('Meu PC', s ? 'Disco C: ' + C.bytes(s.disk.free) + ' livres · ligado há ' + Math.floor(s.uptime / 3600) + ' h ' + Math.floor((s.uptime % 3600) / 60) + ' min' : 'Lendo…') +
+      '<button class="verify" data-act="pc-scan"><span class="gi sm" style="background:var(--z-acc)">' + ic('search') + '</span><span class="grow"><b>Verificar meu PC</b><small>Vejo o que está pesado e quanto lixo temporário dá pra limpar.</small></span>' + ic('next') + '</button>' +
+      bars + scan +
+      '<div class="tools">' + tools.map(function (t) {
+        if (t[0] === 'lock' && C.ui.confirmLock) return '<button class="tool warn" data-act="pc-lock-go">' + ic('lock') + '<span>Confirmar?</span></button>';
+        return '<button class="tool" data-act="' + (t[0] === 'lock' ? 'pc-lock-ask' : 'pc-tool') + '" data-t="' + t[0] + '">' + ic(t[1]) + '<span>' + t[2] + '</span></button>';
+      }).join('') + '</div>';
+  };
+
+  // ---------- ações (cliques e Enter) ----------
+  function val(id) { var el = document.getElementById(id); return el ? el.value.trim() : ''; }
+  function setPath(path, v) {
+    var o = C.d.settings, p = path.split('.');
+    for (var i = 0; i < p.length - 1; i++) o = o[p[i]];
+    o[p[p.length - 1]] = v;
+    C.save('settings');
+  }
+
+  var Views = { V: V, head: head, ask: ask, setPath: setPath, stepText: stepText };
+
+  Views.bind = function (root, onChange, extra) {
+    function act(name, ds) {
+      var d = C.d, id = ds.id, key = null;
+      switch (name) {
+        case 'ask': { var el = document.getElementById(id); if (el && el.value.trim()) { var txt = el.value; el.value = ''; C.run(txt).then(function () { onChange(); var cb = document.getElementById('chatbox'); if (cb) cb.scrollTop = cb.scrollHeight; }); onChange(); } return; }
+        case 'clear-chat': d.chat = []; key = 'chat'; break;
+        case 'task-add': { var t = val('in-task'); if (!t) return; d.tasks.push({ id: C.uid(), text: t, done: false }); key = 'tasks'; break; }
+        case 'task-toggle': d.tasks.forEach(function (x) { if (x.id === id) x.done = !x.done; }); key = 'tasks'; break;
+        case 'task-del': d.tasks = d.tasks.filter(function (x) { return x.id !== id; }); key = 'tasks'; break;
+        case 'rem-add': case 'rem-quick': {
+          var mins = name === 'rem-quick' ? parseInt(ds.min, 10) : parseInt(val('in-rem-min'), 10);
+          var txt2 = val('in-rem') || 'Lembrete';
+          if (!mins || mins < 1) return;
+          d.reminders.push({ id: C.uid(), text: txt2, at: Date.now() + mins * 60000, done: false }); key = 'reminders'; break;
+        }
+        case 'rem-del': d.reminders = d.reminders.filter(function (x) { return x.id !== id; }); key = 'reminders'; break;
+        case 'hab-inc': case 'hab-dec': d.habits.forEach(function (h) { if (h.id === id) { var n = (h.log[C.today()] || 0) + (name === 'hab-inc' ? 1 : -1); h.log[C.today()] = Math.max(0, n); } }); key = 'habits'; break;
+        case 'hab-add': { var hn = val('in-hab'); if (!hn) return; d.habits.push({ id: C.uid(), name: hn, icon: 'spark', goal: 1, unit: 'vez', log: {} }); key = 'habits'; break; }
+        case 'tim-add': case 'tim-quick': {
+          var tm = name === 'tim-quick' ? parseInt(ds.min, 10) : parseInt(val('in-tim-min'), 10);
+          if (!tm || tm < 1) return;
+          d.timers.push({ id: C.uid(), name: val('in-tim') || 'Timer', end: Date.now() + tm * 60000, done: false }); key = 'timers'; break;
+        }
+        case 'tim-del': d.timers = d.timers.filter(function (x) { return x.id !== id; }); key = 'timers'; break;
+        case 'mem-add': { var mt = val('in-mem'); if (!mt) return; d.memories.push({ id: C.uid(), text: mt.charAt(0).toUpperCase() + mt.slice(1), t: Date.now() }); key = 'memories'; break; }
+        case 'mem-del': d.memories = d.memories.filter(function (x) { return x.id !== id; }); key = 'memories'; break;
+        case 'mem-toggle': C.ui.memList = !C.ui.memList; break;
+        case 'mem-find': C.ui.memQ = val('mem-q'); break;
+        case 'music-cmd': bridge.invoke('music:cmd', ds.c); break;
+        case 'music-search': { var song = val('in-song'); if (!song) return; bridge.invoke('sys:open', 'spotify:search:' + encodeURIComponent(song)); break; }
+        case 'open-url': bridge.invoke('sys:open', ds.u); return;
+        case 'clip-copy': bridge.invoke('clips:copy', id); return;
+        case 'clip-clear': bridge.invoke('clips:clear'); break;
+        case 'rot-run': { var r = d.routines.filter(function (x) { return x.id === id; })[0]; if (r) { C.push('me', r.phrase); C.push('bot', C.runRoutine(r)); key = 'chat'; } break; }
+        case 'pc-scan': C.ui.scanning = true; C.ui.scanProg = null; C.ui.cleaned = ''; C.ui.confirmClean = false; C.ui.pcFechados = []; bridge.invoke('sys:scan').then(function (r) { C.ui.scan = r; C.ui.scanning = false; C.ui.scanProg = null; onChange(); }); break;
+        case 'pc-fechar': C.ui.pcFechados = (C.ui.pcFechados || []).concat([ds.n]); bridge.invoke('sys:close', ds.n + '.exe'); break;
+        case 'pc-clean-ask': C.ui.confirmClean = true; break;
+        case 'pc-clean-cancel': C.ui.confirmClean = false; break;
+        case 'pc-clean': C.ui.confirmClean = false; bridge.invoke('sys:clean').then(function (r) { C.ui.cleaned = 'Pronto: ' + r.removed + ' arquivos removidos, ' + C.bytes(r.freed) + ' liberados.'; return bridge.invoke('sys:scan'); }).then(function (s) { C.ui.scan = s; onChange(); }); break;
+        case 'pc-tool': bridge.invoke('sys:tool', ds.t); return;
+        case 'pc-lock-ask': C.ui.confirmLock = true; setTimeout(function () { C.ui.confirmLock = false; onChange(); }, 4000); break;
+        case 'pc-lock-go': C.ui.confirmLock = false; bridge.invoke('sys:tool', 'lock'); break;
+        case 'open-settings': bridge.openSettings(); return;
+        case 'open-settings-page': bridge.openSettings(ds.v); return;
+        default: if (extra && extra(name, ds)) { onChange(); } return;
+      }
+      if (key) C.save(key);
+      onChange();
+    }
+    root.addEventListener('click', function (e) {
+      var el = e.target.closest('[data-act]');
+      // selecionou um texto pra copiar (ex.: numa resposta): não conta como clique
+      var sel = window.getSelection && String(window.getSelection());
+      if (el && el.classList.contains('golink') && sel) return;
+      if (el && !el.disabled) act(el.dataset.act, el.dataset);
+    });
+    root.addEventListener('keydown', function (e) {
+      if (e.key !== 'Enter') return;
+      var de = e.target.getAttribute && e.target.getAttribute('data-enter');
+      if (!de) return;
+      e.preventDefault();
+      var p = de.split(':');
+      act(p[0], { id: p[1] });
+    });
+    // barra da música: clique ou arraste para pular pra posição (seek)
+    var seekEl = null;
+    function seekPct(e, el) { var r = el.getBoundingClientRect(); return Math.max(0, Math.min(1, (e.clientX - r.left) / r.width)); }
+    root.addEventListener('mousedown', function (e) {
+      var el = e.target.closest('.pbar.seek');
+      if (!el || !+el.dataset.dur) return;
+      seekEl = el;
+      el.dataset.playing = 'false'; // congela o avanço automático enquanto arrasta
+      el.querySelector('i').style.width = (seekPct(e, el) * 100) + '%';
+      e.preventDefault();
+    });
+    document.addEventListener('mousemove', function (e) {
+      if (!seekEl) return;
+      seekEl.querySelector('i').style.width = (seekPct(e, seekEl) * 100) + '%';
+    });
+    document.addEventListener('mouseup', function (e) {
+      if (!seekEl) return;
+      var el = seekEl; seekEl = null;
+      var ms = Math.round(seekPct(e, el) * +el.dataset.dur);
+      el.dataset.pos = ms; el.dataset.t0 = Date.now();
+      bridge.invoke('music:cmd', 'seek:' + ms);
+    });
+    // volume master do Windows (controle deslizante da tela de Música)
+    var volT = null;
+    root.addEventListener('input', function (e) {
+      var t = e.target;
+      if (!t.dataset || !t.dataset.vol) return;
+      var v = +t.value;
+      var lbl = t.parentElement && t.parentElement.querySelector('.mu2');
+      if (lbl) lbl.textContent = v + '%';
+      clearTimeout(volT);
+      volT = setTimeout(function () { bridge.invoke('music:cmd', 'setvol:' + v); }, 120);
+    });
+  };
+
+  Views.tick = function () {
+    document.querySelectorAll('.tleft[data-end]').forEach(function (el) { el.textContent = C.left(+el.dataset.end); });
+    // a barra da música anda sozinha entre um estado e outro do player
+    document.querySelectorAll('.pbar[data-playing="true"]').forEach(function (el) {
+      var dur = +el.dataset.dur;
+      if (!dur) return;
+      var pos = +el.dataset.pos + (Date.now() - +el.dataset.t0);
+      el.querySelector('i').style.width = Math.max(0, Math.min(100, (pos / dur) * 100)) + '%';
+    });
+  };
+
+  // mantém o que está sendo digitado quando a tela é redesenhada
+  Views.keepFocus = function (fn) {
+    var a = document.activeElement, id = a && a.id, v = a && a.value, s = a && a.selectionStart;
+    fn();
+    if (id) { var n = document.getElementById(id); if (n) { n.value = v; n.focus(); try { n.setSelectionRange(s, s); } catch (e) { /* não é texto */ } } }
+  };
+
+  window.Views = Views;
+})();
+
+</script>
+<script>
+// Grafo da memória "vivo" (estilo Obsidian): você no centro, as categorias em volta e cada lembrança ligada à sua
+// categoria. Tem física (os nós se empurram e as ligações puxam), dá pra arrastar os nós, mover o fundo, dar zoom
+// com a roda e passar o mouse pra destacar e ler a lembrança inteira.
+// As telas são redesenhadas com innerHTML; por isso o estado (posições) fica aqui e o grafo se reconecta sozinho
+// ao <canvas class="mgraph"> sempre que ele aparece de novo.
+(function () {
+  var CATS = [
+    { id: 'pessoas', nome: 'Pessoas', emo: '👥', cor: '#ff7ab6', re: /\b(namorad|espos|marido|mae|mãe|pai|irm|filh|amig|av[oóô]|tio|tia|prim|chefe|colega|sobrinh|cunhad|sogr|chama|nome d)/ },
+    { id: 'gostos', nome: 'Gostos', emo: '❤️', cor: '#ff5a5a', re: /\b(gost|ador|amo |favorit|prefir|prefer|odei|detest|curt|nao suporto|não suporto|time|torc)/ },
+    { id: 'rotina', nome: 'Rotina', emo: '⏰', cor: '#ffc857', re: /\b(acord|dorm|trabalh|academia|treino|todo dia|toda|segunda|terca|terça|quarta|quinta|sexta|sabado|sábado|domingo|horario|horário|reuniao|reunião|aula|faculdade|escola)/ },
+    { id: 'lugares', nome: 'Lugares', emo: '📍', cor: '#4ade9b', re: /\b(mor[oa]|cidade|bairro|endereco|endereço|rua |estado|pais|país|viag)/ },
+    { id: 'saude', nome: 'Saúde', emo: '💊', cor: '#38bdf8', re: /\b(alerg|remedio|remédio|medic|doen|dieta|vegan|vegetarian|pressao|pressão|diabet)/ },
+    { id: 'outros', nome: 'Outros', emo: '💭', cor: '#8b7cff', re: null },
+  ];
+  function categoria(txt) {
+    var t = ' ' + String(txt || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '') + ' ';
+    for (var i = 0; i < CATS.length - 1; i++) if (CATS[i].re.test(t)) return CATS[i];
+    return CATS[CATS.length - 1];
+  }
+
+  var st = { nos: {}, ligs: [], canvas: null, ctx: null, view: { x: 0, y: 0, k: 1 }, alpha: 1, raf: 0, hover: null, arr: null, chave: '', ajustou: false, dpr: 1, ro: null };
+
+  function dados() {
+    var C = window.Core; if (!C || !C.d) return null;
+    var q = C.norm ? C.norm(C.ui.memQ || '') : '';
+    var mems = (C.d.memories || []).filter(function (m) { return !q || C.norm(m.text).indexOf(q) >= 0; }).slice(-80);
+    return { nome: (C.d.settings && C.d.settings.userName) || 'Você', mems: mems };
+  }
+
+  // monta/atualiza os nós mantendo a posição dos que já existiam (os novos nascem perto do "pai")
+  function sincroniza() {
+    var d = dados(); if (!d) return;
+    var chave = d.nome + '|' + d.mems.map(function (m) { return m.id; }).join(',');
+    if (chave === st.chave) return;
+    st.chave = chave;
+    var novos = {}, ligs = [];
+    function no(id, tipo, extra, pai) {
+      var n = st.nos[id];
+      if (!n) {
+        // nasce "pra fora" do pai (categorias em roda, lembranças pro lado de fora da categoria)
+        var p = pai && (novos[pai] || st.nos[pai]);
+        var base = p ? Math.atan2(p.y, p.x) : 0;
+        var a = tipo === 'cat' ? (CATS.findIndex(function (c) { return 'c:' + c.id === id; }) / CATS.length) * Math.PI * 2 - Math.PI / 2
+          : base + (Math.random() - 0.5) * 2.2;
+        var r = !p ? 0 : tipo === 'cat' ? 120 : 60 + Math.random() * 25;
+        n = { id: id, x: (p ? p.x : 0) + Math.cos(a) * r, y: (p ? p.y : 0) + Math.sin(a) * r, vx: 0, vy: 0, novo: true };
+      }
+      n.tipo = tipo; for (var k in extra) n[k] = extra[k];
+      novos[id] = n; return n;
+    }
+    no('eu', 'eu', { rotulo: d.nome, cor: '#ffffff', r: 13 });
+    d.mems.forEach(function (m) {
+      var c = categoria(m.text);
+      if (!novos['c:' + c.id]) { no('c:' + c.id, 'cat', { rotulo: c.emo + ' ' + c.nome, cor: c.cor, r: 8 }, 'eu'); ligs.push(['eu', 'c:' + c.id]); }
+      no('m:' + m.id, 'mem', { rotulo: m.text, cor: c.cor, r: 4.5 }, 'c:' + c.id);
+      ligs.push(['c:' + c.id, 'm:' + m.id]);
+    });
+    st.nos = novos; st.ligs = ligs;
+    // muita coisa nova (primeira vez): acomoda a física "por trás" antes de mostrar, e deixa só um balanço final
+    var qtdNovos = Object.keys(novos).filter(function (k) { return novos[k].novo; }).length;
+    Object.keys(novos).forEach(function (k) { delete novos[k].novo; });
+    if (qtdNovos > 3) { st.alpha = 1; for (var i = 0; i < 260; i++) passo(); st.alpha = 0.18; if (!st.ajustou && ajusta()) st.ajustou = true; }
+    else st.alpha = Math.max(st.alpha, 0.6);
+    anima();
+  }
+
+  // ---------- física ----------
+  function passo() {
+    var ns = Object.keys(st.nos).map(function (k) { return st.nos[k]; }), a = st.alpha, i, j;
+    for (i = 0; i < ns.length; i++) for (j = i + 1; j < ns.length; j++) {
+      var p = ns[i], q = ns[j], dx = q.x - p.x, dy = q.y - p.y, d2 = dx * dx + dy * dy || 0.01;
+      if (d2 > 250000) continue;
+      var f = (p.tipo === 'mem' && q.tipo === 'mem' ? 700 : p.tipo === 'cat' && q.tipo === 'cat' ? 6000 : 2200) / d2 * a, d = Math.sqrt(d2);
+      dx /= d; dy /= d;
+      p.vx -= dx * f; p.vy -= dy * f; q.vx += dx * f; q.vy += dy * f;
+    }
+    st.ligs.forEach(function (l) {
+      var p = st.nos[l[0]], q = st.nos[l[1]]; if (!p || !q) return;
+      var alvo = p.tipo === 'eu' ? 120 : 70, dx = q.x - p.x, dy = q.y - p.y, d = Math.sqrt(dx * dx + dy * dy) || 0.01;
+      var f = (d - alvo) * 0.045 * a; dx /= d; dy /= d;
+      p.vx += dx * f; p.vy += dy * f; q.vx -= dx * f; q.vy -= dy * f;
+    });
+    ns.forEach(function (n) {
+      n.vx -= n.x * 0.004 * a; n.vy -= n.y * 0.004 * a; // gravidade leve pro centro
+      // você (a bola branca) é presa no centro por uma mola forte: puxou e soltou, ela volta sozinha
+      if (n.tipo === 'eu' && n.fx == null) { n.vx -= n.x * 0.07; n.vy -= n.y * 0.07; }
+      if (n.fx != null) { n.x = n.fx; n.y = n.fy; n.vx = n.vy = 0; return; }
+      n.vx *= 0.82; n.vy *= 0.82;
+      n.x += n.vx; n.y += n.vy;
+    });
+    st.alpha *= 0.985;
+  }
+
+  // ---------- desenho ----------
+  function vizinhos(id) {
+    var s = {}; s[id] = 1;
+    st.ligs.forEach(function (l) { if (l[0] === id) s[l[1]] = 1; if (l[1] === id) s[l[0]] = 1; });
+    return s;
+  }
+  function corta(t, n) { return t.length > n ? t.slice(0, n - 1) + '…' : t; }
+  function desenha() {
+    var c = st.canvas, x = st.ctx; if (!c || !x) return;
+    var w = c.width / st.dpr, h = c.height / st.dpr, v = st.view;
+    x.setTransform(st.dpr, 0, 0, st.dpr, 0, 0);
+    x.clearRect(0, 0, w, h);
+    // grade de pontinhos no fundo (anda junto quando você move o fundo)
+    x.fillStyle = 'rgba(255,255,255,.13)';
+    var passoG = 18, ox = ((w / 2 + v.x) % passoG + passoG) % passoG, oy = ((h / 2 + v.y) % passoG + passoG) % passoG;
+    for (var gx = ox; gx < w; gx += passoG) for (var gy = oy; gy < h; gy += passoG) { x.beginPath(); x.arc(gx, gy, 0.9, 0, Math.PI * 2); x.fill(); }
+    x.save();
+    x.translate(w / 2 + v.x, h / 2 + v.y); x.scale(v.k, v.k);
+    var foco = st.hover ? vizinhos(st.hover.id) : null;
+    st.ligs.forEach(function (l) {
+      var p = st.nos[l[0]], q = st.nos[l[1]]; if (!p || !q) return;
+      var on = foco && foco[p.id] && foco[q.id];
+      x.strokeStyle = on ? 'rgba(255,255,255,.75)' : foco ? 'rgba(255,255,255,.07)' : 'rgba(255,255,255,.22)';
+      x.lineWidth = (on ? 1.6 : 1) / v.k;
+      x.beginPath(); x.moveTo(p.x, p.y); x.lineTo(q.x, q.y); x.stroke();
+    });
+    Object.keys(st.nos).forEach(function (k) {
+      var n = st.nos[k], apagado = foco && !foco[n.id];
+      x.globalAlpha = apagado ? 0.25 : 1;
+      if (n.tipo !== 'mem') { x.shadowColor = n.cor; x.shadowBlur = n.tipo === 'eu' ? 22 : 12; }
+      x.fillStyle = n.cor;
+      x.beginPath(); x.arc(n.x, n.y, n.r * (st.hover === n ? 1.35 : 1), 0, Math.PI * 2); x.fill();
+      x.shadowBlur = 0;
+      // rótulos: você e as categorias sempre; lembranças bem clarinhas (acendem no destaque)
+      var fs = n.tipo === 'eu' ? 12.5 : n.tipo === 'cat' ? 11.5 : 10.5;
+      x.font = (n.tipo === 'mem' ? '500 ' : '700 ') + fs + 'px "Segoe UI", system-ui, sans-serif';
+      x.textAlign = 'center'; x.textBaseline = 'top';
+      var aLbl = n.tipo === 'mem' ? (foco && foco[n.id] ? 0.95 : foco ? 0.12 : 0.42) : (apagado ? 0.3 : 1);
+      if (n.tipo === 'mem' && v.k < 0.7 && !(foco && foco[n.id])) aLbl = 0;
+      x.globalAlpha = aLbl;
+      x.fillStyle = n.tipo === 'mem' ? '#cfd6e4' : '#ffffff';
+      x.fillText(n.tipo === 'mem' ? corta(n.rotulo, 34) : n.rotulo, n.x, n.y + n.r + 5);
+      x.globalAlpha = 1;
+    });
+    x.restore();
+    // balão com a lembrança inteira
+    var hv = st.hover;
+    if (hv && hv.tipo === 'mem') {
+      var sx = w / 2 + v.x + hv.x * v.k, sy = h / 2 + v.y + hv.y * v.k;
+      x.font = '500 12px "Segoe UI", system-ui, sans-serif';
+      var linhas = quebra(x, hv.rotulo, 240), bw = 0;
+      linhas.forEach(function (l) { bw = Math.max(bw, x.measureText(l).width); });
+      bw += 20; var bh = linhas.length * 16 + 14;
+      var bx = Math.min(Math.max(8, sx - bw / 2), w - bw - 8), by = sy - bh - 14;
+      if (by < 6) by = sy + 16;
+      x.fillStyle = 'rgba(16,18,24,.96)'; x.strokeStyle = 'rgba(255,255,255,.14)'; x.lineWidth = 1;
+      redondo(x, bx, by, bw, bh, 9); x.fill(); x.stroke();
+      x.fillStyle = '#eef2f8'; x.textAlign = 'left'; x.textBaseline = 'top';
+      linhas.forEach(function (l, i) { x.fillText(l, bx + 10, by + 7 + i * 16); });
+    }
+  }
+  function quebra(x, t, max) {
+    var out = [], lin = '';
+    String(t).split(/\s+/).forEach(function (p) { var tst = lin ? lin + ' ' + p : p; if (x.measureText(tst).width > max && lin) { out.push(lin); lin = p; } else lin = tst; });
+    if (lin) out.push(lin);
+    return out.slice(0, 6);
+  }
+  function redondo(x, a, b, w, h, r) { x.beginPath(); x.moveTo(a + r, b); x.arcTo(a + w, b, a + w, b + h, r); x.arcTo(a + w, b + h, a, b + h, r); x.arcTo(a, b + h, a, b, r); x.arcTo(a, b, a + w, b, r); x.closePath(); }
+
+  // cabe tudo na tela (na primeira vez e com duplo clique no fundo)
+  function ajusta() {
+    var c = st.canvas; if (!c) return;
+    var w = c.width / st.dpr, h = c.height / st.dpr, ks = Object.keys(st.nos);
+    if (!ks.length || !w || !h) return false;
+    var x0 = Infinity, x1 = -Infinity, y0 = Infinity, y1 = -Infinity;
+    ks.forEach(function (k) { var n = st.nos[k]; x0 = Math.min(x0, n.x); x1 = Math.max(x1, n.x); y0 = Math.min(y0, n.y); y1 = Math.max(y1, n.y); });
+    // centrado em você (a bola branca fica no meio da tela)
+    var rx = Math.max(Math.abs(x0), Math.abs(x1), 40), ry = Math.max(Math.abs(y0), Math.abs(y1), 40);
+    var k = Math.min(1.3, Math.max(0.45, Math.min((w / 2 - 70) / rx, (h / 2 - 40) / ry)));
+    st.view = { k: k, x: 0, y: 0 };
+    return true;
+  }
+
+  var ultimoAjuste = 0;
+  function quadro() {
+    st.raf = 0;
+    if (!st.canvas || !st.canvas.isConnected) return;
+    // enquanto a bola branca não voltou pro centro, a física continua rodando
+    var eu = st.nos.eu;
+    if (eu && !st.arr && (Math.abs(eu.x) > 0.5 || Math.abs(eu.y) > 0.5)) st.alpha = Math.max(st.alpha, 0.08);
+    if (st.alpha > 0.004) passo();
+    if (!st.ajustou && st.alpha < 0.35) { if (ajusta()) st.ajustou = true; }
+    else if (!st.ajustou && Date.now() - ultimoAjuste > 120) { ultimoAjuste = Date.now(); ajusta(); }
+    desenha();
+    if (st.alpha > 0.004 || st.arr) anima();
+  }
+  function anima() { if (!st.raf) st.raf = requestAnimationFrame(quadro); }
+
+  // ---------- mouse ----------
+  function mundo(e) {
+    var r = st.canvas.getBoundingClientRect(), v = st.view;
+    return { x: (e.clientX - r.left - r.width / 2 - v.x) / v.k, y: (e.clientY - r.top - r.height / 2 - v.y) / v.k };
+  }
+  function acha(p) {
+    var melhor = null, dm = Infinity;
+    Object.keys(st.nos).forEach(function (k) { var n = st.nos[k], dx = n.x - p.x, dy = n.y - p.y, d = Math.sqrt(dx * dx + dy * dy); if (d < n.r + 7 / st.view.k && d < dm) { dm = d; melhor = n; } });
+    return melhor;
+  }
+  function liga(c) {
+    c.addEventListener('pointerdown', function (e) {
+      if (e.button !== 0) return;
+      var p = mundo(e), n = acha(p);
+      if (n) { st.arr = { no: n }; n.fx = n.x; n.fy = n.y; st.alpha = Math.max(st.alpha, 0.5); }
+      else st.arr = { fundo: true, sx: e.clientX, sy: e.clientY, vx: st.view.x, vy: st.view.y };
+      c.style.cursor = 'grabbing';
+      anima();
+    });
+    // durante o arrasto o movimento é ouvido na janela toda (a tela pode ser redesenhada no meio)
+    window.addEventListener('pointermove', function (e) {
+      if (!st.canvas) return;
+      if (st.arr && st.arr.no) { var p = mundo(e); st.arr.no.fx = p.x; st.arr.no.fy = p.y; st.alpha = Math.max(st.alpha, 0.3); anima(); return; }
+      if (st.arr && st.arr.fundo) { st.view.x = st.arr.vx + e.clientX - st.arr.sx; st.view.y = st.arr.vy + e.clientY - st.arr.sy; st.ajustou = true; anima(); return; }
+      if (e.target !== st.canvas) return;
+      var h = acha(mundo(e));
+      if (h !== st.hover) { st.hover = h; c.style.cursor = h ? 'grab' : 'default'; anima(); }
+    });
+    function solta() {
+      if (!st.arr) return;
+      if (st.arr && st.arr.no) { st.arr.no.fx = st.arr.no.fy = null; st.alpha = Math.max(st.alpha, 0.3); }
+      st.arr = null; c.style.cursor = st.hover ? 'grab' : 'default'; anima();
+    }
+    window.addEventListener('pointerup', solta);
+    window.addEventListener('pointercancel', solta);
+    c.addEventListener('pointerleave', function () { if (!st.arr && st.hover) { st.hover = null; anima(); } });
+    c.addEventListener('wheel', function (e) {
+      e.preventDefault();
+      var r = c.getBoundingClientRect(), v = st.view, k2 = Math.min(3, Math.max(0.35, v.k * Math.exp(-e.deltaY * 0.0015)));
+      var mx = e.clientX - r.left - r.width / 2, my = e.clientY - r.top - r.height / 2;
+      v.x = mx - (mx - v.x) * (k2 / v.k); v.y = my - (my - v.y) * (k2 / v.k); v.k = k2;
+      st.ajustou = true; anima();
+    }, { passive: false });
+    c.addEventListener('dblclick', function (e) { if (!acha(mundo(e))) { ajusta(); st.alpha = Math.max(st.alpha, 0.4); anima(); } });
+  }
+
+  function tamanho() {
+    var c = st.canvas; if (!c) return;
+    var r = c.getBoundingClientRect(); st.dpr = window.devicePixelRatio || 1;
+    var w = Math.max(1, Math.round(r.width * st.dpr)), h = Math.max(1, Math.round(r.height * st.dpr));
+    if (c.width !== w || c.height !== h) { c.width = w; c.height = h; anima(); }
+  }
+
+  // procura o canvas depois de cada redesenho da tela. A tela é redesenhada várias vezes (a música atualiza
+  // a cada segundo): em vez de usar o canvas novo, recoloca o MESMO canvas no lugar, sem piscar nem perder o arrasto.
+  function conecta() {
+    var c = document.querySelector('canvas.mgraph');
+    if (!c) return;
+    if (!st.canvas) {
+      st.canvas = c; st.ctx = c.getContext('2d');
+      liga(c);
+      st.ro = new ResizeObserver(tamanho); st.ro.observe(c);
+    } else if (c !== st.canvas) c.replaceWith(st.canvas);
+    else return sincroniza();
+    tamanho();
+    sincroniza();
+    desenha(); // desenha já, antes da tela aparecer (sem quadro vazio)
+    anima();
+  }
+  new MutationObserver(conecta).observe(document.documentElement, { childList: true, subtree: true });
+  window.Grafo = { categoria: categoria, reajusta: function () { st.ajustou = false; st.alpha = 1; anima(); } };
+})();
+
+</script>
+<script>
+// Painel rápido: abre ao passar o mouse no entalho. As 12 abas e atalho para o painel completo.
+(function () {
+  var NAV = [['inicio', 'home', 'Início'], ['conversa', 'chat', 'Conversa'], ['memoria', 'nodes', 'Memória'], ['tarefas', 'list', 'Tarefas'], ['lembretes', 'bell', 'Lembretes'],
+    ['habitos', 'drop', 'Hábitos'], ['timers', 'timer', 'Timers'], ['musica', 'music', 'Música'], ['copiados', 'clip', 'Copiados'], ['rotinas', 'bolt', 'Rotinas'],
+    ['meupc', 'monitor', 'Meu PC'], ['@settings', 'sliders', 'Configurações']];
+  var view = 'inicio';
+  var mood = 'repouso';
+  var moodT = null;
+  var ouvindo = false; // segurando a tecla de falar (ou chamou pelo nome): mostra "te ouvindo" no lugar de "as ordens"
+  var qs = document.getElementById('qs');
+  var qm = document.getElementById('qm');
+
+  function count(id) {
+    var s = Core.stats();
+    var n = id === 'tarefas' ? s.tasks : id === 'lembretes' ? s.reminders : id === 'timers' ? s.timers : 0;
+    if (id === 'habitos') return '<em>' + s.habitsDone + '/' + s.habits + '</em>';
+    return n ? '<em>' + n + '</em>' : '';
+  }
+
+  function render() {
+    Views.keepFocus(function () {
+      qs.innerHTML = '<div class="who">' + Core.face(mood, 38) + '<div><b>' + Core.esc(Core.name()) + '</b><small>● ' + (ouvindo ? 'te ouvindo' : (Core.busy ? 'pensando' : 'as ordens')) + '</small></div></div>' +
+        NAV.map(function (n) { return '<button class="nav' + (n[0] === view ? ' on' : '') + '" data-act="nav" data-v="' + n[0] + '">' + Core.ic(n[1]) + n[2] + count(n[0]) + '</button>'; }).join('');
+      qm.innerHTML = Views.V[view]();
+      var cb = document.getElementById('chatbox');
+      if (cb) cb.scrollTop = cb.scrollHeight;
+    });
+  }
+
+  function extra(name, ds) {
+    if (name === 'nav') {
+      if (ds.v === '@settings') { bridge.openSettings(); return false; }
+      view = ds.v;
+      if (view === 'meupc') Core.refreshStats().then(render);
+      return true;
+    }
+    return false;
+  }
+
+  Core.init().then(function () {
+    Views.bind(document.getElementById('q'), render, extra);
+    Core.onChange(render);
+    render();
+    setInterval(Views.tick, 1000);
+    setInterval(function () { if (view === 'meupc' && !Core.ui.scanning) Core.refreshStats().then(render); }, 2500);
+
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') bridge.hideQuick(); });
+
+    // abrir/fechar: a janela nunca some; a forma cresce de dentro da pílula e encolhe de volta
+    var shape = document.getElementById('shape');
+    shape.style.setProperty('--qw', Core.cfg.QUICK.w + 'px');
+    shape.style.setProperty('--qh', Core.cfg.QUICK.h + 'px');
+    var aberto = false, someT = null, saiT = null;
+    bridge.on('quick:expand', function (p) {
+      clearTimeout(someT); clearTimeout(saiT); saiT = null;
+      if (p && p.pw) shape.style.setProperty('--pw', p.pw + 'px');
+      if (p && p.ph) shape.style.setProperty('--ph', p.ph + 'px');
+      // de onde a forma nasce: o centro da pílula (que pode ter sido arrastada pro lado)
+      if (p && p.px != null) shape.style.setProperty('--px', p.px + 'px'); else shape.style.removeProperty('--px');
+      aberto = true;
+      render();
+      shape.classList.add('vis');
+      // dois quadros: garante que a forma já foi desenhada no tamanho da pílula antes de começar a crescer
+      requestAnimationFrame(function () { requestAnimationFrame(function () { if (aberto) shape.classList.add('open'); }); });
+    });
+    bridge.on('quick:collapse', function () {
+      aberto = false; clearTimeout(saiT); saiT = null;
+      var ae = document.activeElement; if (ae && ae.blur) ae.blur();
+      shape.classList.remove('open');
+      clearTimeout(someT);
+      someT = setTimeout(function () { if (!aberto) shape.classList.remove('vis'); }, 420);
+    });
+    // o mouse saiu do painel: fecha depois de um instante (voltando a tempo, nada acontece)
+    function sai() { if (aberto && !saiT) saiT = setTimeout(function () { saiT = null; if (aberto) bridge.leaveQuick(); }, 400); }
+    function fica() { clearTimeout(saiT); saiT = null; }
+    document.addEventListener('mousemove', function (e) {
+      if (!aberto) return;
+      var r = shape.getBoundingClientRect();
+      if (e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom) fica(); else sai();
+    });
+    document.addEventListener('mouseleave', sai);
+
+    // segurar no topo do painel (cabeçalho) e arrastar pro lado: o painel e o entalho andam juntos, como uma janela
+    var arr = null;
+    shape.addEventListener('pointerdown', function (e) {
+      if (!aberto || e.button !== 0) return;
+      var r = shape.getBoundingClientRect();
+      if (e.clientY - r.top > 56 || (e.target.closest && e.target.closest('button, input, textarea, select, a, [data-act], .seek, .bub, canvas'))) return;
+      arr = { sx: e.screenX, ativo: false };
+      shape.setPointerCapture(e.pointerId);
+    });
+    shape.addEventListener('pointermove', function (e) {
+      if (!arr) return;
+      if (!arr.ativo && Math.abs(e.screenX - arr.sx) > 5) { arr.ativo = true; shape.classList.add('arr'); bridge.dragPill('start', arr.sx); }
+      if (arr.ativo) bridge.dragPill('move', e.screenX);
+    });
+    function soltaArr() { if (arr && arr.ativo) bridge.dragPill('end'); arr = null; shape.classList.remove('arr'); }
+    shape.addEventListener('pointerup', soltaArr);
+    shape.addEventListener('pointercancel', soltaArr);
+
+    bridge.on('focus-input', function () {
+      var el = document.querySelector('.qmain input');
+      if (el) el.focus();
+    });
+    bridge.on('voice:state', function (v) {
+      var novo = !!v && (v.state === 'ouvindo' || v.state === 'ensinando');
+      if (novo !== ouvindo) { ouvindo = novo; render(); }
+    });
+    bridge.on('alert', function () {
+      clearTimeout(moodT);
+      mood = 'conseguiu';
+      render();
+      moodT = setTimeout(function () { mood = 'repouso'; render(); }, 4000);
+    });
+  });
+})();
+
+</script>
+<script>
+/* ---------- pílula e abrir/fechar, como no app ---------- */
+(function () {
+  var screen = document.getElementById('screen'), pill = document.getElementById('pill'), shape = document.getElementById('shape');
+  var m = document.getElementById('m'), txt = document.getElementById('txt'), mu = document.getElementById('mu'), mt = document.getElementById('mt'), ma = document.getElementById('ma');
+  var touch = window.matchMedia('(hover:none)').matches;
+  function open(v) {
+    if (v === screen.classList.contains('open')) return;
+    screen.classList.toggle('open', v);
+    if (v) demoEmit('quick:expand', { pw: pill.offsetWidth, ph: 34 }); else demoEmit('quick:collapse'); pill.setAttribute('aria-expanded', v); try { parent.postMessage({ irysDemo: v ? 'aberto' : 'fechado' }, '*'); } catch (e) {} }
+  window.demoOpen = open;
+  pill.addEventListener('mouseenter', function () { if (!touch) open(true); });
+  pill.addEventListener('click', function () { open(true); });
+  pill.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(true); } });
+  // toque fora do painel fecha (celular)
+  screen.addEventListener('pointerdown', function (e) { if (screen.classList.contains('open') && !shape.contains(e.target) && !pill.contains(e.target)) open(false); });
+  function tick() {
+    if (!window.Core || !Core.d) return;
+    var live = Core.d.timers.filter(function (t) { return !t.done && t.end > Date.now(); }).sort(function (a, b) { return a.end - b.end; });
+    var mz = Core.live.music || {}, tocando = mz.ok && /playing/i.test(mz.status || '');
+    m.innerHTML = Core.face(Core.busy ? 'pensando' : (live.length ? 'pensando' : 'repouso'), 24);
+    txt.textContent = live.length ? Core.left(live[0].end) : '';
+    mu.hidden = !tocando || !!live.length; pill.classList.toggle('still', !tocando);
+    if (tocando) { mt.textContent = mz.title || ''; ma.textContent = mz.artist || ''; }
+  }
+  setInterval(tick, 500); setTimeout(tick, 50);
+  // pedidos vindos dos botões da página de vendas
+  window.addEventListener('message', function (e) {
+    var d = e.data || {};
+    if (d.irysAsk && window.Core && Core.d) { open(true); Core.run(String(d.irysAsk)); }
+    if (d.irysOpen !== undefined) open(!!d.irysOpen);
+  });
+})();
+</script>
+</body>
+</html>

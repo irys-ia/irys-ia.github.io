@@ -35,7 +35,8 @@ p{margin:0}
 .mu{color:var(--mu)}
 .draft{background:color-mix(in srgb,var(--warn) 14%,var(--ink));border-bottom:1px solid color-mix(in srgb,var(--warn) 40%,transparent);color:var(--warn);font-size:13px;text-align:center;padding:8px 12px;margin:0 calc(-1 * max(16px,env(safe-area-inset-left,0px)))}
 nav{display:flex;align-items:center;gap:20px;padding:18px 0;position:relative}
-nav .brand{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:700;font-size:20px}
+nav .brand{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:700;font-size:22px;line-height:1}
+#brand-m{display:flex;align-items:center}#brand-m svg{display:block}
 nav .links{display:flex;gap:22px;margin-left:auto;color:var(--mu);font-size:14px;font-weight:500}
 nav .links a:hover{color:var(--tx)}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:999px;padding:12px 22px;font-weight:700;background:var(--ink3);border:1px solid var(--line);cursor:pointer;font:inherit;font-weight:700;color:var(--tx)}
@@ -50,46 +51,8 @@ section{padding-block:72px}
 .cta{display:flex;gap:12px;flex-wrap:wrap}
 .fine{margin-top:18px;font-size:13px;color:var(--mu)}
 .fine b{color:var(--tx)}
-.demoStage{width:100%;overflow:hidden}
-.screen{position:relative;border-radius:22px;overflow:hidden;border:1px solid var(--line);background:radial-gradient(120% 90% at 20% 0%,#17427F 0%,#0B2048 42%,#000 100%);width:680px;height:470px;transform-origin:top left}
-.pill{position:absolute;top:0;left:50%;transform:translateX(-50%);height:34px;width:136px;border-radius:0 0 18px 18px;background:#000;display:flex;align-items:center;justify-content:center;gap:9px;cursor:pointer;border:1px solid var(--line);border-top:0;font-size:12px;font-weight:700;font-variant-numeric:tabular-nums;z-index:3;box-shadow:0 6px 14px rgba(0,0,0,.5);color:var(--tx);padding:0}
-.pill i{width:7px;height:7px;border-radius:50%;background:var(--z-acc2);box-shadow:0 0 8px var(--z-acc2)}
-/* painel igual ao do app: colado no topo, abas à esquerda, tela de Início */
-.panel{position:absolute;left:50%;top:0;width:min(calc(100% - 20px),740px);height:440px;transform:translate(-50%,-12px);opacity:0;pointer-events:none;transition:opacity .22s,transform .22s;z-index:2;background:#000;border:1px solid var(--line);border-top:0;border-radius:0 0 24px 24px;box-shadow:0 30px 80px rgba(0,0,0,.6),inset 0 0 0 1px rgba(61,139,255,.12);display:grid;grid-template-columns:176px 1fr;overflow:hidden;text-align:left}
-.screen.open .panel{opacity:1;transform:translate(-50%,0);pointer-events:auto}
-.qside{padding:12px 9px;display:flex;flex-direction:column;gap:1px;border-right:1px solid var(--line);min-height:0}
-.qwho{display:flex;gap:9px;align-items:center;padding:0 6px 8px}
-.qwho b{font-family:var(--display);font-size:15px;display:block;line-height:1.15}
-.qwho small{color:var(--z-acc2);font-size:11px;display:block}
-.qnav{flex:1 1 0;min-height:0;display:flex;align-items:center;gap:9px;padding:0 9px;border-radius:10px;color:var(--mu);font:inherit;font-size:13px;font-weight:500;white-space:nowrap;text-align:left;width:100%;background:none;border:0;cursor:pointer}
-.qnav:hover{background:var(--ink2)}
-.qnav.on{background:color-mix(in srgb,var(--z-acc) 18%,transparent);color:var(--z-acc)}
-.qnav svg{width:16px;height:16px;flex:none}
-.qnav em{margin-left:auto;font-style:normal;font-size:11px;background:var(--ink3);color:var(--tx);border-radius:999px;padding:1px 8px}
-.qmain{padding:14px 18px;display:flex;flex-direction:column;gap:10px;min-width:0;min-height:0;overflow:auto}
-.qmain .hd h3{font-size:21px}
-.qmain .hd p{font-size:12px;color:var(--mu);margin-top:1px}
-.ask{display:flex;gap:8px;align-items:center;background:var(--ink2);border:1px solid var(--line);border-radius:14px;padding:5px 5px 5px 14px}
-.ask input{flex:1;min-width:0;background:none;border:0;color:var(--tx);font:inherit;font-size:14px;outline:0}
-.ask button{width:34px;height:34px;border-radius:50%;background:var(--z-acc);color:var(--on);border:0;cursor:pointer;display:grid;place-items:center;flex:none}
-.ask button svg{width:16px;height:16px}
-.qrow{display:grid;grid-template-columns:1fr 1fr;gap:10px;flex:1;min-height:110px}
-.qcard{background:var(--ink2);border:1px solid var(--line);border-radius:16px;padding:11px;display:flex;flex-direction:column;gap:6px;min-width:0;min-height:0}
-.qcard .gl{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--mu)}
-.msgs{flex:1;overflow:auto;min-height:0;display:flex;flex-direction:column;gap:7px}
-.bub{background:var(--ink3);border-radius:12px;padding:8px 11px;font-size:13px;max-width:94%}
-.bub.me{background:color-mix(in srgb,var(--z-acc) 26%,var(--ink3));align-self:flex-end}
-.qstats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-.qstat{background:var(--ink2);border:1px solid var(--line);border-radius:14px;padding:9px 10px}
-.qstat i{display:block;width:16px;height:16px;border-radius:5px;margin-bottom:6px}
-.qstat b{display:block;font-family:var(--display);font-size:19px;line-height:1.1}
-.qstat span{font-size:11.5px;color:var(--mu)}
-.qlist{display:flex;flex-direction:column;gap:6px}
-.qitem{display:flex;align-items:center;gap:10px;background:var(--ink2);border:1px solid var(--line);border-radius:12px;padding:9px 12px;font-size:13.5px}
-.qitem button{background:none;border:1px solid var(--line);color:var(--tx);border-radius:999px;padding:3px 11px;font:inherit;font-size:12px;cursor:pointer;margin-left:auto}
-.qitem.done span{text-decoration:line-through;color:var(--mu)}
-.qitem .big{font-family:var(--display);font-weight:700;margin-left:auto;font-variant-numeric:tabular-nums}
-.qempty{color:var(--mu);font-size:13px}
+.demoStage{width:100%;overflow:hidden;position:relative;border-radius:22px;border:1px solid var(--line);background:#000}
+#demoFrame{position:absolute;top:0;left:0;width:860px;height:480px;border:0;transform-origin:top left;background:transparent;display:block}
 .chips{display:flex;gap:8px;flex-wrap:wrap}
 .chip{background:var(--ink3);border:1px solid var(--line);color:var(--tx);border-radius:999px;padding:7px 13px;font:inherit;font-size:13px;font-weight:500;cursor:pointer}
 .chip:hover{border-color:rgba(255,255,255,.25)}
@@ -135,12 +98,13 @@ footer{border-top:1px solid var(--line);padding-block:32px 48px;color:var(--mu);
 .promise h2{margin:0 0 8px}
 .promise p{color:var(--mu);font-size:16.5px;max-width:60ch}
 @media (max-width:900px){
+  .hero>div:first-child,.sechead,.promise,.pricewrap>.sechead{text-align:center;margin-left:auto;margin-right:auto}
+  .hero .lead{margin-left:auto;margin-right:auto}.cta{justify-content:center}.hint{text-align:center}
   .hero,.pricewrap{grid-template-columns:1fr}
   .g3{grid-template-columns:1fr 1fr}.facts{grid-template-columns:1fr}
   nav .links{display:none}nav .btn{margin-left:auto}
 }
-@media (max-width:560px){nav{gap:10px;padding:12px 0}nav .brand{font-size:18px}nav .btn{padding:9px 14px;font-size:13px}.hero{padding-block:24px 40px;gap:28px}.hero .lead{font-size:16.5px;margin:16px 0 22px}.cta{flex-direction:column}.cta .btn{width:100%;padding:14px 20px}.sechead{margin-bottom:22px}.sechead p{font-size:16px}.pricewrap{gap:20px}.price{padding:24px 20px;border-radius:22px}.card{padding:18px}.step{padding:14px}.promise{padding:22px 18px}.faces{grid-template-columns:repeat(3,1fr)}.final h2{font-size:24px}footer{flex-direction:column;gap:8px}.g3,.g2{grid-template-columns:1fr}section{padding-block:52px}.price .big{font-size:46px}}
-@media (prefers-reduced-motion:reduce){.panel{transition:none}}
+@media (max-width:560px){nav{gap:10px;padding:12px 0}nav .brand{font-size:22px}nav .btn{padding:8px 14px;font-size:13px}.hero{padding-block:24px 40px;gap:28px}.hero .lead{font-size:16.5px;margin:16px 0 22px}.cta{flex-direction:column}.cta .btn{width:100%;padding:14px 20px}.sechead{margin-bottom:22px}.sechead p{font-size:16px}.pricewrap{gap:20px}.price{padding:24px 20px;border-radius:22px}.card{padding:18px}.step{padding:14px}.promise{padding:22px 18px}.faces{grid-template-columns:repeat(3,1fr)}.final h2{font-size:24px}footer{flex-direction:column;gap:8px}.g3,.g2{grid-template-columns:1fr}section{padding-block:52px}.price .big{font-size:46px}}
 </style>
 </head>
 <body>
@@ -155,50 +119,45 @@ footer{border-top:1px solid var(--line);padding-block:32px 48px;color:var(--mu);
 
   <header class="hero" id="topo">
     <div>
-      <div class="eyebrow">para Windows 10 e 11</div>
+      <div class="eyebrow">para Windows e Mac</div>
       <p id="lote" hidden style="color:var(--warn);font-weight:700;margin-bottom:10px"></p>
       <h1>A Irys mora no topo da sua tela.</h1>
-      <p class="lead">Peça timer, lembrete, tarefa ou música falando ou escrevendo, sem abrir nada. Ela fica no topo, abre quando você passa o mouse e guarda tudo no seu computador.</p>
+      <p class="lead">Mande e ela executa. Do pedido simples ao trabalho complexo: organiza pastas, acha arquivos, abre programas, controla a trilha sonora, agenda lembretes e rotinas de tarefas inteiras com uma frase. Ela mexe no seu PC como se fosse você. Tudo por voz ou escrevendo, direto do topo da tela.</p>
       <div class="cta"><a class="btn acc" href="https://go.perfectpay.com.br/PPU38CQHQA6" target="_blank" rel="noopener" data-price-btn>Comprar</a><a class="btn" href="#demo">Testar agora</a></div>
       <p class="fine"><b data-price-fine></b> · atualizações incluídas · seus dados ficam no seu PC</p>
     </div>
     <div id="demo">
-      <div class="demoStage" id="demoStage">
-        <div class="screen" id="screen">
-          <button class="pill" id="pill" type="button" aria-expanded="false" aria-controls="panel"><span id="pill-m"></span><span id="pill-t"></span><i></i></button>
-          <div class="panel" id="panel">
-            <aside class="qside" id="qside"></aside>
-            <main class="qmain" id="qmain"></main>
-          </div>
-        </div>
-      </div>
-      <p class="hint" id="demo-hint">É uma demonstração do painel do app: passe o mouse na pílula do topo e experimente os pedidos e as abas.</p>
+      <div class="demoStage" id="demoStage"><iframe id="demoFrame" src="demo.html" title="Demonstração do painel da Irys" loading="eager" scrolling="no"></iframe></div>
+      <p class="hint" id="demo-hint">É o painel de verdade do app, com dados de exemplo: passe o mouse na pílula do topo e experimente os pedidos e as abas.</p>
     </div>
   </header>
 
   <section>
     <div class="promise">
-      <h2>Nós usamos a Irys tanto quanto você.</h2>
-      <p>Por isso ela não vai ficar parada. Cada atualização do app é sua, <b>vitalícia</b>, sem pagar nada a mais. Quando a gente melhora a Irys para o nosso dia a dia, você recebe junto. Pode ficar tranquilo: vai dar tudo certo.</p>
+      <h2>Nós usamos a Irys tanto quanto você!</h2>
+      <p>Por isso a sua vai atualizar automaticamente sempre que fizermos qualquer melhoria. Cada atualização chega na sua automaticamente, <b>vitalício</b>, sem pagar nada a mais por isso. A gente melhora a Irys para o nosso dia a dia, você recebe junto. Ela vai ficar cada vez mais absurda, pode acreditar! 🔥</p>
     </div>
   </section>
 
   <section>
-    <div class="sechead"><div class="eyebrow">Peça do seu jeito</div><h2>Escreva do jeito que você fala.</h2><p>A Irys entende português do dia a dia. Alguns pedidos que ela resolve na hora:</p></div>
+    <div class="sechead"><div class="eyebrow">Peça do seu jeito</div><h2>Fale com ela como falaria com sua funcionária.</h2><p>A Irys entende português do dia a dia, e você pode chamá-la como quiser, por um apelido, ou até mudar o nome dela. Toque num exemplo e veja acontecer na demonstração:</p></div>
     <div class="chips" id="cmds"></div>
   </section>
 
   <section id="funcoes">
-    <div class="sechead"><div class="eyebrow">Tudo num lugar só</div><h2>Sem abrir mil janelas.</h2><p>A Irys fica no topo e abre só quando você precisa.</p></div>
+    <div class="sechead"><div class="eyebrow">Tudo num lugar só</div><h2>Uma assistente que faz de verdade.</h2><p>Tudo isso já vem no app, sem plano extra e sem pagar de novo.</p></div>
     <div class="grid g3" id="feat"></div>
   </section>
 
   <section id="agente">
-    <div class="sechead"><div class="eyebrow">Controle o PC por pedido</div><h2>Peça em português. Ela manda fazer.</h2><p>Conecte o Claude Code ou o Codex, que você já usa, e a Irys repassa a eles o que não é comando pronto. Eles executam no seu computador.</p></div>
+    <div class="sechead"><div class="eyebrow">Ela trabalha por você</div><h2>Peça por voz. Ela faz o trabalho no seu PC.</h2><p>Conecte o Claude Code ou o Codex e a Irys vira a sua funcionária no computador: você fala o que quer e ela executa a tarefa inteira, do começo ao fim, enquanto você faz outra coisa.</p></div>
     <div class="facts">
-      <div class="fact"><b>Ela pede, eles fazem</b><span class="mu">Organizar uma pasta, procurar um arquivo, abrir programas e sites, rodar uma tarefa. O agente executa de verdade.</span></div>
-      <div class="fact"><b>Você no controle</b><span class="mu">Cada pedido mostra uma janela do Windows pedindo o seu OK. Escolha controle total ou só edição de arquivos e desligue quando quiser.</span></div>
-      <div class="fact"><b>Usa o seu login</b><span class="mu">Funciona com o Claude Code ou o Codex que você já tem instalado e logado. A cota é a sua; a Irys não cobra nada a mais.</span></div>
+      <div class="fact"><b>Trabalhos completos</b><span class="mu">“Organiza minha pasta de Downloads por tipo”, “acha o contrato que eu salvei semana passada”, “renomeia essas fotos pela data”. Ela entende, planeja e executa.</span></div>
+      <div class="fact"><b>Tudo por voz</b><span class="mu">Chame pelo nome ou segure Ctrl e fale, de qualquer janela. Sem abrir terminal, sem digitar comando: ela repassa o pedido ao agente e te responde quando terminar.</span></div>
+      <div class="fact"><b>Agenda e rotinas</b><span class="mu">Agende lembretes para qualquer horário e crie rotinas que fazem várias coisas com uma frase só. E você no controle: cada tarefa do agente pede o seu OK antes.</span></div>
+      <div class="fact"><b>IA grátis para conversar</b><span class="mu">Groq e Gemini têm cota gratuita: você cria a chave em poucos minutos. Também funciona com a sua chave da OpenAI ou com IA local.</span></div>
+      <div class="fact"><b>Usa o seu login</b><span class="mu">Funciona com o Claude Code ou o Codex que você já tem. Você vê no próprio card quanto já usou da sessão e da semana.</span></div>
+      <div class="fact"><b>Sem limite de pedido</b><span class="mu">A Irys não cobra por tarefa. Quem manda no ritmo é você.</span></div>
     </div>
   </section>
 
@@ -208,19 +167,19 @@ footer{border-top:1px solid var(--line);padding-block:32px 48px;color:var(--mu);
   </section>
 
   <section>
-    <div class="sechead"><div class="eyebrow">Ela tem personalidade</div><h2>13 expressões que mudam com a conversa.</h2><p>Escolha a cor do corpo, a cor dos olhos e um acessório. Ela é sua.</p></div>
+    <div class="sechead"><div class="eyebrow">Ela tem personalidade</div><h2>13 expressões que mudam com a conversa.</h2><p>Ela pisca, segue o mouse com os olhos e reage ao que você fala. Escolha a cor do corpo, do visor e dos olhos, o formato dos olhos, um acessório e até o nome dela.</p></div>
     <div class="faces" id="faces"></div>
   </section>
 
   <section>
     <div class="sechead"><div class="eyebrow">Seu PC, suas coisas</div><h2>O que é seu fica com você.</h2></div>
     <div class="facts">
-      <div class="fact"><b>No seu PC</b><span class="mu">Tarefas, lembretes, hábitos e conversas ficam salvos no seu computador.</span></div>
+      <div class="fact"><b>No seu PC</b><span class="mu">Tarefas, lembretes, hábitos, memórias e conversas ficam salvos no seu computador.</span></div>
       <div class="fact"><b>Sem conta</b><span class="mu">Não precisa criar cadastro para usar a Irys.</span></div>
       <div class="fact"><b>Sem rastreamento</b><span class="mu">O app não envia estatísticas de uso.</span></div>
       <div class="fact"><b>Chaves protegidas</b><span class="mu">As chaves de IA ficam criptografadas pelo Windows, no seu computador.</span></div>
       <div class="fact"><b>Você confirma</b><span class="mu">Com o agente ligado, cada pedido pede o seu OK. Desligar o PC ou mexer em arquivos só com o seu sim.</span></div>
-      <div class="fact"><b>Voz opcional</b><span class="mu">Desligada por padrão. Ligada, ela só escuta o seu chamado e nada é gravado nem enviado.</span></div>
+      <div class="fact"><b>Voz opcional</b><span class="mu">Desligada por padrão. Ligada, o chamado pelo nome é reconhecido no seu PC e nada fica gravado.</span></div>
     </div>
   </section>
 
@@ -230,8 +189,8 @@ footer{border-top:1px solid var(--line);padding-block:32px 48px;color:var(--mu);
     <div class="steps">
       <div class="step"><div><b>Baixe o instalador</b><span>Pelo link que chega no e-mail da compra.</span></div></div>
       <div class="step"><div><b>Abra e conclua a instalação</b><span>Se o Windows mostrar um aviso de segurança, a página de instalação explica o que fazer.</span></div></div>
-      <div class="step"><div><b>Diga seu nome e escolha o visual</b><span>Cor, olhos e acessório.</span></div></div>
-      <div class="step"><div><b>Passe o mouse no topo da tela</b><span>Pronto. Ela já está lá.</span></div></div>
+      <div class="step"><div><b>Ative e deixe com a sua cara</b><span>Use o e-mail e a chave da compra. Depois escolha cor, olhos, acessório e o nome dela.</span></div></div>
+      <div class="step"><div><b>Passe o mouse no topo da tela</b><span>Pronto. Ela já está lá, esperando o seu pedido.</span></div></div>
     </div>
     <div class="facts" style="margin-top:24px">
       <div class="fact"><b>Sistema</b><span class="mu">Windows 10 ou 11, 64 bits</span></div>
@@ -245,14 +204,15 @@ footer{border-top:1px solid var(--line);padding-block:32px 48px;color:var(--mu);
 
   <section id="preco">
     <div class="pricewrap">
-      <div class="sechead" style="margin:0"><div class="eyebrow">Preço</div><h2>Uma compra. Sua para usar.</h2><p>Licença vitalícia com as atualizações do app incluídas. Sem plano e sem cobrança todo mês.</p></div>
+      <div class="sechead" style="margin:0"><div class="eyebrow">Preço</div><h2>Uma compra. Sua para sempre.</h2><p>Licença vitalícia com as atualizações do app incluídas. Sem plano e sem cobrança todo mês.</p></div>
       <div class="price">
         <span class="eyebrow" style="margin:0">Licença vitalícia</span>
         <div class="big" data-price></div>
         <ul>
           <li>Todas as funções disponíveis, sem planos nem limites</li>
           <li>Atualizações vitalícias: nós usamos a Irys todo dia e ela só melhora</li>
-          <li>Conecte o Claude Code ou o Codex e controle o PC por pedido</li>
+          <li>Voz, música, memória, previsão do tempo, rotinas e Meu PC inclusos</li>
+          <li>Conecte o Claude Code ou o Codex e automatize trabalhos completos no PC por voz</li>
           <li>Licença pessoal, ligada ao e-mail da compra</li>
           <li>Instalador para Windows 10 e 11</li>
         </ul>
@@ -270,9 +230,11 @@ footer{border-top:1px solid var(--line);padding-block:32px 48px;color:var(--mu);
       <details><summary>Preciso pagar alguma IA?</summary><p>Não. Timers, lembretes, tarefas, música, rotinas e voz funcionam sem IA e sem internet. Para conversar livremente, você liga uma IA: Groq e Gemini têm cota gratuita (você cria uma chave grátis em poucos minutos) e dá para usar a sua chave da OpenAI. Se você já usa o Claude Code ou o Codex, a Irys também pode pedir para eles executarem tarefas no seu PC.</p></details>
       <details><summary>Como ligo o Claude Code ou o Codex?</summary><p>Instale o programa que você prefere, faça login uma vez no terminal e, na Irys, vá em Configurações > Cérebro > Controlar o PC. Um aviso do Windows pede o seu consentimento e você escolhe controle total ou só edição de arquivos. Com ele ligado, os pedidos que não são comandos prontos vão para o agente, e cada um pede o seu OK antes (dá para desligar). Usa o seu login e a sua cota.</p></details>
       <details><summary>Ela fica ouvindo tudo o que eu falo?</summary><p>Não. A voz vem desligada. Se você ligar, ela escuta o microfone só para reconhecer o seu chamado, no seu PC, e nada é gravado nem enviado. Também dá para usar só o atalho Ctrl+Alt+Espaço.</p></details>
-      <details><summary>Atrapalha quando eu jogo ou vejo vídeo?</summary><p>Não. Ela fica atrás das janelas e só aparece quando você encosta o mouse na borda de cima da tela, e se esconde sozinha com programas em tela cheia.</p></details>
+      <details><summary>Ela toca música?</summary><p>Sim. Diga “abre o Spotify e dá play” ou “toca Henrique e Juliano”. Ela também controla o player que estiver tocando no PC: pausa, pula, volta, muda o volume e mostra a capa e o nome da música no topo da tela.</p></details>
+      <details><summary>Ela abre programas e sites?</summary><p>Sim. “Abre o Discord”, “fecha o Chrome”, “abre o YouTube”. Ela acha os programas pelo nome, inclusive os atalhos da sua área de trabalho.</p></details>
+      <details><summary>Atrapalha quando eu jogo ou vejo vídeo?</summary><p>Não. Ela fica quietinha num entalho no topo, só abre quando você encosta o mouse ali e se esconde sozinha com programas em tela cheia. Se o entalho atrapalhar no meio, é só arrastar para o lado.</p></details>
       <details><summary>Meus dados vão para algum servidor?</summary><p>Tarefas, lembretes, hábitos, memória e conversas ficam no seu computador. O app não envia estatísticas de uso. Só a IA da nuvem, se você ligar, envia suas mensagens ao provedor que você escolheu.</p></details>
-      <details><summary>Como funciona a voz?</summary><p>Você liga a voz nas configurações e diz o nome da assistente. Como “Irys” não existe no vocabulário do reconhecedor, você ensina o chamado falando 4 vezes e ela aprende a sua voz. Também dá para chamar pelo atalho Ctrl+Alt+Espaço. O reconhecimento roda no seu PC, sem internet. Se quiser mais precisão, há uma opção (desligada por padrão) que usa a sua chave da Groq para transcrever só o pedido.</p></details>
+      <details><summary>Como funciona a voz?</summary><p>Você liga a voz nas configurações e chama pelo nome que escolheu para ela, seja Irys ou outro. Se ela não reconhecer de primeira, você treina falando o nome 4 vezes. Também dá para segurar Ctrl e falar direto, sem dizer o nome, e ela responde em voz alta. O chamado pelo nome é reconhecido no seu PC, sem internet; a fala segurando Ctrl usa a sua chave grátis da Groq para transcrever certinho.</p></details>
       <details><summary>Funciona no meu PC?</summary><p>Em Windows 10 e 11 de 64 bits. Ela se esconde sozinha quando algum programa está em tela cheia.</p></details>
       <details><summary>Posso usar em mais de um computador?</summary><p>A licença vale em até 2 computadores. Se trocar de PC, é só pedir para liberar a vaga.</p></details>
       <details><summary>Funciona no Mac?</summary><p>Ainda não: esta versão é para Windows 10 e 11.</p></details>
@@ -280,7 +242,7 @@ footer{border-top:1px solid var(--line);padding-block:32px 48px;color:var(--mu);
   </section>
 
   <section class="final">
-    <h2>Seu PC fica mais leve com a Irys lá em cima.</h2>
+    <h2>Você manda. Ela resolve.</h2><p class="mu" style="font-size:17px;max-width:46ch">Seu PC fica mais leve com a Irys no topo da sua tela.</p>
     <a class="btn acc" href="https://go.perfectpay.com.br/PPU38CQHQA6" target="_blank" rel="noopener" data-price-btn>Comprar</a>
   </section>
 
@@ -308,18 +270,39 @@ footer{border-top:1px solid var(--line);padding-block:32px 48px;color:var(--mu);
   document.querySelectorAll('[data-checkout]').forEach(function(e){e.setAttribute('href',CHECKOUT);e.setAttribute('target','_blank');e.setAttribute('rel','noopener');e.textContent='Comprar por '+PRECO;});
 
 // Mascote da Irys: robozinho de cabeça azul, visor preto, orelhas que acendem e sensor no topo.
-// Desenho próprio. svg(humor, tamanho, {a,b,eye,acc}) devolve o SVG como texto.
+// Desenho próprio. svg(humor, tamanho, {a,b,eye,visor,shape,acc,antenna,dx,dy}) devolve o SVG como texto.
+// shape muda o formato dos olhos neutros; dx/dy desloca os olhos (pra seguirem o mouse); 'ARCO' vira degradê arco-íris.
 (function () {
   var uid = 0;
-  var DK = '#04122C';
 
   function svg(kind, size, o) {
     o = o || {};
-    var EC = o.eye || 'var(--z-acc2)';
+    var id = 'g' + (++uid);
+    var defs = '';
     var A = o.a || 'var(--z-a)';
     var B = o.b || 'var(--z-b)';
+    var RAINBOW = ['#FF5A5A', '#FFC857', '#4ADE9B', '#38BDF8', '#8B7CFF', '#FF7AA8'];
+    function rainbowGrad(gid, x1, y1, x2, y2) {
+      var stops = RAINBOW.map(function (c, i) { return '<stop offset="' + (i / (RAINBOW.length - 1)) + '" stop-color="' + c + '"/>'; }).join('');
+      return '<linearGradient id="' + gid + '" x1="' + x1 + '" y1="' + y1 + '" x2="' + x2 + '" y2="' + y2 + '" gradientUnits="userSpaceOnUse">' + stops + '</linearGradient>';
+    }
+    if (A === 'ARCO' || B === 'ARCO') { defs += rainbowGrad(id + 'b', 20, 14, 80, 90); }
+    else defs += '<linearGradient id="' + id + 'b" x1="20" y1="14" x2="80" y2="90" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="' + B + '"/><stop offset="1" stop-color="' + A + '"/></linearGradient>';
+    var EC = o.eye || 'var(--z-acc2)';
+    if (EC === 'ARCO') { defs += rainbowGrad(id + 'e', 27, 40, 73, 62); EC = 'url(#' + id + 'e)'; }
+    var VC = o.visor || '#030813';
+    if (VC === 'ARCO') { defs += rainbowGrad(id + 'v', 27, 32, 73, 68); VC = 'url(#' + id + 'v)'; }
 
-    function cap(x, y, w, h) { return '<rect x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '" rx="' + (w / 2) + '" fill="' + EC + '"/>'; }
+    var shape = o.shape || 'ovais';
+    // olho "neutro": cada formato redesenha a cápsula padrão mantendo o centro
+    function cap(x, y, w, h) {
+      var cx = x + w / 2, cy = y + h / 2;
+      if (shape === 'redondos') return '<circle cx="' + cx + '" cy="' + cy + '" r="' + (w * 0.95) + '" fill="' + EC + '"/>';
+      if (shape === 'pixel') { var pw = w * 1.3, phh = h * 0.75; return '<rect x="' + (cx - pw / 2) + '" y="' + (cy - phh / 2) + '" width="' + pw + '" height="' + phh + '" rx="1.5" fill="' + EC + '"/>'; }
+      if (shape === 'grandoes') { var gw = w * 1.65, gh = h * 1.12; return '<rect x="' + (cx - gw / 2) + '" y="' + (cy - gh / 2) + '" width="' + gw + '" height="' + gh + '" rx="' + (gw / 2) + '" fill="' + EC + '"/><circle cx="' + (cx + gw * 0.16) + '" cy="' + (cy - gh * 0.22) + '" r="' + (gw * 0.14) + '" fill="#fff" fill-opacity=".85"/>'; }
+      if (shape === 'tracinho') { var tw = w * 1.8; return '<rect x="' + (cx - tw / 2) + '" y="' + (cy - 2.4) + '" width="' + tw + '" height="4.8" rx="2.4" fill="' + EC + '"/>'; }
+      return '<rect x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '" rx="' + (w / 2) + '" fill="' + EC + '"/>';
+    }
     function heart(x, y, s, c) { return '<path transform="translate(' + x + ' ' + y + ') scale(' + s + ')" d="M0 3C0-3-7-3-7 2C-7 6 0 9 0 12C0 9 7 6 7 2C7-3 0-3 0 3Z" fill="' + c + '"/>'; }
     function star(x, y, s, c) { return '<polygon transform="translate(' + x + ' ' + y + ') scale(' + s + ')" points="0,-8 2.4,-2.5 8,-2.5 3.5,1 5.2,7 0,3.5 -5.2,7 -3.5,1 -8,-2.5 -2.4,-2.5" fill="' + c + '"/>'; }
     function arc(cx, cy, up) { return '<path d="M' + (cx - 7) + ' ' + cy + 'q7 ' + (up ? -11 : 10) + ' 14 0" fill="none" stroke="' + EC + '" stroke-width="4.4" stroke-linecap="round"/>'; }
@@ -337,29 +320,45 @@ footer{border-top:1px solid var(--line);padding-block:32px 48px;color:var(--mu);
       bravo: function () { return '<g transform="rotate(16 38 50)">' + cap(34, 41, 8, 18) + '</g><g transform="rotate(-16 62 50)">' + cap(58, 41, 8, 18) + '</g>'; },
       chorando: function () { return cap(34, 38, 8, 16) + cap(58, 38, 8, 16) + '<path d="M38 57q-3.5 5 0 7.5q3.5-2.5 0-7.5zM62 57q-3.5 5 0 7.5q3.5-2.5 0-7.5z" fill="#fff" fill-opacity=".92"/>'; },
       dormindo: function () { return '<rect x="31" y="49" width="14" height="4.6" rx="2.3" fill="' + EC + '"/><rect x="55" y="49" width="14" height="4.6" rx="2.3" fill="' + EC + '"/><text x="76" y="30" font-size="13" font-weight="700" fill="' + EC + '" font-family="Sora,Segoe UI,sans-serif">z</text><text x="85" y="20" font-size="9" font-weight="700" fill="' + EC + '" font-family="Sora,Segoe UI,sans-serif">z</text>'; },
+      piscar: function () { return '<rect x="31" y="48" width="14" height="4.6" rx="2.3" fill="' + EC + '"/><rect x="55" y="48" width="14" height="4.6" rx="2.3" fill="' + EC + '"/>'; },
       conseguiu: function () { return star(38, 50, 1.05, 'var(--z-warn)') + star(62, 50, 1.05, 'var(--z-warn)'); }
     };
 
     var ACC = {
       none: '',
+      chapeu: '<path d="M39 19L50 2L61 19Z" fill="#FF6FA8"/><path d="M42 14L58 8" stroke="#FFE066" stroke-width="2.4" stroke-linecap="round"/><circle cx="50" cy="3" r="3.2" fill="#FFE066"/>',
       coroa: '<path d="M30 20L33 5L42 13L50 3L58 13L67 5L70 20Z" fill="#FFC857" stroke="#C98A12" stroke-width="1.2" stroke-linejoin="round"/>',
-      gorro: '<path d="M24 25Q50 -4 76 25Z" fill="#ECF3FF"/><rect x="22" y="22" width="56" height="7" rx="3.5" fill="#CFE0FF"/><circle cx="50" cy="3" r="5" fill="#ECF3FF"/>',
       fones: '<path d="M21 46C19 12 81 12 79 46" fill="none" stroke="' + EC + '" stroke-width="4" stroke-linecap="round"/>',
-      aureola: '<ellipse cx="50" cy="8" rx="15" ry="4" fill="none" stroke="#FFC857" stroke-width="3"/>'
+      laco: '<path d="M66 11l-10-5.5v11zM66 11l10-5.5v11z" fill="#FF7AA8"/><circle cx="66" cy="11" r="3" fill="#E85C8F"/>',
+      gorro: '<path d="M24 25Q50 -4 76 25Z" fill="#ECF3FF"/><rect x="22" y="22" width="56" height="7" rx="3.5" fill="#CFE0FF"/><circle cx="50" cy="3" r="5" fill="#ECF3FF"/>',
+      bone: '<path d="M27 22Q50 1 73 22Z" fill="#3D8BFF"/><path d="M50 21q24-3 28 3q-3 4-28 3z" fill="#2F66CC"/><rect x="25" y="20" width="50" height="6" rx="3" fill="#2F66CC"/>',
+      oculos: '<circle cx="38" cy="50" r="10.5" fill="#0B0B0C" fill-opacity=".55" stroke="#F5F6F8" stroke-width="3"/><circle cx="62" cy="50" r="10.5" fill="#0B0B0C" fill-opacity=".55" stroke="#F5F6F8" stroke-width="3"/><path d="M48.5 50h3" stroke="#F5F6F8" stroke-width="3" stroke-linecap="round"/>',
+      aureola: '<ellipse cx="50" cy="8" rx="15" ry="4" fill="none" stroke="#FFC857" stroke-width="3"/>',
+      chifrinhos: '<path d="M31 20Q26 6 36 9Q33 15 37 20Z" fill="#FF5A5A"/><path d="M69 20Q74 6 64 9Q67 15 63 20Z" fill="#FF5A5A"/>',
+      florzinha: '<g transform="translate(33 10)"><circle cx="0" cy="-4.5" r="3.4" fill="#FF9FC2"/><circle cx="4.3" cy="-1.4" r="3.4" fill="#FF9FC2"/><circle cx="2.7" cy="3.6" r="3.4" fill="#FF9FC2"/><circle cx="-2.7" cy="3.6" r="3.4" fill="#FF9FC2"/><circle cx="-4.3" cy="-1.4" r="3.4" fill="#FF9FC2"/><circle cx="0" cy="0" r="2.6" fill="#FFE066"/></g>',
+      natal: '<path d="M26 22Q40 -2 68 6Q74 8 72 14L70 20Q48 10 30 25Z" fill="#E04545"/><rect x="24" y="20" width="50" height="7" rx="3.5" fill="#F5F6F8"/><circle cx="72" cy="8" r="4.5" fill="#F5F6F8"/>',
     };
 
-    var id = 'g' + (++uid);
+    // os olhos (e só eles) podem se deslocar um pouco: é o "olhos seguem o mouse"
+    var dx = Math.max(-4.5, Math.min(4.5, o.dx || 0));
+    var dy = Math.max(-3, Math.min(3, o.dy || 0));
+    var eyes = (E[kind] || E.repouso)();
+    if (dx || dy) eyes = '<g transform="translate(' + dx.toFixed(1) + ' ' + dy.toFixed(1) + ')">' + eyes + '</g>';
+
+    var antena = o.antenna ? '<rect x="48.6" y="3" width="2.8" height="9" rx="1.4" fill="' + EC + '"/><circle cx="50" cy="3" r="3.2" fill="' + EC + '"/>' : '';
+    var accTop = o.acc && o.acc !== 'fones' ? (ACC[o.acc] || '') : '';
+
     return '<svg width="' + size + '" height="' + size + '" viewBox="0 0 100 100" aria-hidden="true">' +
-      '<defs><linearGradient id="' + id + '" x1="20" y1="14" x2="80" y2="90" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="' + B + '"/><stop offset="1" stop-color="' + A + '"/></linearGradient></defs>' +
+      '<defs>' + defs + '</defs>' +
       '<ellipse cx="50" cy="91" rx="24" ry="4" fill="#000" opacity=".4"/>' +
-      '<rect x="42" y="8" width="16" height="9" rx="4.5" fill="' + EC + '"/>' +
+      '<rect x="42" y="8" width="16" height="9" rx="4.5" fill="' + EC + '"/>' + antena +
       '<rect x="11" y="40" width="9" height="22" rx="4.5" fill="' + EC + '"/><rect x="80" y="40" width="9" height="22" rx="4.5" fill="' + EC + '"/>' +
-      '<rect x="20" y="16" width="60" height="62" rx="21" fill="url(#' + id + ')"/>' +
+      '<rect x="20" y="16" width="60" height="62" rx="21" fill="url(#' + id + 'b)"/>' +
       '<path d="M27 29q9-8 23-9" fill="none" stroke="#fff" stroke-opacity=".5" stroke-width="3" stroke-linecap="round"/>' +
       (o.acc === 'fones' ? ACC.fones : '') +
-      '<rect x="27" y="32" width="46" height="36" rx="13" fill="#030813" stroke="' + EC + '" stroke-opacity=".45" stroke-width="1.5"/>' +
-      (E[kind] || E.repouso)() +
-      (o.acc && o.acc !== 'fones' ? (ACC[o.acc] || '') : '') +
+      '<rect x="27" y="32" width="46" height="36" rx="13" fill="' + VC + '" stroke="' + EC + '" stroke-opacity=".45" stroke-width="1.5"/>' +
+      eyes +
+      accTop +
       '</svg>';
   }
 
@@ -367,107 +366,38 @@ footer{border-top:1px solid var(--line);padding-block:32px 48px;color:var(--mu);
 })();
 
 
-  var ICONS={list:'M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01',bell:'M6 16V11a6 6 0 0112 0v5l2 2H4zM10 20a2 2 0 004 0',drop:'M12 3c4 5 6 8 6 11a6 6 0 01-12 0c0-3 2-6 6-11z',timer:'M12 8v5l3 2M9 2h6M12 21a8 8 0 100-16 8 8 0 000 16z',palette:'M12 3a9 9 0 100 18c1.5 0 2-1 1.5-2s0-2 1.5-2h2a3 3 0 003-3c0-5-4-9-8-9z',mic:'M12 3a3 3 0 013 3v5a3 3 0 01-6 0V6a3 3 0 013-3zM6 11a6 6 0 0012 0M12 17v4',spark:'M12 3l2.2 5.8L20 11l-5.8 2.2L12 19l-2.2-5.8L4 11l5.8-2.2z',music:'M9 18V5l11-2v13M9 18a3 3 0 11-6 0 3 3 0 016 0zM20 16a3 3 0 11-6 0 3 3 0 016 0z',web:'M12 3v4M12 17v4M3 12h4M17 12h4M6 6l3 3M15 15l3 3M6 18l3-3M15 9l3-3',monitor:'M3 5h18v11H3zM8 21h8M12 16v5',nodes:'M6 6a2 2 0 100 .01M18 6a2 2 0 100 .01M12 18a2 2 0 100 .01M12 12a2 2 0 100 .01M8 7l3 4M16 7l-3 4M12 14v2',bolt:'M13 2L5 14h6l-1 8 8-12h-6z',clip:'M8 4h8v3H8zM6 6h12v15H6z'};
+  var ICONS={list:'M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01',bell:'M6 16V11a6 6 0 0112 0v5l2 2H4zM10 20a2 2 0 004 0',drop:'M12 3c4 5 6 8 6 11a6 6 0 01-12 0c0-3 2-6 6-11z',timer:'M12 8v5l3 2M9 2h6M12 21a8 8 0 100-16 8 8 0 000 16z',palette:'M12 3a9 9 0 100 18c1.5 0 2-1 1.5-2s0-2 1.5-2h2a3 3 0 003-3c0-5-4-9-8-9z',mic:'M12 3a3 3 0 013 3v5a3 3 0 01-6 0V6a3 3 0 013-3zM6 11a6 6 0 0012 0M12 17v4',spark:'M12 3l2.2 5.8L20 11l-5.8 2.2L12 19l-2.2-5.8L4 11l5.8-2.2z',music:'M9 18V5l11-2v13M9 18a3 3 0 11-6 0 3 3 0 016 0zM20 16a3 3 0 11-6 0 3 3 0 016 0z',web:'M12 3v4M12 17v4M3 12h4M17 12h4M6 6l3 3M15 15l3 3M6 18l3-3M15 9l3-3',monitor:'M3 5h18v11H3zM8 21h8M12 16v5',nodes:'M6 6a2 2 0 100 .01M18 6a2 2 0 100 .01M12 18a2 2 0 100 .01M12 12a2 2 0 100 .01M8 7l3 4M16 7l-3 4M12 14v2',bolt:'M13 2L5 14h6l-1 8 8-12h-6z',clip:'M8 4h8v3H8zM6 6h12v15H6z',cloud:'M7 18h10a4 4 0 000-8 6 6 0 00-11.5 1.5A3.5 3.5 0 007 18z'};
   function ic(n){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="'+ICONS[n]+'"/></svg>';}
 
   /* ---------- marca e mascote ---------- */
-  document.getElementById('brand-m').innerHTML=Mascot.svg('repouso',30);
-  var pillM=document.getElementById('pill-m'),pillT=document.getElementById('pill-t');
-  function pillMood(k){pillM.innerHTML=Mascot.svg(k,24);} pillMood('repouso');
+  document.getElementById('brand-m').innerHTML=Mascot.svg('repouso',40);
   document.getElementById('faces').innerHTML=Mascot.moods.map(function(m){return '<div class="face">'+Mascot.svg(m,60)+'<span>'+m.charAt(0).toUpperCase()+m.slice(1)+'</span></div>';}).join('');
 
   /* ---------- recursos ---------- */
-  var FEAT=[['list','#3D8BFF','Tarefas','Sua lista do dia, a um pedido de distância.',1],['bell','#6F8CFF','Lembretes','“Me lembra de ligar pro cliente em 30 minutos.”',1],['timer','#38C6E8','Timers','Pizza no forno, foco de 25 minutos, o que precisar.',1],['drop','#3BB2F0','Hábitos','Água, leitura, exercício. Pequenas vitórias do dia.',1],['palette','#FF8FD0','Visual seu','Cor do corpo, dos olhos, acessórios e nome.',1],['monitor','#5B7CFF','Painel rápido','Passe o mouse no topo e o painel abre na hora.',1],['mic','#FF7A9C','Voz offline','Chame “Ei, Irys” e fale. O reconhecimento roda no seu PC, sem internet.',1],['spark','#8B7CFF','IA grátis ou com a sua chave','Conversa livre com Groq ou Gemini (grátis), OpenAI ou IA local.',1],['music','#38BDF8','Música','Pause, pule e ajuste o volume do player que estiver tocando.',1],['nodes','#8B7CFF','Memória','Ela guarda o que você pede e mostra num mapa. Fica só no seu PC.',1],['bolt','#4D6BFF','Rotinas','Uma frase, várias ações: “modo estudo” pausa a música e liga o foco.',1],['clip','#5B7CFF','Copiados','O histórico do que você copiou, a um clique de colar de novo.',1],['monitor','#2F9BFF','Meu PC','Veja CPU, memória e disco, e limpe temporários com confirmação.',1]];
+  var FEAT=[['monitor','#3D8BFF','Entalho no topo','Fica no topo da tela mostrando a música e o timer correndo. Passe o mouse e o painel abre na hora. Dá pra arrastar pro lado.',1],['music','#38BDF8','Música','Abre o Spotify e dá play numa frase só. Capa, barra da música, pular, voltar e volume.',1],['mic','#FF7A9C','Voz','Chame pelo nome que você escolher ou segure Ctrl e fale. Ela responde em voz alta.',1],['web','#5B7CFF','Abre e fecha tudo','“Abre o Discord”, “fecha o Chrome”, “abre o YouTube”. Programas e sites pelo nome.',1],['cloud','#38C6E8','Previsão do tempo','Temperatura, sensação, máxima, mínima e chance de chuva, num quadro na sua tela.',1],['nodes','#8B7CFF','Memória viva','Ela guarda o que você conta e mostra num mapa que se mexe, estilo Obsidian. Fica só no seu PC.',1],['bell','#6F8CFF','Lembretes e timers','“Me lembra de pagar a conta às 15h”, “timer de 10 minutos”. Ela avisa na hora certa.',1],['list','#3BB2F0','Tarefas e hábitos','Sua lista do dia e suas metas, como beber água, a um pedido de distância.',1],['bolt','#4D6BFF','Rotinas','Uma frase, várias ações: “modo estudo” pausa a música e liga 25 minutos de foco.',1],['monitor','#2F9BFF','Meu PC','Analisa o PC, dá uma nota, mostra o que está pesando e limpa o lixo com o seu OK.',1],['spark','#8B7CFF','Trabalha por você','Com o Claude Code ou o Codex, ela faz tarefas completas no seu PC: organiza, procura, renomeia, executa. Tudo por voz.',1],['palette','#FF8FD0','Do seu jeito','Cor do corpo, do visor e dos olhos, formato dos olhos, acessórios e até o nome dela.',1]];
   document.getElementById('feat').innerHTML=FEAT.map(function(f){return '<div class="card"><span class="ic" style="background:'+f[1]+'">'+ic(f[0])+'</span><h3>'+f[2]+'</h3><p>'+f[3]+'</p><span class="tag'+(f[4]?'':' soon')+'">'+(f[4]?'Disponível':'Em breve')+'</span></div>';}).join('');
 
   /* ---------- comandos ---------- */
-  var CMDS=['timer de 10 minutos para a pizza','me lembra de ligar pro cliente em 30 minutos','me lembra de pagar a conta às 15h','cria tarefa comprar pão','bebi um copo de água','lembra que minha namorada se chama Ana','próxima música','abre a calculadora','que horas são?'];
+  var CMDS=['qual a previsão do tempo hoje?','timer de 10 minutos para a pizza','me lembra de ligar pro cliente em 30 minutos','cria tarefa comprar pão','bebi um copo de água','lembra que minha mãe se chama Rosa','pausa a música','próxima música','modo estudo','abre a calculadora','que horas são?'];
   var SOON=[];
   document.getElementById('cmds').innerHTML=CMDS.map(function(c){return '<button type="button" class="chip" data-cmd="'+c+'">“'+c+'”</button>';}).join('')+SOON.map(function(c){return '<span class="chip soon" title="Em breve">“'+c+'” · em breve</span>';}).join('');
 
-  /* ---------- demonstração: o painel do app (aba Início e algumas abas) ---------- */
-  var screen=document.getElementById('screen'),pill=document.getElementById('pill'),qside=document.getElementById('qside'),qmain=document.getElementById('qmain'),demoStage=document.getElementById('demoStage');
+  /* ---------- demonstração: o painel de verdade do app num iframe (demo.html), encolhido para caber ---------- */
+  var demoStage=document.getElementById('demoStage'),demoFrame=document.getElementById('demoFrame');
   var touch=window.matchMedia('(hover:none),(max-width:700px)').matches;
-  if(touch)document.getElementById('demo-hint').textContent='É uma demonstração do painel do app: toque na pílula do topo para abrir.';
-  // mesma visão em qualquer tela: encolhe o painel inteiro (não reorganiza), igual ao app de verdade
+  if(touch)document.getElementById('demo-hint').textContent='É o painel de verdade do app, com dados de exemplo: toque na pílula do topo para abrir.';
+  // mesma visão em qualquer tela: encolhe a tela inteira (não reorganiza), igual ao app de verdade
+  // no celular corta as bordas da tela de fundo (fica só o painel de 780px + um respiro), pra letra sair maior
   function fitStage(){
-    var s=Math.min(1,demoStage.clientWidth/680);
-    screen.style.transform='scale('+s+')';
-    demoStage.style.height=Math.round(470*s)+'px';
+    var W=demoStage.clientWidth<700?792:860,s=Math.min(1,demoStage.clientWidth/W);
+    demoFrame.style.transform='translateX('+(-(860-W)/2*s)+'px) scale('+s+')';
+    demoStage.style.height=Math.round(480*s)+'px';
   }
   fitStage();
   window.addEventListener('resize',fitStage);
   if(window.ResizeObserver)new ResizeObserver(fitStage).observe(demoStage);
-  function open(v){screen.classList.toggle('open',v);pill.setAttribute('aria-expanded',v);}
-  pill.addEventListener('mouseenter',function(){open(true);});
-  pill.addEventListener('click',function(){open(!screen.classList.contains('open'));});
-  screen.addEventListener('mouseleave',function(){if(!qmain.contains(document.activeElement))open(false);});
-  var NAV=[['inicio','home','Início'],['conversa','chat','Conversa'],['memoria','nodes','Memória'],['tarefas','list','Tarefas'],['lembretes','bell','Lembretes'],['habitos','drop','Hábitos'],['timers','timer','Timers'],['musica','music','Música'],['copiados','clip','Copiados'],['rotinas','bolt','Rotinas'],['meupc','monitor','Meu PC'],['config','sliders','Configurações']];
-  var EXTRA_IC={home:'M4 11l8-7 8 7v9H4zM10 20v-6h4v6',chat:'M4 5h16v11H9l-5 4z',sliders:'M4 7h10M18 7h2M4 17h4M12 17h8M14 4v6M8 14v6'};
-  function icx(n){var p=EXTRA_IC[n]||ICONS[n]||'';return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="'+p+'"/></svg>';}
-  var INFO={memoria:['Memória','Ela guarda o que você pede (“lembra que minha namorada se chama Ana”) e mostra num mapa. Fica só no seu PC.'],musica:['Música','Pause, pule e ajuste o volume do player que estiver tocando, falando ou pelo painel.'],copiados:['Copiados','O histórico do que você copiou, a um clique de colar de novo.'],rotinas:['Rotinas','Uma frase, várias ações: “modo estudo” pausa a música e liga o foco.'],meupc:['Meu PC','CPU, memória e disco ao vivo, e limpeza de temporários com confirmação.'],config:['Configurações','Voz, cor e acessórios, cérebro (IA) e agente de PC, atualizações.']};
-  var S={tab:'inicio',tasks:[{t:'Passe o mouse no topo da tela para abrir o painel rápido',d:false},{t:'Peça: “timer de 5 minutos”',d:false},{t:'Peça: “me lembra de beber água em 30 minutos”',d:false}],reminders:[],timers:[],
-    habits:[{n:'Água',goal:8,v:0,u:'copos'},{n:'Ler',goal:1,v:0,u:'vez'},{n:'Exercício',goal:1,v:0,u:'vez'}],chat:[{me:false,t:'Oi! Já estou por aqui. Passe o mouse no topo da tela quando precisar de mim.'}]};
-  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
-  function pendTasks(){return S.tasks.filter(function(x){return !x.d;}).length;}
-  function habDone(){return S.habits.filter(function(h){return h.v>=h.goal;}).length;}
-  function liveTimers(){return S.timers.filter(function(t){return t.end>Date.now();});}
-  function fmt(ms){var s=Math.max(0,Math.ceil(ms/1000));return Math.floor(s/60)+':'+('0'+s%60).slice(-2);}
-  function badge(id){var n=id==='tarefas'?pendTasks():id==='lembretes'?S.reminders.length:id==='timers'?liveTimers().length:0;if(id==='habitos')return '<em>'+habDone()+'/'+S.habits.length+'</em>';return n?'<em>'+n+'</em>':'';}
-  function msgsHtml(){return S.chat.map(function(m){return '<div class="bub'+(m.me?' me':'')+'">'+esc(m.t)+'</div>';}).join('');}
-  function agora(){var t=liveTimers()[0];if(t)return '<div class="gl">Agora</div><div><b data-left="'+t.end+'" style="font-family:var(--display);font-size:26px">'+fmt(t.end-Date.now())+'</b><div class="qempty">'+esc(t.name)+'</div></div>';if(S.reminders.length)return '<div class="gl">Agora</div><div><b>'+esc(S.reminders[S.reminders.length-1])+'</b><div class="qempty">lembrete criado</div></div>';return '<div class="gl">Agora</div><div class="qempty">Nada agendado. Tente “timer de 5 minutos”.</div>';}
-  function askBox(){return '<form class="ask" id="qform" autocomplete="off"><input id="qinp" placeholder="Peça algo… ex.: timer de 10 minutos" aria-label="Escreva um pedido"><button type="submit" aria-label="Enviar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/></svg></button></form>';}
-  function view(){
-    var t=S.tab;
-    if(t==='inicio')return '<div class="hd"><h3>Oi!</h3><p>Escreva um pedido ou chame “Ei, Irys”.</p></div>'+askBox()+'<div class="qrow"><div class="qcard"><div class="msgs" id="msgs">'+msgsHtml()+'</div></div><div class="qcard" id="agora">'+agora()+'</div></div>'+
-      '<div class="qstats"><div class="qstat"><i style="background:#6F8CFF"></i><b>'+S.reminders.length+'</b><span>lembretes</span></div><div class="qstat"><i style="background:#3D8BFF"></i><b>'+pendTasks()+'</b><span>tarefas</span></div><div class="qstat"><i style="background:#5FD7FF"></i><b>'+habDone()+'/'+S.habits.length+'</b><span>hábitos hoje</span></div><div class="qstat"><i style="background:#38BDF8"></i><b>'+liveTimers().length+'</b><span>timers</span></div></div>';
-    if(t==='conversa')return '<div class="hd"><h3>Conversa</h3><p>O que você pediu e o que ela respondeu.</p></div><div class="qcard" style="flex:1"><div class="msgs" id="msgs">'+msgsHtml()+'</div></div>'+askBox();
-    if(t==='tarefas')return '<div class="hd"><h3>Tarefas</h3><p>Sua lista do dia. Toque para concluir.</p></div><div class="qlist">'+S.tasks.map(function(x,i){return '<div class="qitem'+(x.d?' done':'')+'"><span>'+esc(x.t)+'</span><button data-task="'+i+'">'+(x.d?'Reabrir':'Concluir')+'</button></div>';}).join('')+'</div>'+askBox();
-    if(t==='lembretes')return '<div class="hd"><h3>Lembretes</h3><p>Peça: “me lembra de ligar pro cliente em 30 minutos”.</p></div><div class="qlist">'+(S.reminders.length?S.reminders.map(function(r){return '<div class="qitem"><span>'+esc(r)+'</span></div>';}).join(''):'<div class="qempty">Nenhum lembrete ainda.</div>')+'</div>'+askBox();
-    if(t==='habitos')return '<div class="hd"><h3>Hábitos</h3><p>Pequenas vitórias do dia.</p></div><div class="qlist">'+S.habits.map(function(h,i){return '<div class="qitem"><span>'+h.n+' · '+h.v+'/'+h.goal+' '+h.u+'</span><button data-hab="'+i+'">+1</button></div>';}).join('')+'</div>'+askBox();
-    if(t==='timers'){var L=liveTimers();return '<div class="hd"><h3>Timers</h3><p>Peça: “timer de 10 minutos para a pizza”.</p></div><div class="qlist">'+(L.length?L.map(function(x){return '<div class="qitem"><span>'+esc(x.name)+'</span><b class="big" data-left="'+x.end+'">'+fmt(x.end-Date.now())+'</b></div>';}).join(''):'<div class="qempty">Nenhum timer rodando.</div>')+'</div>'+askBox();}
-    var i=INFO[t]||['',''];return '<div class="hd"><h3>'+i[0]+'</h3><p>'+i[1]+'</p></div><div class="qcard"><div class="qempty">Essa aba está disponível no app instalado.</div></div>';
-  }
-  function render(keep){
-    var v=document.getElementById('qinp'),val=v?v.value:'',foc=v&&document.activeElement===v;
-    qside.innerHTML='<div class="qwho"><span id="qwho-m"></span><div><b>Irys</b><small>● pronta</small></div></div>'+NAV.map(function(n){return '<button class="qnav'+(n[0]===S.tab?' on':'')+'" data-tab="'+n[0]+'">'+icx(n[1])+n[2]+badge(n[0])+'</button>';}).join('');
-    var wm=document.getElementById('qwho-m');if(wm)wm.innerHTML=Mascot.svg('feliz',34);
-    qmain.innerHTML=view();
-    var nv=document.getElementById('qinp');if(nv&&keep){nv.value=val;if(foc)nv.focus();}
-    var ms=document.getElementById('msgs');if(ms)ms.scrollTop=ms.scrollHeight;
-  }
-  var pillTimer=null;
-  function pillTick(){var L=liveTimers();pillT.textContent=L.length?fmt(L[0].end-Date.now()):'';if(!L.length){pillMood('repouso');}document.querySelectorAll('[data-left]').forEach(function(e){e.textContent=fmt(Number(e.dataset.left)-Date.now());});if(S.tab==='inicio'&&!L.length&&document.getElementById('agora')&&/data-left/.test(document.getElementById('agora').innerHTML)){render(true);}}
-  setInterval(pillTick,500);
-  var ACENTOS=new RegExp('['+String.fromCharCode(768)+'-'+String.fromCharCode(879)+']','g');
-  function norm(s){return s.toLowerCase().normalize('NFD').replace(ACENTOS,'');}
-  function reply(text){
-    var t=norm(text),m;
-    if(m=t.match(/timer(?: de| para)? (\d+)\s*(segundos?|seg|s|minutos?|min|horas?|h)\b(?: (?:para|pra|de|do|da) (.+))?$/)){
-      var u=m[2],mult=(u==='s'||/^seg/.test(u))?1:(/^min/.test(u)?60:3600),sec=+m[1]*mult,nome=(m[3]||'').replace(/^(a|o|as|os|um|uma)\s+/,'');
-      S.timers.push({name:nome?'Timer · '+nome:'Timer de '+m[1]+' '+(mult===1?'s':mult===60?'min':'h'),end:Date.now()+Math.min(sec,90)*1000});pillMood('pensando');
-      return 'Pronto, timer de '+m[1]+' '+(mult===1?'segundos':mult===60?'minutos':'horas')+(nome?' para '+nome:'')+' iniciado. (Na demonstração ele roda em até 90 segundos.)';}
-    if(m=t.match(/(?:me lembra|lembre|lembrar)(?: de| que)? (.+?) (?:em|daqui a) (\d+)\s*(minutos?|min|horas?|h)\b/)){S.reminders.push(m[1]+' · em '+m[2]+(/^min/.test(m[3])?' min':' h'));return 'Combinado, te lembro de “'+m[1]+'” em '+m[2]+' '+(/^min/.test(m[3])?'minutos':'horas')+'.';}
-    if(m=t.match(/(?:me lembra|lembre|lembrar)(?: de| que)? (.+?) as (\d{1,2})/)){S.reminders.push(m[1]+' · às '+m[2]+'h');return 'Combinado, te lembro de “'+m[1]+'” às '+m[2]+'h.';}
-    if(m=t.match(/(?:cria|criar|nova|adiciona|adicionar|anota|anotar)(?: uma| a)? tarefa:? (.+)/)){S.tasks.push({t:m[1],d:false});return 'Tarefa adicionada: “'+m[1]+'”.';}
-    if(/(?:bebi|tomei)(?: um| 1)? (?:copo|agua)/.test(t)){S.habits[0].v=Math.min(S.habits[0].goal,S.habits[0].v+1);return 'Anotado! '+S.habits[0].v+' de '+S.habits[0].goal+' copos hoje.';}
-    if(/que horas/.test(t))return 'Agora são '+new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})+'.';
-    return 'Ainda estou no modo simples: entendo timers, lembretes, tarefas e hábitos. No app instalado você liga uma IA ou o Claude Code/Codex para mais.';
-  }
-  function ask(text){
-    text=text.trim();if(!text)return;open(true);
-    if(S.tab!=='inicio'&&S.tab!=='conversa'&&S.tab!=='tarefas'&&S.tab!=='lembretes'&&S.tab!=='habitos'&&S.tab!=='timers')S.tab='inicio';
-    S.chat.push({me:true,t:text});pillMood('falando');render();
-    setTimeout(function(){S.chat.push({me:false,t:reply(text)});render();pillMood(liveTimers().length?'pensando':'feliz');setTimeout(function(){if(!liveTimers().length)pillMood('repouso');},1800);},450);
-  }
-  qside.addEventListener('click',function(e){var b=e.target.closest('[data-tab]');if(!b)return;S.tab=b.dataset.tab;render();});
-  qmain.addEventListener('click',function(e){
-    var a=e.target.closest('[data-task]');if(a){S.tasks[+a.dataset.task].d=!S.tasks[+a.dataset.task].d;render();return;}
-    var h=e.target.closest('[data-hab]');if(h){var x=S.habits[+h.dataset.hab];x.v=Math.min(x.goal,x.v+1);render();}
-  });
-  qmain.addEventListener('submit',function(e){if(e.target.id!=='qform')return;e.preventDefault();var i=document.getElementById('qinp');var v=i.value;i.value='';ask(v);});
+  function ask(text){try{demoFrame.contentWindow.postMessage({irysAsk:text},'*');}catch(e){}}
   document.addEventListener('click',function(e){var b=e.target.closest('[data-cmd]');if(!b)return;if(b.closest('#cmds')){document.getElementById('demo').scrollIntoView({behavior:'smooth',block:'center'});}ask(b.dataset.cmd);});
-  render();
 })();
 </script>
 </body>
