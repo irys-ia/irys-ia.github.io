@@ -8,6 +8,22 @@
 <link rel="icon" type="image/png" href="favicon.png">
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Sora:wght@600;700;800&display=swap">
+<!-- Microsoft Clarity: gravações, mapa de calor e até onde as pessoas rolam a página (projeto "IRYS") -->
+<script type="text/javascript">
+  (function(c,l,a,r,i,t,y){
+    c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+    t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+    y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+  })(window, document, "clarity", "script", "zfkgs3amvq");
+</script>
+<!-- Google Analytics 4: visitas, de onde vêm, tempo na página e os cliques em "Comprar" (fluxo "Irys site") -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-S97LZEEYL9"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-S97LZEEYL9');
+</script>
 <style>
 /* Layout: página de vendas em preto 100% com azul Safira. Nav, herói com demo, comandos, funções, mascote, privacidade, instalação, preço, dúvidas. */
 :root{
@@ -396,7 +412,17 @@ footer{border-top:1px solid var(--line);padding-block:32px 48px;color:var(--mu);
   fitStage();
   window.addEventListener('resize',fitStage);
   if(window.ResizeObserver)new ResizeObserver(fitStage).observe(demoStage);
-  function ask(text){try{demoFrame.contentWindow.postMessage({irysAsk:text},'*');}catch(e){}}
+  function ask(text){try{demoFrame.contentWindow.postMessage({irysAsk:text},'*');}catch(e){} marca('demo_pedido',{pedido:text});}
+
+  /* ---------- medição: mesmos eventos no Google Analytics e no Clarity ---------- */
+  function marca(nome,dados){try{if(window.gtag)gtag('event',nome,dados||{});}catch(e){} try{if(window.clarity){clarity('event',nome);if(dados&&dados.local)clarity('set','botao_comprar',dados.local);}}catch(e){}}
+  // clique em qualquer botão de compra, dizendo de onde ele veio (menu, topo, preço ou final)
+  document.addEventListener('click',function(e){var a=e.target.closest('a[href*="perfectpay"]');if(!a)return;
+    var local=a.closest('nav')?'menu':a.closest('#preco')?'preco':a.closest('.final')?'final':a.closest('header')?'topo':'outro';
+    marca('clique_comprar',{local:local});},true);
+  // abriu a demonstração (a pílula do topo), uma vez por visita
+  var demoAberta=false;
+  window.addEventListener('message',function(e){var d=e.data||{};if(d.irysDemo==='aberto'&&!demoAberta){demoAberta=true;marca('demo_abriu');}});
   document.addEventListener('click',function(e){var b=e.target.closest('[data-cmd]');if(!b)return;if(b.closest('#cmds')){document.getElementById('demo').scrollIntoView({behavior:'smooth',block:'center'});}ask(b.dataset.cmd);});
 })();
 </script>

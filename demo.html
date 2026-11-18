@@ -178,6 +178,16 @@ svg { display: block; }
 .qside { padding: 12px 9px; gap: 1px; }
 .who { padding: 0 6px 8px; gap: 9px; }
 .who b { font-size: 15px; }
+.qside { position: relative; }
+.qside .who { cursor: pointer; border-radius: 12px; }
+/* "Fechar a Irys?" ao clicar no robozinho: um balãozinho de fala saindo dele, por cima (não empurra nada) */
+.sair { position: absolute; z-index: 5; left: 56px; top: 4px; display: flex; align-items: center; gap: 7px; padding: 5px 9px; border-radius: 12px;
+  background: var(--z-ink3); border: 1px solid var(--z-line); box-shadow: 0 6px 18px rgba(0, 0, 0, .5); font-size: 11.5px; color: var(--z-tx); white-space: nowrap; }
+.sair::before { content: ''; position: absolute; left: -5px; top: 11px; width: 8px; height: 8px; background: var(--z-ink3);
+  border-left: 1px solid var(--z-line); border-bottom: 1px solid var(--z-line); transform: rotate(45deg); }
+.sair button { font-size: 11px; font-weight: 700; padding: 0 2px; color: var(--z-mu); }
+.sair button[data-act="sair-sim"] { color: var(--z-rose); }
+.sair button:hover { color: var(--z-tx); }
 .nav { padding: 4px 9px; gap: 9px; font-size: 13px; border-radius: 10px; line-height: 1.25; }
 .nav .ic { width: 16px; height: 16px; }
 /* painel colado na borda superior (cantos de cima retos, de baixo arredondados) e lista de abas ocupando toda a altura */
@@ -695,6 +705,11 @@ input[type=range] { accent-color: var(--z-acc); }
     var h = new Date().getHours();
     return h >= 5 && h < 12 ? 'Bom dia' : (h >= 12 && h < 18 ? 'Boa tarde' : 'Boa noite');
   };
+  // nome da tecla de falar escolhida em Voz (Ctrl por padrão)
+  Core.tecla = function () {
+    var k = Core.d && Core.d.settings && Core.d.settings.voice && Core.d.settings.voice.pttKey;
+    return { alt: 'Alt', shift: 'Shift', capslock: 'Caps Lock' }[k] || 'Ctrl';
+  };
   Core.name = function () { return (Core.d && Core.d.settings.assistantName) || Core.cfg.APP_NAME; };
   Core.look = function (extra) {
     var l = (Core.d && Core.d.settings.look) || {};
@@ -875,11 +890,19 @@ input[type=range] { accent-color: var(--z-acc); }
     if (/(aumenta|sobe) (?:o )?(?:som|volume)|mais alto|volume mais/.test(t)) { bridge.invoke('music:cmd', 'volup'); return 'Aumentei o volume.'; }
     if (/(abaixa|diminui|baixa) (?:o )?(?:som|volume)|mais baixo|volume menos/.test(t)) { bridge.invoke('music:cmd', 'voldown'); return 'Abaixei o volume.'; }
     if (/^(muta|mudo|silencio|silencia)\b/.test(t)) { bridge.invoke('music:cmd', 'mute'); return 'Pronto.'; }
-    if ((m = t.match(/^(?:toca|tocar|coloca|bota|poe|ouvir|pesquisa|pesquisar|procura|procurar|busca|buscar) (.+)/))) {
-      var term = orig(m[1]).replace(/^(a |o |um |uma )?(musica|música|som|banda|cantor|cantora)(?: (do|da|de) )?/i, '').trim();
+    if ((m = t.match(/^(toca|tocar|coloca|bota|poe|ouvir|pesquisa|pesquisar|procura|procurar|busca|buscar) (.+)/))) {
+      var term = orig(m[2]).replace(/^(a |o |um |uma )?(musica|música|som|banda|cantor|cantora)(?: (do|da|de) )?/i, '').trim();
       if (!term) return Core.tocar(); // "toca a música"/"toca essa música": sem nome, só dá o play
-      bridge.invoke('sys:open', 'spotify:search:' + encodeURIComponent(term));
-      return 'Abri a busca por “' + term + '” no Spotify. É só tocar no play.';
+      // "pesquisa/procura/busca X": só abre a busca
+      if (/^(pesquisa|pesquisar|procura|procurar|busca|buscar)$/.test(m[1])) {
+        bridge.invoke('sys:open', 'spotify:search:' + encodeURIComponent(term));
+        return 'Abri a busca por “' + term + '” no Spotify.';
+      }
+      // "toca X": abre a busca e dá play no primeiro resultado
+      return bridge.invoke('sys:spotifyPlay', term).then(function (r) {
+        if (r && r.ok) return 'Tocando “' + term + '” no Spotify.';
+        return 'Abri a busca por “' + term + '” no Spotify, mas não consegui dar o play. É só tocar no play.';
+      }, function () { return 'Não consegui abrir o Spotify agora.'; });
     }
     // ferramentas e sites
     var tools = [[/(abre|abra|abrir) (?:a )?calculadora/, 'calc', 'Abrindo a calculadora.'], [/(abre|abra|abrir) (?:o )?(?:explorador|arquivos|meus arquivos)/, 'files', 'Abrindo seus arquivos.'],
@@ -937,9 +960,6 @@ input[type=range] { accent-color: var(--z-acc); }
     if (/que horas/.test(t)) return 'Agora são ' + new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }) + '.';
     if (/que dia/.test(t)) return 'Hoje é ' + new Date().toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long' }) + '.';
     if (/^(oi|ola|e ai|bom dia|boa tarde|boa noite)\b/.test(t)) return 'Oi' + (d.settings.userName ? ', ' + d.settings.userName : '') + '! Como posso ajudar?';
-    if (/(ajuda|o que voce faz|comandos)/.test(t)) {
-      return 'Eu resolvo: “timer de 10 minutos para a pizza”, “me lembra de ligar pro cliente em 30 minutos”, “cria tarefa comprar pão”, “bebi um copo de água”, “lembra que minha namorada se chama Ana”, “toca Henrique e Juliano”, “próxima”, “abaixa o volume”, “abre a calculadora”, “como está meu PC?” e suas rotinas, como “modo estudo”.';
-    }
     return null;
   }
 
@@ -984,12 +1004,39 @@ input[type=range] { accent-color: var(--z-acc); }
   };
 
   // Processa um pedido. Devolve uma Promise com a resposta. opts.speak = falar a resposta em voz alta.
+  // toda resposta termina com o nome do usuário ("Pronto, já tá tocando Chefe."), a não ser que ela já tenha
+  // chamado ele pelo nome em algum ponto da resposta ("Oi, Chefe! Como posso ajudar?" fica como está)
+  Core.comNome = function (reply) {
+    var nome = String((Core.d && Core.d.settings && Core.d.settings.userName) || '').trim();
+    var r = String(reply == null ? '' : reply).trim();
+    if (!nome || !r) return r;
+    var esc = nome.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    if (new RegExp('(^|[^\\p{L}])' + esc + '($|[^\\p{L}])', 'iu').test(r)) return r;
+    var m = r.match(/^([\s\S]*?)([.!?…]+)$/);
+    return m ? m[1] + ' ' + nome + m[2] : r + ' ' + nome;
+  };
+
+  // tira o nome da assistente do começo do pedido ("Irys, abre o Spotify", "Ei Irys timer de 5 minutos").
+  // Na voz isso já acontecia; escrevendo, o nome ia junto e o pedido caía no "modo simples".
+  Core.semNome = function (text) {
+    var nome = Core.norm(Core.name()).replace(/[^a-z0-9 ]/g, '').trim();
+    if (!nome) return text;
+    var formas = (nome === 'irys' || nome === 'iris') ? ['irys', 'iris'] : [nome];
+    var tn = Core.norm(text); // Core.norm troca letra por letra, então as posições batem com o texto original
+    for (var i = 0; i < formas.length; i++) {
+      var m = tn.match(new RegExp('^(?:(?:ei|oi|ola|hey|fala)[\\s,!]+)?' + formas[i].replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '(?=[\\s,!.:;?]|$)[\\s,!.:;?]*'));
+      if (m) { var resto = text.slice(m[0].length).trim(); return resto || text; }
+    }
+    return text;
+  };
+
   Core.run = function (raw, opts) {
     var text = String(raw || '').trim();
     if (!text) return Promise.resolve(null);
     opts = opts || {};
-    var keys = ['chat'], t = Core.norm(text);
     Core.push('me', text);
+    text = Core.semNome(text); // "Irys, abre o Spotify" escrito: o nome na frente não faz parte do pedido
+    var keys = ['chat'], t = Core.norm(text);
     // pedido composto ("dá play na música e abre o google"): só separa quando CADA pedaço começa com um verbo de
     // comando de verdade — assim nunca quebra um pedido de uma coisa só que por acaso tem "e" no meio
     // (ex. "toca Henrique e Juliano", onde "Juliano" sozinho não começa com verbo nenhum).
@@ -1006,6 +1053,7 @@ input[type=range] { accent-color: var(--z-acc); }
       }
     }
     function finish(reply, mood) {
+      reply = Core.comNome(reply);
       Core.push('bot', reply);
       keys.forEach(function (k) { Core.save(k); });
       Core.busy = false; Core.notify();
@@ -1016,7 +1064,7 @@ input[type=range] { accent-color: var(--z-acc); }
 
     var brain = Core.d.settings.brain;
     if (!brain || brain === 'simple') {
-      return Promise.resolve(finish('Ainda estou no modo simples: entendo timers, lembretes, tarefas, música e outros pedidos práticos. Digite “ajuda” para ver exemplos. Para conversar livremente, ligue uma IA em Cérebro (IA).'));
+      return Promise.resolve(finish('Ainda estou no modo simples: entendo timers, lembretes, tarefas, música e outros pedidos práticos. Para conversar livremente, ligue uma IA em Cérebro (IA).'));
     }
     if (brain === 'claude' || brain === 'codex') {
       // agente de PC: o pedido que não é um comando pronto vai para o Claude Code / Codex, que executa no computador
@@ -1120,7 +1168,7 @@ input[type=range] { accent-color: var(--z-acc); }
       : agente ? 'Ligada ao ' + (d.settings.brain === 'claude' ? 'Claude Code' : 'Codex') + ': ela pede, ele executa de verdade no seu PC.'
       : 'Conversando com a IA ' + esc(d.settings.brain) + ' — só texto, não abre nem executa nada no PC.';
     return head('Conversa', sub, '<button class="btn sm ghost" data-act="clear-chat">Limpar</button>') +
-      '<div class="card chatbox" id="chatbox" style="flex:1;min-height:120px">' + (d.chat.length ? bubbles(d.chat) : '<div class="bub">Oi! Digite “ajuda” para ver o que eu entendo.</div>') + typing() + '</div>' +
+      '<div class="card chatbox" id="chatbox" style="flex:1;min-height:120px">' + (d.chat.length ? bubbles(d.chat) : '') + typing() + '</div>' +
       ask('ask-c', 'Escreva para a ' + esc(C.name()) + '…');
   };
 
@@ -1696,7 +1744,8 @@ input[type=range] { accent-color: var(--z-acc); }
   var view = 'inicio';
   var mood = 'repouso';
   var moodT = null;
-  var ouvindo = false; // segurando a tecla de falar (ou chamou pelo nome): mostra "te ouvindo" no lugar de "as ordens"
+  var ouvindo = false;
+  var perguntandoSair = false; // clicou no robozinho: mostra "Fechar a Irys? Fechar / Não" // segurando a tecla de falar (ou chamou pelo nome): mostra "te ouvindo" no lugar de "as ordens"
   var qs = document.getElementById('qs');
   var qm = document.getElementById('qm');
 
@@ -1709,7 +1758,9 @@ input[type=range] { accent-color: var(--z-acc); }
 
   function render() {
     Views.keepFocus(function () {
-      qs.innerHTML = '<div class="who">' + Core.face(mood, 38) + '<div><b>' + Core.esc(Core.name()) + '</b><small>● ' + (ouvindo ? 'te ouvindo' : (Core.busy ? 'pensando' : 'as ordens')) + '</small></div></div>' +
+      // clicar no robozinho pergunta se quer fechar a Irys
+      qs.innerHTML = '<div class="who" data-act="sair-perguntar" title="Fechar a ' + Core.esc(Core.name()) + '">' + Core.face(mood, 38) + '<div><b>' + Core.esc(Core.name()) + '</b><small>● ' + (ouvindo ? 'te ouvindo' : (Core.busy ? 'pensando' : 'as ordens')) + '</small></div></div>' +
+        (perguntandoSair ? '<div class="sair">Fechar?<button data-act="sair-sim">Sim</button><button data-act="sair-nao">Não</button></div>' : '') +
         NAV.map(function (n) { return '<button class="nav' + (n[0] === view ? ' on' : '') + '" data-act="nav" data-v="' + n[0] + '">' + Core.ic(n[1]) + n[2] + count(n[0]) + '</button>'; }).join('');
       qm.innerHTML = Views.V[view]();
       var cb = document.getElementById('chatbox');
@@ -1718,6 +1769,9 @@ input[type=range] { accent-color: var(--z-acc); }
   }
 
   function extra(name, ds) {
+    if (name === 'sair-perguntar') { perguntandoSair = !perguntandoSair; return true; }
+    if (name === 'sair-nao') { perguntandoSair = false; return true; }
+    if (name === 'sair-sim') { bridge.quit(); return false; }
     if (name === 'nav') {
       if (ds.v === '@settings') { bridge.openSettings(); return false; }
       view = ds.v;
@@ -1754,6 +1808,7 @@ input[type=range] { accent-color: var(--z-acc); }
       requestAnimationFrame(function () { requestAnimationFrame(function () { if (aberto) shape.classList.add('open'); }); });
     });
     bridge.on('quick:collapse', function () {
+      if (perguntandoSair) { perguntandoSair = false; render(); }
       aberto = false; clearTimeout(saiT); saiT = null;
       var ae = document.activeElement; if (ae && ae.blur) ae.blur();
       shape.classList.remove('open');
