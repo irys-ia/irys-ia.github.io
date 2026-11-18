@@ -135,7 +135,7 @@ footer{border-top:1px solid var(--line);padding-block:32px 48px;color:var(--mu);
 
   <header class="hero" id="topo">
     <div>
-      <div class="eyebrow">para Windows e Mac</div>
+      <div class="eyebrow">para Windows, Mac e celular</div>
       <p id="lote" hidden style="color:var(--warn);font-weight:700;margin-bottom:10px"></p>
       <h1>A Irys mora no topo da sua tela.</h1>
       <p class="lead">Mande e ela executa. Do pedido simples ao trabalho complexo: organiza pastas, acha arquivos, abre programas, controla a trilha sonora, agenda lembretes e rotinas de tarefas inteiras com uma frase. Ela mexe no seu PC como se fosse você. Tudo por voz ou escrevendo, direto do topo da tela.</p>
@@ -174,6 +174,15 @@ footer{border-top:1px solid var(--line);padding-block:32px 48px;color:var(--mu);
       <div class="fact"><b>IA grátis para conversar</b><span class="mu">Groq e Gemini têm cota gratuita: você cria a chave em poucos minutos. Também funciona com a sua chave da OpenAI ou com IA local.</span></div>
       <div class="fact"><b>Usa o seu login</b><span class="mu">Funciona com o Claude Code ou o Codex que você já tem. Você vê no próprio card quanto já usou da sessão e da semana.</span></div>
       <div class="fact"><b>Sem limite de pedido</b><span class="mu">A Irys não cobra por tarefa. Quem manda no ritmo é você.</span></div>
+    </div>
+  </section>
+
+  <section id="whatsapp">
+    <div class="sechead"><div class="eyebrow">Novo · no seu WhatsApp</div><h2>A Irys também mora no seu celular.</h2><p>Conecte o seu WhatsApp e mande mensagem para a Irys como se fosse para um contato. Ela faz no seu PC e te responde ali mesmo, e a conversa é a mesma do computador.</p></div>
+    <div class="facts">
+      <div class="fact"><b>Texto ou áudio</b><span class="mu">Escreva ou mande um áudio: “me lembra da reunião amanhã às 9h”, “cria tarefa comprar pão”. Ela entende do mesmo jeito.</span></div>
+      <div class="fact"><b>Seus gastos organizados</b><span class="mu">“Gastei 32 de Uber.” Ela separa por categoria e responde na hora quanto você já gastou no dia, na semana e no mês.</span></div>
+      <div class="fact"><b>Te lembra na hora</b><span class="mu">Lembretes, compromissos e timers chegam como mensagem no seu WhatsApp, onde você estiver.</span></div>
     </div>
   </section>
 
@@ -228,6 +237,7 @@ footer{border-top:1px solid var(--line);padding-block:32px 48px;color:var(--mu);
           <li>Todas as funções disponíveis, sem planos nem limites</li>
           <li>Atualizações vitalícias: nós usamos a Irys todo dia e ela só melhora</li>
           <li>Voz, música, memória, previsão do tempo, rotinas e Meu PC inclusos</li>
+          <li>Irys no WhatsApp e controle de gastos inclusos</li>
           <li>Conecte o Claude Code ou o Codex e automatize trabalhos completos no PC por voz</li>
           <li>Licença pessoal, ligada ao e-mail da compra</li>
           <li>Instalador para Windows 10 e 11</li>
@@ -251,6 +261,7 @@ footer{border-top:1px solid var(--line);padding-block:32px 48px;color:var(--mu);
       <details><summary>Atrapalha quando eu jogo ou vejo vídeo?</summary><p>Não. Ela fica quietinha num entalho no topo, só abre quando você encosta o mouse ali e se esconde sozinha com programas em tela cheia. Se o entalho atrapalhar no meio, é só arrastar para o lado.</p></details>
       <details><summary>Meus dados vão para algum servidor?</summary><p>Tarefas, lembretes, hábitos, memória e conversas ficam no seu computador. O app não envia estatísticas de uso. Só a IA da nuvem, se você ligar, envia suas mensagens ao provedor que você escolheu.</p></details>
       <details><summary>Como funciona a voz?</summary><p>Você liga a voz nas configurações e chama pelo nome que escolheu para ela, seja Irys ou outro. Se ela não reconhecer de primeira, você treina falando o nome 4 vezes. Também dá para segurar Ctrl e falar direto, sem dizer o nome, e ela responde em voz alta. O chamado pelo nome é reconhecido no seu PC, sem internet; a fala segurando Ctrl usa a sua chave grátis da Groq para transcrever certinho.</p></details>
+      <details><summary>Como funciona a Irys no WhatsApp?</summary><p>Na Irys do PC, em Funções › WhatsApp, você conecta o seu WhatsApp lendo um QR code, igual ao WhatsApp Web. Daí é só abrir a conversa com você mesmo (“Mensagem para mim”) e falar com ela, por texto ou áudio. Ela só usa essa conversa, nunca as outras. O seu PC precisa estar ligado com a Irys aberta.</p></details>
       <details><summary>Funciona no meu PC?</summary><p>Em Windows 10 e 11 de 64 bits. Ela se esconde sozinha quando algum programa está em tela cheia.</p></details>
       <details><summary>Posso usar em mais de um computador?</summary><p>A licença vale em até 2 computadores. Se trocar de PC, é só pedir para liberar a vaga.</p></details>
       <details><summary>Funciona no Mac?</summary><p>Ainda não: esta versão é para Windows 10 e 11.</p></details>
@@ -382,7 +393,7 @@ footer{border-top:1px solid var(--line);padding-block:32px 48px;color:var(--mu);
 })();
 
 
-  var ICONS={list:'M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01',bell:'M6 16V11a6 6 0 0112 0v5l2 2H4zM10 20a2 2 0 004 0',drop:'M12 3c4 5 6 8 6 11a6 6 0 01-12 0c0-3 2-6 6-11z',timer:'M12 8v5l3 2M9 2h6M12 21a8 8 0 100-16 8 8 0 000 16z',palette:'M12 3a9 9 0 100 18c1.5 0 2-1 1.5-2s0-2 1.5-2h2a3 3 0 003-3c0-5-4-9-8-9z',mic:'M12 3a3 3 0 013 3v5a3 3 0 01-6 0V6a3 3 0 013-3zM6 11a6 6 0 0012 0M12 17v4',spark:'M12 3l2.2 5.8L20 11l-5.8 2.2L12 19l-2.2-5.8L4 11l5.8-2.2z',music:'M9 18V5l11-2v13M9 18a3 3 0 11-6 0 3 3 0 016 0zM20 16a3 3 0 11-6 0 3 3 0 016 0z',web:'M12 3v4M12 17v4M3 12h4M17 12h4M6 6l3 3M15 15l3 3M6 18l3-3M15 9l3-3',monitor:'M3 5h18v11H3zM8 21h8M12 16v5',nodes:'M6 6a2 2 0 100 .01M18 6a2 2 0 100 .01M12 18a2 2 0 100 .01M12 12a2 2 0 100 .01M8 7l3 4M16 7l-3 4M12 14v2',bolt:'M13 2L5 14h6l-1 8 8-12h-6z',clip:'M8 4h8v3H8zM6 6h12v15H6z',cloud:'M7 18h10a4 4 0 000-8 6 6 0 00-11.5 1.5A3.5 3.5 0 007 18z'};
+  var ICONS={list:'M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01',bell:'M6 16V11a6 6 0 0112 0v5l2 2H4zM10 20a2 2 0 004 0',drop:'M12 3c4 5 6 8 6 11a6 6 0 01-12 0c0-3 2-6 6-11z',timer:'M12 8v5l3 2M9 2h6M12 21a8 8 0 100-16 8 8 0 000 16z',palette:'M12 3a9 9 0 100 18c1.5 0 2-1 1.5-2s0-2 1.5-2h2a3 3 0 003-3c0-5-4-9-8-9z',mic:'M12 3a3 3 0 013 3v5a3 3 0 01-6 0V6a3 3 0 013-3zM6 11a6 6 0 0012 0M12 17v4',spark:'M12 3l2.2 5.8L20 11l-5.8 2.2L12 19l-2.2-5.8L4 11l5.8-2.2z',music:'M9 18V5l11-2v13M9 18a3 3 0 11-6 0 3 3 0 016 0zM20 16a3 3 0 11-6 0 3 3 0 016 0z',web:'M12 3v4M12 17v4M3 12h4M17 12h4M6 6l3 3M15 15l3 3M6 18l3-3M15 9l3-3',monitor:'M3 5h18v11H3zM8 21h8M12 16v5',nodes:'M6 6a2 2 0 100 .01M18 6a2 2 0 100 .01M12 18a2 2 0 100 .01M12 12a2 2 0 100 .01M8 7l3 4M16 7l-3 4M12 14v2',bolt:'M13 2L5 14h6l-1 8 8-12h-6z',clip:'M8 4h8v3H8zM6 6h12v15H6z',whats:'M4 20l1.4-4A8 8 0 1112 20a8 8 0 01-4-1.1zM9 9.5c0 3 2.5 5.5 5.5 5.5l1-1.5-2-1-1 .8a4 4 0 01-1.8-1.8l.8-1-1-2z',wallet:'M3 7h15a3 3 0 013 3v7a3 3 0 01-3 3H6a3 3 0 01-3-3zM3 7l2-3h11M16 13.5h2',cloud:'M7 18h10a4 4 0 000-8 6 6 0 00-11.5 1.5A3.5 3.5 0 007 18z'};
   function ic(n){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="'+ICONS[n]+'"/></svg>';}
 
   /* ---------- marca e mascote ---------- */
@@ -390,7 +401,7 @@ footer{border-top:1px solid var(--line);padding-block:32px 48px;color:var(--mu);
   document.getElementById('faces').innerHTML=Mascot.moods.map(function(m){return '<div class="face">'+Mascot.svg(m,60)+'<span>'+m.charAt(0).toUpperCase()+m.slice(1)+'</span></div>';}).join('');
 
   /* ---------- recursos ---------- */
-  var FEAT=[['monitor','#3D8BFF','Entalho no topo','Fica no topo da tela mostrando a música e o timer correndo. Passe o mouse e o painel abre na hora. Dá pra arrastar pro lado.',1],['music','#38BDF8','Música','Abre o Spotify e dá play numa frase só. Capa, barra da música, pular, voltar e volume.',1],['mic','#FF7A9C','Voz','Chame pelo nome que você escolher ou segure Ctrl e fale. Ela responde em voz alta.',1],['web','#5B7CFF','Abre e fecha tudo','“Abre o Discord”, “fecha o Chrome”, “abre o YouTube”. Programas e sites pelo nome.',1],['cloud','#38C6E8','Previsão do tempo','Temperatura, sensação, máxima, mínima e chance de chuva, num quadro na sua tela.',1],['nodes','#8B7CFF','Memória viva','Ela guarda o que você conta e mostra num mapa que se mexe, estilo Obsidian. Fica só no seu PC.',1],['bell','#6F8CFF','Lembretes e timers','“Me lembra de pagar a conta às 15h”, “timer de 10 minutos”. Ela avisa na hora certa.',1],['list','#3BB2F0','Tarefas e hábitos','Sua lista do dia e suas metas, como beber água, a um pedido de distância.',1],['bolt','#4D6BFF','Rotinas','Uma frase, várias ações: “modo estudo” pausa a música e liga 25 minutos de foco.',1],['monitor','#2F9BFF','Meu PC','Analisa o PC, dá uma nota, mostra o que está pesando e limpa o lixo com o seu OK.',1],['spark','#8B7CFF','Trabalha por você','Com o Claude Code ou o Codex, ela faz tarefas completas no seu PC: organiza, procura, renomeia, executa. Tudo por voz.',1],['palette','#FF8FD0','Do seu jeito','Cor do corpo, do visor e dos olhos, formato dos olhos, acessórios e até o nome dela.',1]];
+  var FEAT=[['whats','#25D366','Irys no WhatsApp','Fale com ela pelo celular, por texto ou áudio: anota gastos, cria lembretes e compromissos e te avisa na hora.',1],['wallet','#4ADE9B','Gastos','“Gastei 50 no mercado.” Ela anota, separa por categoria e te dá o total do dia, da semana e do mês.',1],['monitor','#3D8BFF','Entalho no topo','Fica no topo da tela mostrando a música e o timer correndo. Passe o mouse e o painel abre na hora. Dá pra arrastar pro lado.',1],['music','#38BDF8','Música','Abre o Spotify e dá play numa frase só. Capa, barra da música, pular, voltar e volume.',1],['mic','#FF7A9C','Voz','Chame pelo nome que você escolher ou segure Ctrl e fale. Ela responde em voz alta.',1],['web','#5B7CFF','Abre e fecha tudo','“Abre o Discord”, “fecha o Chrome”, “abre o YouTube”. Programas e sites pelo nome.',1],['cloud','#38C6E8','Previsão do tempo','Temperatura, sensação, máxima, mínima e chance de chuva, num quadro na sua tela.',1],['nodes','#8B7CFF','Memória viva','Ela guarda o que você conta e mostra num mapa que se mexe, estilo Obsidian. Fica só no seu PC.',1],['bell','#6F8CFF','Lembretes e timers','“Me lembra de pagar a conta às 15h”, “timer de 10 minutos”. Ela avisa na hora certa.',1],['list','#3BB2F0','Tarefas e hábitos','Sua lista do dia e suas metas, como beber água, a um pedido de distância.',1],['bolt','#4D6BFF','Rotinas','Uma frase, várias ações: “modo estudo” pausa a música e liga 25 minutos de foco.',1],['monitor','#2F9BFF','Meu PC','Analisa o PC, dá uma nota, mostra o que está pesando e limpa o lixo com o seu OK.',1],['spark','#8B7CFF','Trabalha por você','Com o Claude Code ou o Codex, ela faz tarefas completas no seu PC: organiza, procura, renomeia, executa. Tudo por voz.',1],['palette','#FF8FD0','Do seu jeito','Cor do corpo, do visor e dos olhos, formato dos olhos, acessórios e até o nome dela.',1]];
   document.getElementById('feat').innerHTML=FEAT.map(function(f){return '<div class="card"><span class="ic" style="background:'+f[1]+'">'+ic(f[0])+'</span><h3>'+f[2]+'</h3><p>'+f[3]+'</p><span class="tag'+(f[4]?'':' soon')+'">'+(f[4]?'Disponível':'Em breve')+'</span></div>';}).join('');
 
   /* ---------- comandos ---------- */

@@ -51,6 +51,8 @@ svg { display: block; }
 .rb { width: 32px; height: 32px; border-radius: 50%; background: var(--z-ink3); display: grid; place-items: center; flex: none; }
 .rb svg { width: 16px; height: 16px; }
 .rb.acc { background: var(--z-acc); color: var(--z-on); }
+/* "Sempre ouvindo" ligado: verde, como um microfone aberto */
+.rb.continuo.on { background: var(--z-acc); color: var(--z-on); }
 .rb:hover { filter: brightness(1.25); }
 .card { background: var(--z-ink2); border: 1px solid var(--z-line); border-radius: 18px; padding: 14px; }
 .bub { background: var(--z-ink3); border-radius: 14px; padding: 10px 12px; font-size: 13px; max-width: 92%; white-space: pre-line; user-select: text; cursor: text; }
@@ -157,7 +159,7 @@ svg { display: block; }
 .group { background: var(--z-ink2); border: 1px solid var(--z-line); border-radius: 18px; overflow: hidden; }
 .prog { color: var(--z-mu); }
 .swatches { display: flex; gap: 10px; flex-wrap: wrap; }
-.swatch { width: 34px; height: 34px; border-radius: 50%; border: 2px solid transparent; box-shadow: 0 0 0 1px var(--z-line); }
+.swatch { width: 26px; height: 26px; border-radius: 50%; border: 2px solid transparent; box-shadow: 0 0 0 1px var(--z-line); }
 .swatch.on { border-color: var(--z-ink); box-shadow: 0 0 0 2px var(--z-acc); }
 .personal { display: grid; grid-template-columns: 300px 1fr; gap: 14px; }
 .preview { background: radial-gradient(90% 80% at 50% 25%, color-mix(in srgb, var(--z-acc) 16%, var(--z-ink2)), var(--z-ink2)); border: 1px solid var(--z-line); border-radius: 20px; padding: 22px; display: flex; flex-direction: column; gap: 16px; align-items: center; }
@@ -361,6 +363,18 @@ input[type=range] { accent-color: var(--z-acc); }
 .corrow { display: flex; align-items: center; gap: 14px; }
 .corrow + .corrow { margin-top: 12px; }
 .corlbl { flex: none; width: 54px; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--z-mu); }
+
+/* página Studio: o vídeo do estúdio (agentes montando o criativo), na largura do conteúdo */
+/* WhatsApp: o QR code pra conectar */
+.wa-qr { display: flex; gap: 18px; align-items: center; }
+.wa-qr img { width: 210px; height: 210px; border-radius: 12px; background: #fff; padding: 8px; flex: none; }
+.wa-qr div { display: flex; flex-direction: column; gap: 8px; }
+/* Gastos: barras por categoria */
+.gcats { display: flex; flex-direction: column; gap: 8px; }
+.gcat { display: grid; grid-template-columns: 110px 1fr 96px; align-items: center; gap: 10px; font-size: 13px; }
+.gcat span { color: var(--z-mu); }
+.gcat b { text-align: right; font-variant-numeric: tabular-nums; }
+.studio-video { width: 100%; border-radius: 16px; border: 1px solid var(--z-line); background: #000; display: block; }
 
 </style>
 <style>
@@ -620,7 +634,7 @@ input[type=range] { accent-color: var(--z-acc); }
   var BODIES = {
     safira: ['#AFD3FF', '#2F7BFF'], cobalto: ['#A8BBFF', '#2748FF'], gelo: ['#EAF3FF', '#8DB4F5'],
     grafite: ['#CDD3DE', '#5C6577'], menta: ['#C5F7EA', '#1FBFA0'], rosa: ['#FFD3E6', '#F0508C'], ambar: ['#FFE8B0', '#F0A020'],
-    pessego: ['#FFD9C2', '#F07A3B'], lilas: ['#E4D6FF', '#8E5BFF'], limao: ['#EDF7B8', '#9CC922'], arco: ['ARCO', 'ARCO']
+    lilas: ['#E4D6FF', '#8E5BFF'], limao: ['#EDF7B8', '#9CC922'], arco: ['ARCO', 'ARCO']
   };
   var EYES = { ciano: '#5FD7FF', branco: '#FFFFFF', menta: '#6BF2C4', ambar: '#FFC857', rosa: '#FF7AA8', violeta: '#B69CFF', vermelho: '#FF6B5E', lima: '#A8F56B', arco: 'ARCO' };
   var VISORS = { noite: '#030813', preto: '#000000', roxo: '#1D1030', verde: '#06231E', marrom: '#241310', branco: '#EFF3FA', arco: 'ARCO' };
@@ -657,7 +671,9 @@ input[type=range] { accent-color: var(--z-acc); }
     clip: 'M8 4h8v3H8zM6 6h12v15H6z', copy: 'M9 9h10v11H9zM5 15V4h10', camera: 'M4 7h4l2-3h4l2 3h4v12H4zM12 16a3 3 0 100-6 3 3 0 000 6z',
     folder: 'M3 6h6l2 2h10v11H3z', calc: 'M6 3h12v18H6zM9 7h6M9 12h.01M12 12h.01M15 12h.01M9 16h.01M12 16h.01M15 16h.01',
     note: 'M5 3h14v18H5zM8 8h8M8 12h8M8 16h5', brush: 'M14 4l6 6-9 9H5v-6zM12 6l6 6', trash: 'M5 7h14M10 7V4h4v3M7 7l1 13h8l1-13',
-    gear: 'M12 15a3 3 0 100-6 3 3 0 000 6zM19 12h2M3 12h2M12 3v2M12 19v2M5.6 5.6L7 7M17 17l1.4 1.4M5.6 18.4L7 17M17 7l1.4-1.4'
+    gear: 'M12 15a3 3 0 100-6 3 3 0 000 6zM19 12h2M3 12h2M12 3v2M12 19v2M5.6 5.6L7 7M17 17l1.4 1.4M5.6 18.4L7 17M17 7l1.4-1.4',
+    wallet: 'M3 7h15a3 3 0 013 3v7a3 3 0 01-3 3H6a3 3 0 01-3-3zM3 7l2-3h11M16 13.5h2',
+    whats: 'M4 20l1.4-4A8 8 0 1112 20a8 8 0 01-4-1.1zM9 9.5c0 3 2.5 5.5 5.5 5.5l1-1.5-2-1-1 .8a4 4 0 01-1.8-1.8l.8-1-1-2z'
   };
   Core.ic = function (n) {
     return '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="' + (P[n] || P.spark) + '"/></svg>';
@@ -943,7 +959,74 @@ input[type=range] { accent-color: var(--z-acc); }
       Core.pending = { run: function () { bridge.invoke('sys:tool', 'lock'); return 'Bloqueando o PC.'; } };
       return 'Quer mesmo bloquear o PC agora? Responda “sim” para confirmar.';
     }
-    if (/(como esta|status d[oa]|meu pc esta lento|saude d[oa]) ?(?:meu )?(?:pc|computador)?/.test(t) && /pc|computador/.test(t)) {
+    // ---------- gastos ----------
+    var VALOR = '(?:r\\$\\s*)?(\\d+(?:[.,]\\d{1,3})*(?:,\\d{1,2})?)\\s*(?:reais|real|conto|contos|pila|r\\$)?';
+    // "gastei 50 no mercado", "paguei 120 de luz", "registra gasto de 32,90 com uber"
+    if ((m = t.match(new RegExp('^(?:eu )?(?:gastei|paguei|desembolsei|torrei|registra(?:r)?(?: um)? gasto(?: de)?|anota(?:r)?(?: um)? gasto(?: de)?|novo gasto(?: de)?|gasto de)\\s+' + VALOR + '(?:\\s+(?:no|na|nos|nas|em|com|de|do|da|pra|para|pro|pela|pelo)\\s+(.+))?$')))) {
+      var valor = valorDe(m[1]);
+      if (valor > 0) {
+        var desc = m[2] ? cap(orig(m[2]).replace(/[.!]+$/, '')) : 'Gasto';
+        var cat = Core.categoriaDe(desc);
+        d.gastos = d.gastos || [];
+        d.gastos.push({ id: Core.uid(), valor: valor, desc: desc, categoria: cat, t: Date.now() });
+        keys.push('gastos');
+        return 'Anotado: ' + Core.reais(valor) + ' em ' + cat + (m[2] && Core.norm(desc) !== Core.norm(cat) ? ' (' + desc + ')' : '') + '. No mês você já gastou ' + Core.reais(Core.somaGastos(Core.gastosDe('mes'))) + '.';
+      }
+    }
+    // "comprei pão por 12", "paguei a luz, deu 180"
+    if ((m = t.match(new RegExp('^(?:eu )?(?:comprei|paguei)\\s+(.+?)\\s+(?:por|de|deu|foi|custou)\\s+' + VALOR + '$')))) {
+      var valor2 = valorDe(m[2]);
+      if (valor2 > 0) {
+        var desc2 = cap(orig(m[1]).replace(/^(?:a|o|as|os|um|uma)\s+/i, '').replace(/[,.]+$/, ''));
+        var cat2 = Core.categoriaDe(desc2);
+        d.gastos = d.gastos || [];
+        d.gastos.push({ id: Core.uid(), valor: valor2, desc: desc2, categoria: cat2, t: Date.now() });
+        keys.push('gastos');
+        return 'Anotado: ' + Core.reais(valor2) + ' em ' + cat2 + ' (' + desc2 + '). No mês você já gastou ' + Core.reais(Core.somaGastos(Core.gastosDe('mes'))) + '.';
+      }
+    }
+    // "apaga o último gasto"
+    if (/^(?:apaga|apague|apagar|remove|remova|tira|exclui|desfaz|cancela)\s+(?:o\s+)?ultimo gasto\b/.test(t)) {
+      var lg = d.gastos || [];
+      if (!lg.length) return 'Você ainda não tem gastos anotados.';
+      var ult = lg.pop(); keys.push('gastos');
+      return 'Pronto, apaguei ' + Core.reais(ult.valor) + ' de ' + ult.desc + '.';
+    }
+    // "quanto gastei hoje / na semana / no mês / com mercado"
+    if (/\bquanto (?:eu )?(?:ja )?gastei\b|\bquanto (?:foi|deu) (?:meu|o) gasto/.test(t)) {
+      var per = periodoDe(t), alvo = null;
+      var mc = t.match(/\b(?:com|em|no|na|de)\s+(.+)$/);
+      if (mc && !/^(hoje|ontem|semana|esta semana|essa semana|mes|este mes|esse mes|o mes)$/.test(mc[1].trim())) {
+        var achouCat = Core.CATEGORIAS.filter(function (c) { return Core.norm(c) === mc[1].trim(); })[0];
+        alvo = achouCat || Core.categoriaDe(mc[1]);
+        if (alvo === 'Outros' && !achouCat) alvo = null;
+      }
+      var lista = Core.gastosDe(per, alvo);
+      if (!lista.length) return 'Nenhum gasto ' + (alvo ? 'com ' + alvo + ' ' : '') + NOME_PERIODO[per] + '.';
+      var tot = Core.somaGastos(lista);
+      if (alvo) return 'Com ' + alvo + ' você gastou ' + Core.reais(tot) + ' ' + NOME_PERIODO[per] + ', em ' + lista.length + (lista.length === 1 ? ' gasto.' : ' gastos.');
+      var cats = Core.porCategoria(lista).slice(0, 4).map(function (c) { return c[0] + ' ' + Core.reais(c[1]); }).join(', ');
+      return 'Você gastou ' + Core.reais(tot) + ' ' + NOME_PERIODO[per] + '. Por categoria: ' + cats + '.';
+    }
+    // "meus gastos", "resumo dos gastos", "gastos do mês"
+    if (/^(?:meus gastos|resumo (?:dos|de) gastos|gastos (?:do|deste|desse) mes|me mostra (?:os )?(?:meus )?gastos|como estao (?:os )?meus gastos)/.test(t)) {
+      var lm = Core.gastosDe('mes');
+      if (!lm.length) return 'Você ainda não tem gastos neste mês.';
+      var linhas = Core.porCategoria(lm).map(function (c) { return c[0] + ': ' + Core.reais(c[1]); }).join('; ');
+      return 'Neste mês: ' + Core.reais(Core.somaGastos(lm)) + ' em ' + lm.length + ' gastos. ' + linhas + '.';
+    }
+    // "se desliga": fecha a Irys inteira, igual a clicar no robozinho e apertar "Sim" (sem falar nada)
+    if (/^(?:(?:pode|ja pode|vai)\s+)?(?:se\s+)?deslig(?:a|ar|ue)(?:\s+(?:agora|ai|irys|iris|voce))?$/.test(t.replace(/[.,!?]/g, ' ').replace(/\s+/g, ' ').trim())) {
+      setTimeout(function () { bridge.quit(); }, 300);
+      return Core.SILENCIO;
+    }
+    // "meu PC tá muito lento, vê o que dá pra fazer": responde e abre o Meu PC já verificando (e para por aí)
+    if (/\b(pc|computador|notebook)\b/.test(t) && /\b(lento|lenta|travando|pesado|pesada|devagar)\b/.test(t)) {
+      bridge.invoke('quick:goto', { v: 'meupc', scan: true }).catch(function () { /* painel indisponível */ });
+      var quem = d.settings.userName ? ' ' + d.settings.userName : '';
+      return 'Claro' + quem + ', vou organizar a bagunça.';
+    }
+    if (/(como esta|status d[oa]|saude d[oa]) ?(?:meu )?(?:pc|computador)?/.test(t) && /pc|computador/.test(t)) {
       return Core.refreshStats().then(Core.pcReply);
     }
     if (/(resumo do dia|o que (?:eu )?tenho (?:hoje|pra hoje)|minha agenda)/.test(t)) return Core.summary();
@@ -1030,6 +1113,41 @@ input[type=range] { accent-color: var(--z-acc); }
     return text;
   };
 
+  // ---------- gastos: guardar, separar por categoria e somar (pelo app ou pelo WhatsApp) ----------
+  var CATEGORIAS = [
+    ['Mercado', /\b(mercado|supermercado|feira|padaria|acougue|hortifruti|sacolao|atacadao|assai)\b/],
+    ['Alimentação', /\b(almoco|jantar|lanche|restaurante|ifood|pizza|hamburguer|burger|cafe|comida|bar|marmita|delivery|sorvete|acai)\b/],
+    ['Transporte', /\b(uber|99|taxi|gasolina|combustivel|onibus|metro|estacionamento|pedagio|posto|etanol|alcool|moto|carro|oficina|mecanico)\b/],
+    ['Contas', /\b(luz|agua|internet|aluguel|condominio|telefone|celular|conta|boleto|energia|gas|iptu|ipva|fatura|cartao)\b/],
+    ['Saúde', /\b(farmacia|remedio|medico|consulta|academia|dentista|exame|plano de saude|hospital|psicologo)\b/],
+    ['Lazer', /\b(cinema|show|viagem|netflix|spotify|jogo|festa|passeio|assinatura|ingresso|hotel|balada)\b/],
+    ['Compras', /\b(roupa|roupas|loja|shopping|presente|eletronico|amazon|mercado livre|shopee|tenis|sapato|magalu)\b/],
+    ['Casa', /\b(casa|movel|moveis|reforma|material|limpeza|faxina|diarista)\b/]
+  ];
+  Core.CATEGORIAS = CATEGORIAS.map(function (c) { return c[0]; }).concat(['Outros']);
+  Core.categoriaDe = function (desc) { var n = Core.norm(desc || ''); for (var i = 0; i < CATEGORIAS.length; i++) if (CATEGORIAS[i][1].test(n)) return CATEGORIAS[i][0]; return 'Outros'; };
+  Core.reais = function (v) { return 'R$ ' + (Math.round(v * 100) / 100).toFixed(2).replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, '.'); };
+  // período: 'hoje' | 'ontem' | 'semana' | 'mes' (padrão)
+  Core.gastosDe = function (periodo, categoria) {
+    var agora = new Date(), ini, fim = Infinity;
+    var dia = new Date(agora.getFullYear(), agora.getMonth(), agora.getDate()).getTime();
+    if (periodo === 'hoje') ini = dia;
+    else if (periodo === 'ontem') { ini = dia - 864e5; fim = dia; }
+    else if (periodo === 'semana') { var dw = (agora.getDay() + 6) % 7; ini = dia - dw * 864e5; }
+    else ini = new Date(agora.getFullYear(), agora.getMonth(), 1).getTime();
+    return (Core.d.gastos || []).filter(function (g) { return g.t >= ini && g.t < fim && (!categoria || g.categoria === categoria); });
+  };
+  Core.somaGastos = function (lista) { return lista.reduce(function (a, g) { return a + g.valor; }, 0); };
+  Core.porCategoria = function (lista) {
+    var m = {}; lista.forEach(function (g) { m[g.categoria] = (m[g.categoria] || 0) + g.valor; });
+    return Object.keys(m).map(function (k) { return [k, m[k]]; }).sort(function (a, b) { return b[1] - a[1]; });
+  };
+  var NOME_PERIODO = { hoje: 'hoje', ontem: 'ontem', semana: 'nesta semana', mes: 'neste mês' };
+  function periodoDe(t) { return /\bhoje\b/.test(t) ? 'hoje' : /\bontem\b/.test(t) ? 'ontem' : /\bsemana\b/.test(t) ? 'semana' : 'mes'; }
+  function valorDe(s) { return parseFloat(String(s).replace(/\.(?=\d{3}\b)/g, '').replace(',', '.')); }
+
+  Core.SILENCIO = '\u0000sem-resposta'; // resposta de um comando que não fala nem mostra nada
+
   Core.run = function (raw, opts) {
     var text = String(raw || '').trim();
     if (!text) return Promise.resolve(null);
@@ -1053,6 +1171,8 @@ input[type=range] { accent-color: var(--z-acc); }
       }
     }
     function finish(reply, mood) {
+      // comando que não responde nada (ex.: "se desliga"): não põe balão nem fala
+      if (reply === Core.SILENCIO) { keys.forEach(function (k) { Core.save(k); }); Core.busy = false; Core.notify(); return ''; }
       reply = Core.comNome(reply);
       Core.push('bot', reply);
       keys.forEach(function (k) { Core.save(k); });
@@ -1076,7 +1196,7 @@ input[type=range] { accent-color: var(--z-acc); }
     }
     // por voz (chamando o nome ou segurando Ctrl), nunca cai numa conversa de texto que não faz nada:
     // se não é um comando pronto e o cérebro é só bate-papo (não o agente de PC), avisa em vez de inventar.
-    if (opts.voice) {
+    if (opts.voice && !opts.conversa) {
       return Promise.resolve(finish('Não entendi esse comando. Tente “abre o spotify”, “toca uma música”, “timer de 10 minutos” ou “qual a previsão do tempo”.'));
     }
     Core.busy = true; Core.save('chat'); Core.notify();
@@ -1101,7 +1221,9 @@ input[type=range] { accent-color: var(--z-acc); }
     return '<div class="hd"><div><h3>' + title + '</h3>' + (sub ? '<p>' + sub + '</p>' : '') + '</div>' + (extra || '') + '</div>';
   }
   function ask(id, ph) {
+    var vz = C.d && C.d.settings && C.d.settings.voice, cont = !!(vz && vz.continuo && vz.enabled);
     return '<div class="ask"><input id="' + id + '" data-enter="ask:' + id + '" placeholder="' + ph + '" autocomplete="off">' +
+      '<button class="rb continuo' + (cont ? ' on' : '') + '" data-act="continuo" title="Sempre ouvindo' + (cont ? ' (ligado)' : '') + '">' + ic('ear') + '</button>' +
       '<button class="rb acc" data-act="ask" data-id="' + id + '" title="Enviar">' + ic('send') + '</button></div>';
   }
   function bubbles(list) {
@@ -1220,9 +1342,30 @@ input[type=range] { accent-color: var(--z-acc); }
       '<div class="list scroll">' + d.habits.map(function (h) {
         var n = h.log[t] || 0, pct = Math.min(100, Math.round(n / h.goal * 100));
         return '<div class="row sm"><span class="gi sm" style="background:var(--z-acc)">' + ic(h.icon) + '</span><div class="grow"><b>' + esc(h.name) + '</b><small>' + n + '/' + h.goal + ' ' + esc(h.unit) + '</small><div class="bar" style="margin-top:5px"><i style="width:' + pct + '%"></i></div></div>' +
-          iconBtn('hab-dec', 'minus', 'Menos', ' data-id="' + h.id + '"') + '<button class="rb acc" data-act="hab-inc" data-id="' + h.id + '" aria-label="Mais">' + ic('plus') + '</button></div>';
+          iconBtn('hab-dec', 'minus', 'Menos', ' data-id="' + h.id + '"') + '<button class="rb acc" data-act="hab-inc" data-id="' + h.id + '" aria-label="Mais">' + ic('plus') + '</button>' +
+          iconBtn('hab-del', 'close', 'Remover hábito', ' data-id="' + h.id + '"') + '</div>';
       }).join('') + '</div>' +
       '<div class="ask"><input id="in-hab" data-enter="hab-add:x" placeholder="Novo hábito (ex.: Alongar)" autocomplete="off"><button class="btn acc sm" data-act="hab-add">Adicionar</button></div>';
+  };
+
+  // Gastos: total do mês, separado por categoria, e a lista (dá pra anotar escrevendo, falando ou pelo WhatsApp)
+  V.gastos = function () {
+    var mes = C.gastosDe('mes'), tot = C.somaGastos(mes), cats = C.porCategoria(mes), maior = cats.length ? cats[0][1] : 1;
+    var lista = (C.d.gastos || []).slice().sort(function (a, b) { return b.t - a.t; }).slice(0, 60);
+    var hoje = C.somaGastos(C.gastosDe('hoje')), semana = C.somaGastos(C.gastosDe('semana'));
+    return head('Gastos', 'Neste mês: ' + C.reais(tot) + ' · ' + mes.length + (mes.length === 1 ? ' gasto' : ' gastos')) +
+      '<div class="tiles" style="grid-template-columns:repeat(3,1fr)">' +
+      '<div class="tile"><i style="background:var(--z-acc2)"></i><b>' + C.reais(hoje) + '</b><span>hoje</span></div>' +
+      '<div class="tile"><i style="background:#7C9CFF"></i><b>' + C.reais(semana) + '</b><span>nesta semana</span></div>' +
+      '<div class="tile"><i style="background:var(--z-acc)"></i><b>' + C.reais(tot) + '</b><span>neste mês</span></div></div>' +
+      (cats.length ? '<div class="card gcats">' + cats.map(function (c) {
+        return '<div class="gcat"><span>' + esc(c[0]) + '</span><div class="bar"><i style="width:' + Math.max(4, Math.round(c[1] / maior * 100)) + '%"></i></div><b>' + C.reais(c[1]) + '</b></div>';
+      }).join('') + '</div>' : '') +
+      '<div class="list scroll">' + (lista.map(function (g) {
+        return '<div class="row sm">' + ic('wallet') + '<div class="grow">' + esc(g.desc) + '<small>' + esc(g.categoria) + ' · ' + C.when(g.t) + '</small></div><b>' + C.reais(g.valor) + '</b>' +
+          iconBtn('gasto-del', 'close', 'Apagar gasto', ' data-id="' + g.id + '"') + '</div>';
+      }).join('') || '<div class="empty">Nenhum gasto ainda. Escreva ou fale: “gastei 50 no mercado”.</div>') + '</div>' +
+      ask('ask-g', 'Ex: gastei 50 no mercado');
   };
 
   V.timers = function () {
@@ -1354,6 +1497,8 @@ input[type=range] { accent-color: var(--z-acc); }
       switch (name) {
         case 'ask': { var el = document.getElementById(id); if (el && el.value.trim()) { var txt = el.value; el.value = ''; C.run(txt).then(function () { onChange(); var cb = document.getElementById('chatbox'); if (cb) cb.scrollTop = cb.scrollHeight; }); onChange(); } return; }
         case 'clear-chat': d.chat = []; key = 'chat'; break;
+        // "Sempre ouvindo": liga/desliga a conversa contínua (e liga a voz junto, se estiver desligada)
+        case 'continuo': { var vv = d.settings.voice; vv.continuo = !(vv.continuo && vv.enabled); if (vv.continuo) vv.enabled = true; key = 'settings'; break; }
         case 'task-add': { var t = val('in-task'); if (!t) return; d.tasks.push({ id: C.uid(), text: t, done: false }); key = 'tasks'; break; }
         case 'task-toggle': d.tasks.forEach(function (x) { if (x.id === id) x.done = !x.done; }); key = 'tasks'; break;
         case 'task-del': d.tasks = d.tasks.filter(function (x) { return x.id !== id; }); key = 'tasks'; break;
@@ -1365,6 +1510,8 @@ input[type=range] { accent-color: var(--z-acc); }
         }
         case 'rem-del': d.reminders = d.reminders.filter(function (x) { return x.id !== id; }); key = 'reminders'; break;
         case 'hab-inc': case 'hab-dec': d.habits.forEach(function (h) { if (h.id === id) { var n = (h.log[C.today()] || 0) + (name === 'hab-inc' ? 1 : -1); h.log[C.today()] = Math.max(0, n); } }); key = 'habits'; break;
+        case 'gasto-del': d.gastos = (d.gastos || []).filter(function (x) { return x.id !== id; }); key = 'gastos'; break;
+        case 'hab-del': d.habits = d.habits.filter(function (x) { return x.id !== id; }); key = 'habits'; break;
         case 'hab-add': { var hn = val('in-hab'); if (!hn) return; d.habits.push({ id: C.uid(), name: hn, icon: 'spark', goal: 1, unit: 'vez', log: {} }); key = 'habits'; break; }
         case 'tim-add': case 'tim-quick': {
           var tm = name === 'tim-quick' ? parseInt(ds.min, 10) : parseInt(val('in-tim-min'), 10);
@@ -1738,14 +1885,16 @@ input[type=range] { accent-color: var(--z-acc); }
 <script>
 // Painel rápido: abre ao passar o mouse no entalho. As 12 abas e atalho para o painel completo.
 (function () {
-  var NAV = [['inicio', 'home', 'Início'], ['conversa', 'chat', 'Conversa'], ['memoria', 'nodes', 'Memória'], ['tarefas', 'list', 'Tarefas'], ['lembretes', 'bell', 'Lembretes'],
+  var NAV = [['inicio', 'home', 'Início'], ['conversa', 'chat', 'Conversa'], ['memoria', 'nodes', 'Memória'], ['tarefas', 'list', 'Tarefas'], ['lembretes', 'bell', 'Lembretes'], ['gastos', 'wallet', 'Gastos'],
     ['habitos', 'drop', 'Hábitos'], ['timers', 'timer', 'Timers'], ['musica', 'music', 'Música'], ['copiados', 'clip', 'Copiados'], ['rotinas', 'bolt', 'Rotinas'],
     ['meupc', 'monitor', 'Meu PC'], ['@settings', 'sliders', 'Configurações']];
   var view = 'inicio';
   var mood = 'repouso';
   var moodT = null;
   var ouvindo = false;
-  var perguntandoSair = false; // clicou no robozinho: mostra "Fechar a Irys? Fechar / Não" // segurando a tecla de falar (ou chamou pelo nome): mostra "te ouvindo" no lugar de "as ordens"
+  var perguntandoSair = false;
+  // "Sempre ouvindo" ligado (botão da orelhinha): o status fica "te ouvindo", igual aos outros dois modos de voz
+  function sempreOuvindo() { var v = Core.d && Core.d.settings && Core.d.settings.voice; return !!(v && v.enabled && v.continuo); } // clicou no robozinho: mostra "Fechar a Irys? Fechar / Não" // segurando a tecla de falar (ou chamou pelo nome): mostra "te ouvindo" no lugar de "as ordens"
   var qs = document.getElementById('qs');
   var qm = document.getElementById('qm');
 
@@ -1759,7 +1908,7 @@ input[type=range] { accent-color: var(--z-acc); }
   function render() {
     Views.keepFocus(function () {
       // clicar no robozinho pergunta se quer fechar a Irys
-      qs.innerHTML = '<div class="who" data-act="sair-perguntar" title="Fechar a ' + Core.esc(Core.name()) + '">' + Core.face(mood, 38) + '<div><b>' + Core.esc(Core.name()) + '</b><small>● ' + (ouvindo ? 'te ouvindo' : (Core.busy ? 'pensando' : 'as ordens')) + '</small></div></div>' +
+      qs.innerHTML = '<div class="who" data-act="sair-perguntar" title="Fechar a ' + Core.esc(Core.name()) + '">' + Core.face(mood, 38) + '<div><b>' + Core.esc(Core.name()) + '</b><small>● ' + (ouvindo || sempreOuvindo() ? 'te ouvindo' : (Core.busy ? 'pensando' : 'as ordens')) + '</small></div></div>' +
         (perguntandoSair ? '<div class="sair">Fechar?<button data-act="sair-sim">Sim</button><button data-act="sair-nao">Não</button></div>' : '') +
         NAV.map(function (n) { return '<button class="nav' + (n[0] === view ? ' on' : '') + '" data-act="nav" data-v="' + n[0] + '">' + Core.ic(n[1]) + n[2] + count(n[0]) + '</button>'; }).join('');
       qm.innerHTML = Views.V[view]();
@@ -1842,6 +1991,18 @@ input[type=range] { accent-color: var(--z-acc); }
     function soltaArr() { if (arr && arr.ativo) bridge.dragPill('end'); arr = null; shape.classList.remove('arr'); }
     shape.addEventListener('pointerup', soltaArr);
     shape.addEventListener('pointercancel', soltaArr);
+
+    // abrir numa tela específica (vem do processo principal). scan: já começa a verificação do Meu PC
+    bridge.on('goto', function (p) {
+      if (!p || !p.v) return;
+      view = p.v;
+      if (p.scan) {
+        Core.ui.scanning = true; Core.ui.scanProg = null; Core.ui.cleaned = ''; Core.ui.confirmClean = false; Core.ui.pcFechados = [];
+        bridge.invoke('sys:scan').then(function (r) { Core.ui.scan = r; Core.ui.scanning = false; Core.ui.scanProg = null; render(); }).catch(function () { Core.ui.scanning = false; render(); });
+      }
+      if (view === 'meupc') Core.refreshStats().then(render);
+      render();
+    });
 
     bridge.on('focus-input', function () {
       var el = document.querySelector('.qmain input');
