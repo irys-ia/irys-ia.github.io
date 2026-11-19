@@ -186,11 +186,6 @@ footer{border-top:1px solid var(--line);padding-block:32px 48px;color:var(--mu);
     </div>
   </section>
 
-  <section id="novidades" hidden>
-    <div class="sechead"><div class="eyebrow">Novidades</div><h2>O que chegou nas últimas versões.</h2><p>O app se atualiza sozinho. Tudo isto já está nas mãos de quem comprou.</p></div>
-    <div class="grid g3" id="news"></div>
-  </section>
-
   <section>
     <div class="sechead"><div class="eyebrow">Ela tem personalidade</div><h2>13 expressões que mudam com a conversa.</h2><p>Ela pisca, segue o mouse com os olhos e reage ao que você fala. Escolha a cor do corpo, do visor e dos olhos, o formato dos olhos, um acessório e até o nome dela.</p></div>
     <div class="faces" id="faces"></div>
@@ -273,14 +268,7 @@ footer{border-top:1px solid var(--line);padding-block:32px 48px;color:var(--mu);
     <a class="btn acc" href="https://go.perfectpay.com.br/PPU38CQHQA6" target="_blank" rel="noopener" data-price-btn>Comprar</a>
   </section>
 
-  <footer><span>Irys.ia · a assistente no topo da sua tela · <a href="seguranca.html" style="text-decoration:underline">Segurança e privacidade</a></span><span>Dúvidas? Responda o e-mail da compra. · <span id="irys-versao"></span></span></footer>
-  <script>
-  fetch('https://irys-entrega.marcelopvdo.workers.dev/versao').then(function(r){return r.ok?r.json():null}).then(function(j){
-    if(!j||!j.versao)return;var el=document.getElementById('irys-versao');if(el)el.textContent='Versão atual '+j.versao;
-    var h=(j.historico||[]).slice(0,3),box=document.getElementById('news'),sec=document.getElementById('novidades');
-    if(h.length&&box&&sec){box.innerHTML=h.map(function(v){var d=v.data?new Date(v.data).toLocaleDateString('pt-BR'):'';return '<div class="card"><b>Versão '+v.versao+'</b><span class="mu" style="font-size:12.5px">'+d+'</span><ul style="margin:4px 0 0;padding-left:18px;color:var(--mu);font-size:14.5px">'+(v.notas||[]).map(function(n){return '<li>'+String(n).replace(/</g,'&lt;')+'</li>';}).join('')+'</ul></div>';}).join('');sec.hidden=false;}
-  }).catch(function(){});
-  </script>
+  <footer><span>Irys.ia · a assistente no topo da sua tela · <a href="seguranca.html" style="text-decoration:underline">Segurança e privacidade</a></span><span>Dúvidas? Responda o e-mail da compra.</span></footer>
 </div>
 
 <script>
