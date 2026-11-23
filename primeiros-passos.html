@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Primeiros passos · Irys</title>
+<meta name="description" content="O passo a passo depois de instalar a Irys: chaves grátis do Gemini e da Groq, treino da voz, Claude Code, Codex e WhatsApp.">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Sora:wght@600;700;800&display=swap">
+<style>
+:root{
+  --z-acc:#3D8BFF; --z-acc2:#5FD7FF;
+  --ink:#000; --ink2:#0B0B0C; --ink3:#161617; --line:rgba(255,255,255,.09);
+  --tx:#F5F6F8; --mu:#9AA0A8; --on:#04101F; --warn:#FFC857; --ok:#4ADE9B;
+  --display:'Sora',system-ui,sans-serif; --body:'DM Sans',system-ui,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--ink);color:var(--tx);font-family:var(--body);font-size:16px;line-height:1.6;padding:0 max(16px,env(safe-area-inset-left,0px));overflow-x:hidden}
+a{color:var(--z-acc2)}
+.wrap{max-width:820px;margin:0 auto}
+h1,h2,h3{font-family:var(--display);letter-spacing:-.02em;margin:0;text-wrap:balance}
+h1{font-size:clamp(30px,5vw,46px);line-height:1.08}
+h2{font-size:clamp(21px,3vw,26px);line-height:1.2}
+p{margin:0}
+.mu{color:var(--mu)}
+nav{display:flex;align-items:center;gap:16px;padding:18px 0}
+nav .brand{font-family:var(--display);font-weight:700;font-size:22px;color:var(--tx);text-decoration:none}
+nav .back{margin-left:auto;color:var(--mu);font-size:14px;text-decoration:none}
+nav .back:hover{color:var(--tx)}
+.eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--z-acc2);font-weight:700;margin-bottom:12px}
+header{padding:36px 0 28px}
+header p{color:var(--mu);font-size:17.5px;margin-top:16px;max-width:60ch}
+.toc{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.toc a{background:var(--ink3);border:1px solid var(--line);border-radius:999px;padding:7px 13px;font-size:13.5px;color:var(--tx);text-decoration:none}
+.toc a:hover{border-color:rgba(255,255,255,.25)}
+.passo{background:var(--ink2);border:1px solid var(--line);border-radius:20px;padding:24px;margin-top:16px;scroll-margin-top:16px}
+.passo .topo{display:flex;align-items:center;gap:14px;margin-bottom:12px}
+.num{flex:none;width:36px;height:36px;border-radius:50%;background:var(--z-acc);color:var(--on);display:grid;place-items:center;font-weight:800;font-family:var(--display)}
+.tag{font-size:11px;font-weight:700;padding:3px 10px;border-radius:999px;margin-left:auto;white-space:nowrap}
+.tag.rec{background:color-mix(in srgb,var(--ok) 16%,transparent);color:var(--ok)}
+.tag.opc{background:color-mix(in srgb,var(--warn) 14%,transparent);color:var(--warn)}
+.passo > p{color:var(--mu)}
+.passo > p b{color:var(--tx)}
+ol{margin:14px 0 0;padding-left:22px;display:grid;gap:8px}
+ol li::marker{color:var(--z-acc2);font-weight:700}
+.caminho{display:inline-block;background:var(--ink3);border:1px solid var(--line);border-radius:8px;padding:1px 8px;font-size:14px;font-weight:600;color:var(--tx)}
+.link{display:inline-flex;align-items:center;gap:8px;margin-top:16px;background:var(--z-acc);color:var(--on);border-radius:999px;padding:10px 18px;font-weight:700;text-decoration:none;font-size:15px}
+.link:hover{filter:brightness(1.12)}
+.dica{margin-top:14px;border-left:3px solid var(--z-acc2);padding:4px 0 4px 14px;color:var(--mu);font-size:15px}
+.dica b{color:var(--tx)}
+pre{background:#050506;border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:8px 0 0;overflow-x:auto;font-size:13.5px;color:var(--tx)}
+code{font-family:ui-monospace,Consolas,monospace}
+.fim{text-align:center;padding:48px 0 24px;display:flex;flex-direction:column;align-items:center;gap:14px}
+footer{border-top:1px solid var(--line);padding:24px 0 40px;color:var(--mu);font-size:13px;display:flex;gap:12px;flex-wrap:wrap;justify-content:space-between}
+footer a{color:var(--mu)}
+@media (max-width:560px){.passo{padding:18px}.passo .topo{flex-wrap:wrap}.tag{margin-left:0}header{padding:20px 0 16px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav><a class="brand" href="index.html">Irys</a><a class="back" href="index.html">← Voltar para o site</a></nav>
+
+  <header>
+    <div class="eyebrow">Primeiros passos</div>
+    <h1>Instalou? Siga estes passos e a Irys fica afiada.</h1>
+    <p>É o mesmo passo a passo que a gente faz com cada cliente. Os dois primeiros levam uns 5 minutos e são grátis: com eles a Irys entende muito melhor o que você fala e responde com uma voz mais natural.</p>
+    <div class="toc">
+      <a href="#ativar">1. Ativar</a><a href="#gemini">2. Gemini</a><a href="#groq">3. Groq</a><a href="#voz">4. Treinar a voz</a><a href="#agente">5. Claude Code ou Codex</a><a href="#whatsapp">6. WhatsApp</a>
+    </div>
+  </header>
+
+  <section class="passo" id="ativar">
+    <div class="topo"><span class="num">1</span><h2>Instale e ative</h2></div>
+    <ol>
+      <li>Baixe o instalador pelo link que chegou no e-mail da compra (olhe o spam se não achar).</li>
+      <li>Abra o instalador. Se o Windows mostrar “O Windows protegeu o computador”, clique em <b>Mais informações</b> e depois em <b>Executar assim mesmo</b>.</li>
+      <li>Na Irys, digite o <b>e-mail da compra</b> e a <b>chave</b> que veio no e-mail, do jeitinho que está lá.</li>
+      <li>Escolha a cor, os olhos e o nome dela em <span class="caminho">Personalizar</span>.</li>
+    </ol>
+    <p class="dica">As configurações abrem pela Irys: passe o mouse no topo da tela e clique em <b>Configurações</b> no painel (ou aperte Ctrl+Alt+P).</p>
+  </section>
+
+  <section class="passo" id="gemini">
+    <div class="topo"><span class="num">2</span><h2>Conecte o Gemini (grátis)</h2><span class="tag rec">Recomendado</span></div>
+    <p>O Gemini, do Google, tem uma cota gratuita generosa. Com ele a Irys <b>conversa melhor</b> e fala com uma <b>voz muito mais natural</b>.</p>
+    <ol>
+      <li>Abra o link abaixo e entre com a sua conta do Google.</li>
+      <li>Clique em <b>Create API key</b> (Criar chave de API) e copie a chave que aparecer.</li>
+      <li>Na Irys, vá em <span class="caminho">Cérebro (IA)</span>, ache o <b>Gemini</b>, cole a chave e clique em <b>Salvar e testar</b>.</li>
+      <li>Marque o Gemini como o cérebro da Irys.</li>
+    </ol>
+    <a class="link" href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">Pegar a chave grátis do Gemini ↗</a>
+    <p class="dica">Não pede cartão. A chave é sua e fica guardada criptografada no seu computador.</p>
+  </section>
+
+  <section class="passo" id="groq">
+    <div class="topo"><span class="num">3</span><h2>Conecte a Groq (grátis)</h2><span class="tag rec">Recomendado</span></div>
+    <p>A Groq é a que <b>escuta</b>: transforma a sua fala em texto com muita precisão quando você segura Ctrl e fala. Também serve de cérebro reserva se o Gemini estiver ocupado.</p>
+    <ol>
+      <li>Abra o link abaixo e crie a sua conta (dá para entrar com o Google).</li>
+      <li>Clique em <b>Create API Key</b>, dê um nome qualquer (ex.: Irys) e copie a chave. Ela só aparece uma vez.</li>
+      <li>Na Irys, vá em <span class="caminho">Cérebro (IA)</span>, ache a <b>Groq</b>, cole a chave e clique em <b>Salvar e testar</b>.</li>
+    </ol>
+    <a class="link" href="https://console.groq.com/keys" target="_blank" rel="noopener">Pegar a chave grátis da Groq ↗</a>
+    <p class="dica">Grátis e sem cartão. Com as duas chaves, a Irys fica no melhor desempenho.</p>
+  </section>
+
+  <section class="passo" id="voz">
+    <div class="topo"><span class="num">4</span><h2>Treine a voz com o seu jeito de falar</h2><span class="tag rec">Recomendado</span></div>
+    <p>Cada pessoa fala de um jeito. Treinando, a Irys aprende como <b>a sua voz</b> soa e passa a atender de primeira quando você chama.</p>
+    <ol>
+      <li>Vá em <span class="caminho">Voz</span> e ligue a voz. Espere aparecer “Ouvindo”.</li>
+      <li>Clique em <b>Ensinar (4 vezes)</b> e diga o nome dela 4 vezes, com uma pausa entre cada uma, do jeito que você fala no dia a dia.</li>
+      <li>Ligue <b>Falar segurando Ctrl</b>: segure Ctrl em qualquer janela, fale o pedido e solte.</li>
+      <li>Se quiser que ela responda falando, ligue <b>Falar as respostas</b>.</li>
+    </ol>
+    <p class="dica"><b>Dica:</b> treine num lugar sem muito barulho e com o microfone que você vai usar no dia a dia.</p>
+  </section>
+
+  <section class="passo" id="agente">
+    <div class="topo"><span class="num">5</span><h2>Claude Code ou Codex: ela trabalha no seu PC</h2><span class="tag opc">Opcional</span></div>
+    <p>Se você quer que a Irys faça <b>trabalhos completos</b> no computador (organizar pastas, achar arquivos, renomear, rodar tarefas), ligue um destes agentes. Basta <b>um</b> dos dois. Eles usam a sua própria conta: o Claude Code precisa de um plano do Claude (Pro ou Max) e o Codex de um plano do ChatGPT (Plus ou superior).</p>
+    <p style="margin-top:14px"><b>Claude Code</b>: abra o PowerShell e rode um comando por vez:</p>
+    <pre><code>winget install --id Git.Git -e</code></pre>
+    <pre><code>irm https://claude.ai/install.ps1 | iex</code></pre>
+    <p class="mu" style="margin-top:8px;font-size:15px">Feche e abra o PowerShell de novo e rode <code>claude</code> para fazer o login.</p>
+    <p style="margin-top:14px"><b>Codex</b>: no PowerShell:</p>
+    <pre><code>winget install --id OpenJS.NodeJS.LTS -e</code></pre>
+    <pre><code>npm install -g @openai/codex</code></pre>
+    <p class="mu" style="margin-top:8px;font-size:15px">Feche e abra o PowerShell de novo e rode <code>codex</code> para fazer o login.</p>
+    <ol>
+      <li>Feche a Irys de verdade (também pelo ícone perto do relógio) e abra de novo.</li>
+      <li>Vá em <span class="caminho">Cérebro (IA)</span> › <b>Controlar o PC</b> e clique em <b>Ligar à Irys</b>.</li>
+    </ol>
+    <p class="dica">O app de conversa do Claude ou do ChatGPT <b>não serve</b>: precisa ser o programa de terminal acima. E você no controle: cada pedido pede o seu OK antes.</p>
+  </section>
+
+  <section class="passo" id="whatsapp">
+    <div class="topo"><span class="num">6</span><h2>Leve a Irys no WhatsApp</h2><span class="tag opc">Opcional</span></div>
+    <p>Fale com a Irys pelo celular, por texto ou áudio: gastos, lembretes, tarefas e o que mais ela faz no PC.</p>
+    <ol>
+      <li>Na Irys, vá em <span class="caminho">Funções</span> › <b>WhatsApp</b>.</li>
+      <li>Leia o QR code com o celular, igual ao WhatsApp Web.</li>
+      <li>Abra a conversa com você mesmo (“Mensagem para mim”) e fale com ela. Ela só usa essa conversa.</li>
+    </ol>
+    <p class="dica">O PC precisa estar ligado com a Irys aberta.</p>
+  </section>
+
+  <div class="fim">
+    <h2>Travou em algum passo?</h2>
+    <p class="mu">Responda o e-mail da compra contando onde parou que a gente te ajuda.</p>
+    <a class="link" href="index.html">Voltar para o site</a>
+  </div>
+
+  <footer><span>Irys.ia · a assistente no topo da sua tela</span><a href="seguranca.html">Segurança e privacidade</a></footer>
+</div>
+</body>
+</html>

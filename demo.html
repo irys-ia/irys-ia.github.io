@@ -53,6 +53,7 @@ svg { display: block; }
 .rb.acc { background: var(--z-acc); color: var(--z-on); }
 /* "Sempre ouvindo" ligado: verde, como um microfone aberto */
 .rb.continuo.on { background: var(--z-acc); color: var(--z-on); }
+.rb.dormir.on { background: var(--z-acc); color: var(--z-on); }
 .rb:hover { filter: brightness(1.25); }
 .card { background: var(--z-ink2); border: 1px solid var(--z-line); border-radius: 18px; padding: 14px; }
 .bub { background: var(--z-ink3); border-radius: 14px; padding: 10px 12px; font-size: 13px; max-width: 92%; white-space: pre-line; user-select: text; cursor: text; }
@@ -113,6 +114,7 @@ svg { display: block; }
 .spacer { flex: 1; }
 .qmain { padding: 18px 20px; display: flex; flex-direction: column; gap: 12px; min-width: 0; overflow: auto; }
 .two { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; flex: 1; min-height: 0; }
+.two.so-um { grid-template-columns: 1fr; }
 .chatbox { display: flex; flex-direction: column; gap: 8px; overflow: auto; }
 
 /* ---------- janela de configurações ---------- */
@@ -268,6 +270,13 @@ svg { display: block; }
 .prov { display: flex; flex-direction: column; gap: 10px; }
 .provh { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
 .provh small { display: block; color: var(--z-mu); margin-top: 3px; }
+.psel { margin-bottom: 10px; }
+.psel.on { border-color: var(--z-acc); background: color-mix(in srgb, var(--z-acc) 8%, var(--z-ink2)); }
+.psel-topo { display: flex; gap: 12px; align-items: flex-start; text-align: left; flex: 1; min-width: 0; background: none; border: 0; padding: 0; color: inherit; cursor: pointer; font: inherit; }
+.psel-topo b { font-family: var(--display); font-size: 14px; }
+.radio { width: 18px; height: 18px; border-radius: 50%; border: 2px solid var(--z-line); flex: none; margin-top: 1px; }
+.radio.on { border-color: var(--z-acc); background: radial-gradient(circle, var(--z-acc) 0 4px, transparent 5px); }
+.badge.warn { background: rgba(255,200,87,.15); color: #FFC857; }
 .errmsg { color: #ff8a8a; }
 .dotst { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 7px; }
 .rot { display: flex; flex-direction: column; gap: 10px; }
@@ -371,7 +380,8 @@ input[type=range] { accent-color: var(--z-acc); }
 .wa-qr div { display: flex; flex-direction: column; gap: 8px; }
 .org-horas { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
 .org-col { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
-.org-col + .org-col { border-left: 1px solid var(--z-line); padding-left: 24px; }
+.org-col + .org-col, .org-bloco-conta + .org-bloco-conta { position: relative; }
+.org-col + .org-col::before, .org-bloco-conta + .org-bloco-conta::before { content: ''; position: absolute; left: -24px; top: 0; bottom: 0; width: 1px; background: var(--z-line); }
 .org-conta { display: flex; align-items: center; gap: 12px; }
 .org-conta .tile-ic { flex: none; }
 .org-videos { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
@@ -379,6 +389,66 @@ input[type=range] { accent-color: var(--z-acc); }
 .org-video video { width: 100%; aspect-ratio: 9 / 16; object-fit: cover; border-radius: 12px; background: #000; }
 .org-vnome { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--z-mu); }
 .org-vnome span { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.org-skills { display: grid; grid-auto-flow: column; grid-auto-columns: 170px; gap: 8px; overflow-x: auto; overflow-y: hidden; padding-bottom: 8px; cursor: grab; scrollbar-width: thin; }
+.org-skills.arrastando { cursor: grabbing; user-select: none; }
+.org-skills.arrastando .org-skill { pointer-events: none; }
+.org-col-2 { min-width: 0; }
+.org-col-2 { grid-column: span 2; }
+.org-sub { margin-top: 10px; }
+.org-skill { display: flex; flex-direction: column; text-align: left; background: var(--z-ink3); border: 2px solid var(--z-line); border-radius: 16px; overflow: hidden; padding: 0; cursor: pointer; color: inherit; font: inherit; }
+.org-skill:hover { border-color: color-mix(in srgb, var(--z-acc) 50%, transparent); }
+.org-skill.on { border-color: var(--z-acc); box-shadow: 0 0 0 3px color-mix(in srgb, var(--z-acc) 25%, transparent); }
+.org-skill video { width: 100%; aspect-ratio: 9 / 16; object-fit: cover; background: #000; display: block; pointer-events: none; }
+.org-skill-info { display: flex; flex-direction: column; gap: 4px; padding: 12px 14px; }
+.org-skill-info span { color: var(--z-mu); font-size: 12.5px; line-height: 1.4; }
+.org-skill-sel { font-size: 11px; color: var(--z-acc); margin-left: 6px; }
+.org-video video:fullscreen, .studio-video:fullscreen { object-fit: contain; }
+.org-horas { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 48px; }
+.org-contas { gap: 48px !important; }
+input[type="time"]::-webkit-calendar-picker-indicator { filter: invert(1); opacity: .85; cursor: pointer; }
+.org-sel { background: var(--z-acc); color: #04101F; font-size: 11px; font-weight: 800; padding: 3px 10px; border-radius: 999px; text-transform: uppercase; letter-spacing: .04em; }
+.org-sel-btn { background: transparent; border: 1px solid var(--z-line); color: var(--z-mu); font: inherit; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 999px; cursor: pointer; }
+.org-sel-btn:hover { color: var(--z-tx, #fff); border-color: var(--z-acc); }
+.org-bloco-conta { display: flex; flex-direction: column; gap: 8px; }
+.org-contas { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); }
+/* 5 contas na mesma linha: tudo mais apertado */
+.org-contas { gap: 20px !important; padding: 14px 16px; }
+.org-bloco-conta + .org-bloco-conta::before { left: -10px; }
+.org-contas .org-bloco-topo { gap: 6px; min-height: 28px; }
+.org-contas .org-bloco-topo b { font-size: 13px; }
+.org-contas .org-sel, .org-contas .org-sel-btn { font-size: 10px; padding: 2px 8px; }
+.org-contas .list { gap: 6px; }
+.org-contas .org-conta { gap: 7px; padding: 8px 8px; }
+.org-contas .org-conta .grow b { font-size: 12.5px; }
+.org-contas .org-conta .grow .mu2 { font-size: 11px; }
+.org-contas .org-conta .btn { font-size: 11px; padding: 5px 9px; }
+/* janela estreita: os botões descem para baixo do nome, para o @ não sumir */
+@media (max-width: 1500px) { .org-contas .org-conta { flex-wrap: wrap; row-gap: 6px; } .org-contas .org-conta .grow { flex-basis: calc(100% - 40px); } }
+
+.org-conta-vaga { justify-content: center; align-items: flex-start; }
+.org-conta .grow { min-width: 0; }
+.org-conta .grow b, .org-conta .grow .mu2 { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.org-conta .btn { flex: none; }
+.org-bloco-topo { display: flex; align-items: center; gap: 10px; min-height: 34px; }
+.org-horas select.field, .org-col select.field { color: var(--z-tx, #fff); background-color: var(--z-ink3); }
+.org-horas select.field option { color: #fff; background: #111; }
+.org-bloco-topo b { margin-right: auto; }
+.org-som { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 48px; margin-top: 6px; }
+.org-som .org-col + .org-col { position: relative; }
+.org-trilhas { display: flex; flex-wrap: wrap; gap: 8px; }
+.org-trilha { display: flex; align-items: center; border: 1px solid var(--z-line); border-radius: 999px; overflow: hidden; background: var(--z-ink3); }
+.org-trilha.on { border-color: var(--z-acc); box-shadow: 0 0 0 2px color-mix(in srgb, var(--z-acc) 30%, transparent); }
+.org-trilha-nome, .org-trilha-play { background: transparent; border: 0; color: inherit; font: inherit; font-size: 12.5px; font-weight: 700; padding: 7px 12px; cursor: pointer; }
+.org-trilha-play { border-left: 1px solid var(--z-line); padding: 7px 10px; color: var(--z-acc); }
+.org-jobs { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
+.org-job { display: flex; flex-direction: column; gap: 6px; background: var(--z-ink3); border: 1px solid var(--z-line); border-radius: 14px; padding: 14px; }
+.org-job.pausado { opacity: .55; }
+.org-job.editando { border-color: var(--z-acc); }
+.org-job-topo { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.org-job-inst { font-size: 12.5px; color: var(--z-mu); line-height: 1.4; }
+.org-job-bts { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; margin-top: 4px; }
+.org-video { position: relative; }
+.org-vjob { position: absolute; top: 8px; left: 8px; background: rgba(0,0,0,.75); color: #fff; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 8px; }
 .org-confirma { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .org-instrucao { width: 100%; min-height: 120px; resize: vertical; font: inherit; line-height: 1.5; padding: 10px 12px; }
 /* Gastos: barras por categoria */
@@ -387,6 +457,46 @@ input[type=range] { accent-color: var(--z-acc); }
 .gcat span { color: var(--z-mu); }
 .gcat b { text-align: right; font-variant-numeric: tabular-nums; }
 .studio-video { width: 100%; border-radius: 16px; border: 1px solid var(--z-line); background: #000; display: block; }
+
+/* Cortes */
+.cortes-ord { display: inline-flex; gap: 4px; padding: 4px; border-radius: 14px; background: var(--z-ink2); border: 1px solid var(--z-line); }
+.cortes-ord button { border: 0; background: transparent; color: var(--z-mu); font: inherit; font-weight: 600; padding: 7px 12px; border-radius: 10px; cursor: pointer; }
+.cortes-ord button.on { background: var(--z-acc); color: #fff; }
+.cortes-grade { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 14px; }
+.cortes-card { background: var(--z-ink2); border: 1.5px solid var(--z-line); border-radius: 18px; overflow: hidden; cursor: pointer; }
+.cortes-card.on { border-color: var(--z-acc); box-shadow: 0 0 0 2px color-mix(in srgb, var(--z-acc) 40%, transparent); }
+.cortes-capa { position: relative; aspect-ratio: 9 / 16; background: #000; }
+.cortes-capa img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.cortes-check { position: absolute; right: 10px; top: 10px; width: 26px; height: 26px; border-radius: 50%; border: 2px solid #fff; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,.35); }
+.cortes-card.on .cortes-check { background: var(--z-acc); border-color: var(--z-acc); }
+.cortes-check svg { width: 15px; height: 15px; }
+.cortes-views { position: absolute; left: 10px; bottom: 10px; display: flex; align-items: center; gap: 6px; font-weight: 700; color: #fff; text-shadow: 0 1px 6px rgba(0,0,0,.8); }
+.cortes-views svg { width: 14px; height: 14px; }
+.cortes-info { display: flex; gap: 12px; align-items: center; padding: 10px 12px; font-size: 13px; }
+.cortes-info .link { border: 0; background: none; color: var(--z-acc); font: inherit; font-weight: 600; cursor: pointer; padding: 0; }
+.cortes-capa video { width: 100%; height: 100%; object-fit: cover; display: block; background: #000; }
+.cortes-play { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 54px; height: 54px; border-radius: 50%; border: 0; background: rgba(0,0,0,.55); color: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+.cortes-play:hover { background: var(--z-acc); }
+.cortes-play svg { width: 22px; height: 22px; margin-left: 3px; }
+.cortes-gira { width: 22px; height: 22px; border-radius: 50%; border: 3px solid rgba(255,255,255,.3); border-top-color: #fff; animation: cortes-gira .8s linear infinite; }
+@keyframes cortes-gira { to { transform: rotate(360deg); } }
+.cortes-pg .btn.acc, .cortes-pg .btn.acc:disabled { color: #fff; }
+.cortes-info span { white-space: nowrap; }
+.cortes-dur { position: absolute; right: 10px; bottom: 10px; font-weight: 700; color: #fff; text-shadow: 0 1px 6px rgba(0,0,0,.8); }
+/* Orgânico: botão AGORA com a quantidade e as setinhas */
+.org-agora { display: flex; align-items: center; gap: 8px; }
+.org-qtd { display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 4px 0 12px; border: 1px solid var(--z-line); border-radius: 10px; background: var(--z-field, transparent); }
+.org-qtd b { min-width: 18px; text-align: center; font-variant-numeric: tabular-nums; }
+.org-setas { display: flex; flex-direction: column; gap: 1px; }
+.org-setas button { display: grid; place-items: center; width: 22px; height: 13px; padding: 0; border: 0; border-radius: 4px; background: transparent; color: var(--z-mu); cursor: pointer; }
+.org-setas button:hover { background: var(--z-line); color: inherit; }
+.cortes-pg .btn.acc, .org-agora .btn.acc { color: #fff; }
+/* Orgânico: arrastar os vídeos para mudar a ordem da fila */
+.org-video[draggable="true"] { cursor: grab; }
+.org-video.arrastando { opacity: .4; }
+/* etiquetas em cima do vídeo (Conta 2 / Job 1 e 1º da fila), lado a lado */
+.org-vtags { position: absolute; top: 8px; left: 8px; display: flex; gap: 6px; }
+.org-vtags .org-vjob { position: static; }
 
 </style>
 <style>
@@ -528,7 +638,7 @@ input[type=range] { accent-color: var(--z-acc); }
     invoke: function (ch, p) { var h = handlers[ch]; try { return Promise.resolve(h ? h(p) : true); } catch (e) { return Promise.reject(e); } },
     on: function (ch, f) { (subs[ch] = subs[ch] || []).push(f); },
     openSettings: function () { toast('As Configurações abrem numa janela própria no app instalado.'); },
-    hideQuick: function () { window.demoOpen && window.demoOpen(false); }, leaveQuick: function () { window.demoOpen && window.demoOpen(false); }, openQuick: function () {}, dragPill: function () {}, quit: function () {}
+    hideQuick: function () { window.demoOpen && window.demoOpen(false); }, leaveQuick: function () { window.demoOpen && window.demoOpen(false); }, openQuick: function () {}, dragPill: function () {}, quit: function () { window.demoOpen && window.demoOpen(false); }
   };
   // a música anda sozinha
   setInterval(function () { if (/playing/i.test(music.status)) emit('music:state', musicNow()); }, 1000);
@@ -674,6 +784,7 @@ input[type=range] { accent-color: var(--z-acc); }
     volup: 'M4 9v6h4l5 4V5L8 9zM16 8a5 5 0 010 8M19 5a9 9 0 010 14', voldown: 'M4 9v6h4l5 4V5L8 9zM16 9a4 4 0 010 6',
     mute: 'M4 9v6h4l5 4V5L8 9zM17 9l5 6M22 9l-5 6',
     ear: 'M7 9a5 5 0 0110 0c0 4-3 4-3 8a2 2 0 01-4 0',
+    moon: 'M20 14.5A8 8 0 119.5 4a6.5 6.5 0 0010.5 10.5z',
     search: 'M11 4a7 7 0 100 14 7 7 0 000-14zM20 20l-4-4', grid: 'M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z',
     sliders: 'M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M14 4v4M8 10v4M16 16v4',
     megaphone: 'M3 11v2a1 1 0 001 1h2l5 4V6L6 10H4a1 1 0 00-1 1zM15 9a4 4 0 010 6', help: 'M12 3a9 9 0 100 18 9 9 0 000-18zM9.5 9.5a2.5 2.5 0 114 2c-1 .7-1.5 1.2-1.5 2.5M12 17h.01',
@@ -686,7 +797,7 @@ input[type=range] { accent-color: var(--z-acc); }
     gear: 'M12 15a3 3 0 100-6 3 3 0 000 6zM19 12h2M3 12h2M12 3v2M12 19v2M5.6 5.6L7 7M17 17l1.4 1.4M5.6 18.4L7 17M17 7l1.4-1.4',
     wallet: 'M3 7h15a3 3 0 013 3v7a3 3 0 01-3 3H6a3 3 0 01-3-3zM3 7l2-3h11M16 13.5h2',
     whats: 'M4 20l1.4-4A8 8 0 1112 20a8 8 0 01-4-1.1zM9 9.5c0 3 2.5 5.5 5.5 5.5l1-1.5-2-1-1 .8a4 4 0 01-1.8-1.8l.8-1-1-2z',
-    trend: 'M3 17l6-6 4 4 8-8M15 7h6v6',
+    trend: 'M3 17l6-6 4 4 8-8M15 7h6v6', baixar: 'M12 3v12M7 10l5 5 5-5M5 21h14',
     insta: 'M7 3h10a4 4 0 014 4v10a4 4 0 01-4 4H7a4 4 0 01-4-4V7a4 4 0 014-4zM12 16a4 4 0 100-8 4 4 0 000 8zM17.5 6.5h.01',
     tiktok: 'M14 3v11a3.5 3.5 0 11-3.5-3.5M14 3c.5 2.5 2.5 4.5 5 4.5'
   };
@@ -783,12 +894,13 @@ input[type=range] { accent-color: var(--z-acc); }
   var FILLER_TRAIL = /\b(do desktop|da area de trabalho|na area de trabalho|por favor|pfv|por gentileza|de uma vez|ai|la|logo|agora)\b/g;
   // acha um atalho da área de trabalho pelo nome, tolerando enchimento, acento e nome parcial ("abre o whats" acha "WhatsApp")
   function findApp(pedido) {
-    var g = Core.norm(String(pedido || '').replace(FILLER_TRAIL, ' ')).replace(/^(o |a |esse |essa |aquele |aquela )/, '').trim();
+    // a voz põe ponto no fim e às vezes ouve "Discord" como "discórdia": tira a pontuação antes de procurar
+    var g = Core.norm(String(pedido || '')).replace(/[.!?,;:]+/g, ' ').replace(FILLER_TRAIL, ' ').replace(/\s+/g, ' ').trim().replace(/^(o |a |os |as |esse |essa |aquele |aquela )/, '').trim();
     if (!g || g.length < 2) return null;
     var lista = Core.apps || [];
     var exato = lista.find(function (n) { return Core.norm(n) === g; });
     if (exato) return exato;
-    return lista.find(function (n) { var ng = Core.norm(n); return ng.indexOf(g) >= 0 || g.indexOf(ng) >= 0; }) || null;
+    return lista.find(function (n) { var ng = Core.norm(n); return ng.indexOf(g) >= 0 || (ng.length >= 4 && g.indexOf(ng) >= 0); }) || null;   // nome curto ("R", "Git") não casa por estar dentro de outra palavra
   }
 
   Core.push = function (who, text) {
@@ -820,6 +932,7 @@ input[type=range] { accent-color: var(--z-acc); }
       else if (s.t === 'summary') out.push(Core.summary());
       else if (s.t === 'open') bridge.invoke('sys:open', s.url);
     });
+    r.ultima = Core.today(); keys.routines = 1;
     Object.keys(keys).forEach(function (k) { Core.save(k); });
     return out.length ? out.join(' ') : 'Rotina “' + r.name + '” executada.';
   };
@@ -846,6 +959,24 @@ input[type=range] { accent-color: var(--z-acc); }
   // tenta resolver sem IA. Devolve texto de resposta ou null.
   function local(text, t, keys) {
     var d = Core.d, m;
+    // link de reel do Instagram + "Conta N": baixa pelo Cortes e põe em Seus vídeos da conta, no Orgânico
+    var lkReel = text.match(/https?:\/\/(?:www\.)?instagram\.com\/\S+/i), ctReel = Core.norm(text).match(/\bconta\s*([1-5])\b/);
+    if (lkReel && ctReel) {
+      return bridge.invoke('cortes:link', { link: lkReel[0], conta: +ctReel[1] }).then(function (r) {
+        if (r && r.ok && r.feitos) return 'Baixei e coloquei em Seus vídeos da Conta ' + ctReel[1] + '.';
+        return (r && r.error) || 'Não consegui baixar esse vídeo.';
+      }, function () { return 'Não consegui baixar esse vídeo.'; });
+    }
+    // "quantos vídeos ainda tem pronto pra postar esperando na fila da conta 1?": conta a fila de postagem da conta
+    var fila = Core.norm(text).match(/\bquant\w*\b.*\bvideos?\b.*\bfila\b.*\bconta\s*([1-5])\b/) || Core.norm(text).match(/\bfila\b.*\bconta\s*([1-5])\b.*\bquant\w*\b/);
+    if (fila) {
+      return bridge.invoke('org:fila', +fila[1]).then(function (r) {
+        var n = (r && r.total) || 0;
+        if (r && !r.jobs) return 'A Conta ' + fila[1] + ' não tem job programado, então não tem fila de postagem.';
+        if (!n) return 'A fila da Conta ' + fila[1] + ' está vazia, Chefe. Nenhum vídeo pronto esperando pra postar.';
+        return 'Na fila da Conta ' + fila[1] + ' tem ' + n + (n === 1 ? ' vídeo pronto esperando' : ' vídeos prontos esperando') + ' pra postar, Chefe.';
+      }, function () { return 'Não consegui ver a fila agora.'; });
+    }
     // a voz costuma ouvir "timer" como "de" ou "taimer"; e escreve os números por extenso
     t = Core.numWords(t).replace(/\b(taimer|tai mer|temporizador|cronometro)\b/g, 'timer');
     t = t.replace(/^(?:me )?(?:coloca|bota|marca|inicia|inicie|faz|cria|liga|programa|quero|poe)\s+(?:um |uma )?(?=timer)/, '');
@@ -859,6 +990,14 @@ input[type=range] { accent-color: var(--z-acc); }
       var p = Core.pending; Core.pending = null;
       if (/^(sim|confirmo|pode|claro|isso|manda ver|bora)\b/.test(t)) return p.run();
       if (/^(nao|cancela|deixa|esquece|melhor nao)\b/.test(t)) return 'Tudo bem, cancelei.';
+    }
+
+    // "abre o orgânico", "me mostra as skills", "deixa eu ver as skills de criação de vídeo": abre o Orgânico em tela cheia,
+    // igual a clicar em Orgânico na barra lateral do painel (vem antes do "abre <programa>" para não procurar um atalho)
+    var querVer = /\b(abre|abra|abrir|abri|mostra|mostre|mostrar|ver|veja|vejo|entra|entre|entrar|vai|vamos|quero|deixa|cade|bota|poe)\b/;
+    if ((/\borganic[oa]s?\b/.test(t) || /\b(skills?|skius?|esquiles?|esquils?)\b/.test(t)) && querVer.test(t)) {
+      bridge.openSettings('organico', { cheia: true });
+      return 'Abrindo o Orgânico' + (/\bskills?\b|\bskius?\b|\besquil/.test(t) ? ' com as skills.' : '.');
     }
     // rotinas pela frase
     for (var i = 0; i < d.routines.length; i++) {
@@ -910,17 +1049,34 @@ input[type=range] { accent-color: var(--z-acc); }
       return 'Não achei nada sobre isso na memória.';
     }
     // música
-    if (/^(pausa|pausar|para a musica|pausa a musica|pausa o som)\b/.test(t)) { bridge.invoke('music:cmd', 'pause'); return 'Música pausada.'; }
+    // pausar: "pausa", "dá pausa na música, por favor", "pausa o Spotify", "para a música" (sem pegar a rotina "hora da pausa")
+    if (/^(?:da |de |dar |faz |faca |coloca |bota )?(?:uma )?(?:pausa|pause|pausar)\b(?! de )/.test(t) || /\b(?:pausa|pause|pausar|para|parar)\b (?:a |o |na |no |essa |esse )?(?:musica|som|spotify)\b/.test(t)) { bridge.invoke('music:cmd', 'pause'); return Core.prontoMais(); }
     // "toca"/"play" sozinhos: comando de playback. "toca" seguido de algo mais específico cai no bloco de busca
     // de artista logo abaixo, por isso só esses dois ficam travados a bater a frase inteira.
     if (/^(toca|tocar|play|bota uma musica)$/.test(t) || /^(?:da play|dá play|de play|dar play|continua|retoma|toca uma musica|toca musica)\b/.test(t)) {
       return Core.tocar();
     }
-    if (/(proxima(?: musica)?|passa a musica|pula a musica)/.test(t)) { bridge.invoke('music:cmd', 'next'); return 'Próxima.'; }
-    if (/(musica anterior|volta a musica|anterior$)/.test(t)) { bridge.invoke('music:cmd', 'prev'); return 'Voltando.'; }
-    if (/(aumenta|sobe) (?:o )?(?:som|volume)|mais alto|volume mais/.test(t)) { bridge.invoke('music:cmd', 'volup'); return 'Aumentei o volume.'; }
-    if (/(abaixa|diminui|baixa) (?:o )?(?:som|volume)|mais baixo|volume menos/.test(t)) { bridge.invoke('music:cmd', 'voldown'); return 'Abaixei o volume.'; }
-    if (/^(muta|mudo|silencio|silencia)\b/.test(t)) { bridge.invoke('music:cmd', 'mute'); return 'Pronto.'; }
+    // música SEMPRE com resposta fixa, nunca pela IA (ela inventava resposta e demorava): "dá play" em qualquer ponto da
+    // frase, ou "Spotify" junto de tocar (a voz às vezes come o "abre o": "Spotify e dá play na música, por favor").
+    // Só abrir o Spotify (sem pedir pra tocar) fica com o comando de abrir sites, mais abaixo.
+    if (/\b(?:da|de|dar|aperta|aperte) (?:o )?play\b/.test(t) || (/\bspotify\b/.test(t) && /\b(?:play|toca|tocar|tocando)\b/.test(t))) {
+      if (/\bspotify\b/.test(t) && /\b(?:abre|abrem|abra|abrir|liga|ligar)\b/.test(t)) {   // pediu pra abrir também: abre já
+        Core.lastSite = 'spotify'; Core.spotifyAbertoEm = Date.now(); bridge.invoke('sys:open', SITES.spotify);
+      }
+      Core.tocar();   // dá o play (e abre o Spotify se estiver fechado) quando ele estiver pronto
+      return Core.prontoMais();
+    }
+    // "qual música tá tocando?": responde com o que o player mostra (resposta fixa, sem IA)
+    if (/\b(?:qual|que) (?:e a )?(?:musica|som)\b|\bo que (?:ta|esta) tocando\b|\bque musica e essa\b/.test(t)) {
+      var mt = Core.live.music || {};
+      if (mt.ok && mt.title) return 'Tá tocando ' + mt.title + (mt.artist ? ', de ' + mt.artist : '') + '.';
+      return 'Não tem nenhuma música tocando agora.';
+    }
+    if (/(proxima(?: musica)?|passa a musica|pula a musica)/.test(t)) { bridge.invoke('music:cmd', 'next'); return Core.prontoMais(); }
+    if (/(musica anterior|volta a musica|anterior$)/.test(t)) { bridge.invoke('music:cmd', 'prev'); return Core.prontoMais(); }
+    if (/(aumenta|sobe) (?:o )?(?:som|volume)|mais alto|volume mais/.test(t)) { bridge.invoke('music:cmd', 'volup'); return Core.prontoMais(); }
+    if (/(abaixa|diminui|baixa) (?:o )?(?:som|volume)|mais baixo|volume menos/.test(t)) { bridge.invoke('music:cmd', 'voldown'); return Core.prontoMais(); }
+    if (/^(muta|mudo|silencio|silencia)\b/.test(t)) { bridge.invoke('music:cmd', 'mute'); return Core.prontoMais(); }
     if ((m = t.match(/^(toca|tocar|coloca|bota|poe|ouvir|pesquisa|pesquisar|procura|procurar|busca|buscar) (.+)/))) {
       var term = orig(m[2]).replace(/^(a |o |um |uma )?(musica|música|som|banda|cantor|cantora)(?: (do|da|de) )?/i, '').trim();
       if (!term) return Core.tocar(); // "toca a música"/"toca essa música": sem nome, só dá o play
@@ -931,7 +1087,7 @@ input[type=range] { accent-color: var(--z-acc); }
       }
       // "toca X": abre a busca e dá play no primeiro resultado
       return bridge.invoke('sys:spotifyPlay', term).then(function (r) {
-        if (r && r.ok) return 'Tocando “' + term + '” no Spotify.';
+        if (r && r.ok) return Core.prontoMais();
         return 'Abri a busca por “' + term + '” no Spotify, mas não consegui dar o play. É só tocar no play.';
       }, function () { return 'Não consegui abrir o Spotify agora.'; });
     }
@@ -939,9 +1095,10 @@ input[type=range] { accent-color: var(--z-acc); }
     var tools = [[/(abre|abra|abrir) (?:a )?calculadora/, 'calc', 'Abrindo a calculadora.'], [/(abre|abra|abrir) (?:o )?(?:explorador|arquivos|meus arquivos)/, 'files', 'Abrindo seus arquivos.'],
       [/(captura|print) de tela|tira um print/, 'shot', 'Pode selecionar a área da captura.'], [/(mostra|mostrar|vai para) (?:a )?area de trabalho/, 'desktop', 'Pronto.'],
       [/gerenciador de tarefas/, 'taskmgr', 'Abrindo o gerenciador de tarefas.'], [/bloco de notas/, 'notepad', 'Abrindo o bloco de notas.']];
-    for (var k = 0; k < tools.length; k++) if (tools[k][0].test(t)) { bridge.invoke('sys:tool', tools[k][1]); return tools[k][2]; }
+    for (var k = 0; k < tools.length; k++) if (tools[k][0].test(t)) { bridge.invoke('sys:tool', tools[k][1]); return k === 2 ? tools[k][2] : Core.prontoMais(); }
     // tolera enchimento de linguagem entre o verbo e o nome do site: "abre a droga do spotify", "abre esse whatsapp logo"
-    if ((m = t.match(/^(?:abre|abra|abrir|entra no|entre no|vai para o|vai pro)\b[\s\S]{0,24}?\b(youtube|google|gmail|instagram|whatsapp web|whatsapp|netflix|spotify)\b/))) {
+    // e aceita até 3 palavras antes do verbo: a voz às vezes ouve "Ei Irys, abre" como "E eles abrem"
+    if ((m = t.match(/^(?:\S+ ){0,3}?(?:abre|abrem|abra|abrir|entra no|entre no|vai para o|vai pro)\b[\s\S]{0,24}?\b(youtube|google|gmail|instagram|whatsapp web|whatsapp|netflix|spotify)\b/))) {
       Core.lastSite = m[1];
       if (m[1] === 'spotify') {
         Core.spotifyAbertoEm = Date.now();
@@ -949,26 +1106,30 @@ input[type=range] { accent-color: var(--z-acc); }
         if (/\b(play|toca|tocar|tocando|coloca musica|bota musica|solta o som)\b/.test(t.slice(m.index + m[0].length))) {
           bridge.invoke('sys:open', SITES.spotify);
           Core.tocar();
-          return 'Abrindo o Spotify e dando play.';
+          return Core.prontoMais();
         }
       }
-      bridge.invoke('sys:open', SITES[m[1]]); return 'Abrindo ' + m[1] + '.';
+      bridge.invoke('sys:open', SITES[m[1]]); return Core.prontoMais();
     }
     // "abre ele"/"abre isso" repetindo o último site aberto nesta sessão
     if (/^(?:abre|abra|abrir|bota|poe|toca)\b.*\b(ele|ela|isso|essa|esse)\b/.test(t) && Core.lastSite) {
-      bridge.invoke('sys:open', SITES[Core.lastSite]); return 'Abrindo ' + Core.lastSite + ' de novo.';
+      bridge.invoke('sys:open', SITES[Core.lastSite]); return Core.prontoMais();
     }
     if ((m = t.match(/^(?:fecha|feche|fechar|encerra|encerrar|mata|matar)\b[\s\S]{0,24}?\b(spotify|discord|chrome|word|excel|notepad|steam|vscode)\b/))) {
-      bridge.invoke('sys:close', CLOSE_APPS[m[1]]); return 'Fechando ' + m[1] + '.';
+      bridge.invoke('sys:close', CLOSE_APPS[m[1]]); return Core.prontoMais();
     }
     // qualquer outro programa: procura um atalho com esse nome na área de trabalho (sem precisar de IA nem de agente)
-    if ((m = t.match(/^(?:abre|abra|abrir|entra no|entre no|executa|executar|inicia|iniciar)\s+(?:o |a )?(.+)/))) {
+    if ((m = t.match(/^(?:abre|abri|abrem|abra|abrir|entra no|entre no|executa|executar|inicia|iniciar)\s+(?:o |a )?(.+)/))) {
       var achadoAbrir = findApp(m[1]);
-      if (achadoAbrir) { Core.lastSite = null; bridge.invoke('sys:openapp', achadoAbrir); return 'Abrindo ' + achadoAbrir + '.'; }
+      if (achadoAbrir) {
+        Core.lastSite = null;
+        // só diz "pronto" depois que o programa abriu de verdade
+        return bridge.invoke('sys:openapp', achadoAbrir).then(function (ok) { return ok ? Core.prontoMais() : 'Achei o ' + achadoAbrir + ', mas o Windows não deixou abrir. Tente abrir pelo ícone uma vez e me peça de novo.'; }, function () { return 'Não consegui abrir o ' + achadoAbrir + '.'; });
+      }
     }
     if ((m = t.match(/^(?:fecha|feche|fechar|encerra|encerrar|mata|matar)\s+(?:o |a )?(.+)/))) {
       var achadoFechar = findApp(m[1]);
-      if (achadoFechar) { bridge.invoke('sys:closeapp', achadoFechar); return 'Fechando ' + achadoFechar + '.'; }
+      if (achadoFechar) { bridge.invoke('sys:closeapp', achadoFechar); return Core.prontoMais(); }
     }
     if (/(bloqueia|bloquear|trava) (?:o )?(?:pc|computador|tela)/.test(t)) {
       Core.pending = { run: function () { bridge.invoke('sys:tool', 'lock'); return 'Bloqueando o PC.'; } };
@@ -1045,7 +1206,8 @@ input[type=range] { accent-color: var(--z-acc); }
       return Core.refreshStats().then(Core.pcReply);
     }
     if (/(resumo do dia|o que (?:eu )?tenho (?:hoje|pra hoje)|minha agenda)/.test(t)) return Core.summary();
-    if (/(previsao (?:do tempo)?|vai chover|vai fazer sol|como (?:esta|ta) o tempo|que tempo (?:faz|vai fazer)|tempo (?:hoje|agora)|clima (?:hoje|agora))\b/.test(t)) {
+    // previsão SEMPRE local (cidade pelo PC, sem perguntar): a voz às vezes come o "p" ("revisão do tempo") ou ouve "previsão" solta
+    if (/(\b(?:p?revisao|previsoes) (?:do |de )?tempo\b|\bprevisao\b|vai chover|vai fazer sol|como (?:esta|ta) o tempo|que tempo (?:faz|vai fazer)|tempo (?:hoje|agora)|\bclima\b|\btemperatura (?:hoje|agora|la fora)\b|quantos graus)/.test(t)) {
       bridge.invoke('weather:show').catch(function () { /* widget indisponível */ });
       return bridge.invoke('sys:weather').then(function (w) {
         if (!w || !w.ok) return 'Não consegui ver a previsão agora. Confira a internet.';
@@ -1083,7 +1245,7 @@ input[type=range] { accent-color: var(--z-acc); }
     var tocando = function () { var mu = Core.live.music || {}; return mu.ok && /playing/i.test(mu.status || ''); };
     var recemAberto = Core.spotifyAbertoEm && Date.now() - Core.spotifyAbertoEm < 20000;
     var temPlayer = !!(Core.live.music || {}).ok;
-    if (temPlayer && !(recemAberto && !spotifyPronto())) { bridge.invoke('music:cmd', 'play'); return 'Tocando.'; }
+    if (temPlayer && !(recemAberto && !spotifyPronto())) { bridge.invoke('music:cmd', 'play'); return Core.prontoMais(); }
     if (!temPlayer && !recemAberto) { Core.spotifyAbertoEm = Date.now(); bridge.invoke('sys:open', SITES.spotify); }
     var inicio = Date.now();
     (function espera() {
@@ -1098,12 +1260,17 @@ input[type=range] { accent-color: var(--z-acc); }
       if (Date.now() - inicio < 25000) setTimeout(espera, 400);
       else bridge.invoke('music:cmd', 'play'); // não apareceu a tempo: manda o play mesmo assim (tecla de mídia)
     })();
-    return temPlayer ? 'Tocando.' : 'Abrindo o Spotify e dando play.';
+    return Core.prontoMais();
   };
 
   // Processa um pedido. Devolve uma Promise com a resposta. opts.speak = falar a resposta em voz alta.
   // toda resposta termina com o nome do usuário ("Pronto, já tá tocando Chefe."), a não ser que ela já tenha
   // chamado ele pelo nome em algum ponto da resposta ("Oi, Chefe! Como posso ajudar?" fica como está)
+  // resposta curta de quando abre o Spotify: 'Pronto, Chefe, mais alguma coisa?'
+  Core.prontoMais = function () {
+    var nome = String((Core.d && Core.d.settings && Core.d.settings.userName) || '').trim();
+    return 'Pronto' + (nome ? ', ' + nome : '') + ', mais alguma coisa?';
+  };
   Core.comNome = function (reply) {
     var nome = String((Core.d && Core.d.settings && Core.d.settings.userName) || '').trim();
     var r = String(reply == null ? '' : reply).trim();
@@ -1173,14 +1340,14 @@ input[type=range] { accent-color: var(--z-acc); }
     // pedido composto ("dá play na música e abre o google"): só separa quando CADA pedaço começa com um verbo de
     // comando de verdade — assim nunca quebra um pedido de uma coisa só que por acaso tem "e" no meio
     // (ex. "toca Henrique e Juliano", onde "Juliano" sozinho não começa com verbo nenhum).
-    var VERBO_CMD = /^(abre|abra|abrir|entra|entre|vai|fecha|feche|fechar|encerra|encerrar|mata|matar|executa|executar|inicia|iniciar|toca|tocar|play|d[aá]|dar|pausa|pausar|continua|retoma|bota|p[oõ]e|liga|desliga|cria|criar|anota|anotar|lembra|lembre|timer|aumenta|sobe|abaixa|diminui|baixa|muta|bloqueia|bloquear|trava)(?=\s|$)/i; // (\b não fecha depois de letra acentuada: "dá play" nunca era separado)
+    var VERBO_CMD = /^(abre|abri|abrem|abra|abrir|entra|entre|vai|fecha|feche|fechar|encerra|encerrar|mata|matar|executa|executar|inicia|iniciar|toca|tocar|play|d[aá]|dar|pausa|pausar|continua|retoma|bota|p[oõ]e|liga|desliga|cria|criar|anota|anotar|lembra|lembre|timer|aumenta|sobe|abaixa|diminui|baixa|muta|bloqueia|bloquear|trava)(?=\s|$)/i; // (\b não fecha depois de letra acentuada: "dá play" nunca era separado)
     var partes = text.split(/\s*(?:,|;| e )\s*/i).filter(Boolean);
     var composto = partes.length > 1 && partes.slice(1).every(function (p) { return VERBO_CMD.test(p); });
     var r = composto ? null : local(text, t, keys);
     if (composto) {
       var respostas = partes.map(function (p) { return local(p, Core.norm(p), keys); });
       if (respostas.every(function (x) { return x !== null; })) {
-        r = Promise.all(respostas.map(function (x) { return Promise.resolve(x); })).then(function (xs) { return xs.join(' '); });
+        r = Promise.all(respostas.map(function (x) { return Promise.resolve(x); })).then(function (xs) { return xs.filter(function (x, i) { return xs.indexOf(x) === i; }).join(' '); });   // respostas iguais viram uma só
       } else {
         r = local(text, t, keys); // algum pedaço não é um comando de verdade: trata a frase inteira como uma coisa só
       }
@@ -1238,6 +1405,7 @@ input[type=range] { accent-color: var(--z-acc); }
   function ask(id, ph) {
     var vz = C.d && C.d.settings && C.d.settings.voice, cont = !!(vz && vz.continuo && vz.enabled);
     return '<div class="ask"><input id="' + id + '" data-enter="ask:' + id + '" placeholder="' + ph + '" autocomplete="off">' +
+      '<button class="rb dormir' + (vz && vz.dormindo ? ' on' : '') + '" data-act="dormir" title="' + (vz && vz.dormindo ? 'Dormindo: não ouve nada (clique para acordar)' : 'Dormir: não ouve nada') + '">' + ic('moon') + '</button>' +
       '<button class="rb continuo' + (cont ? ' on' : '') + '" data-act="continuo" title="Sempre ouvindo' + (cont ? ' (ligado)' : '') + '">' + ic('ear') + '</button>' +
       '<button class="rb acc" data-act="ask" data-id="' + id + '" title="Enviar">' + ic('send') + '</button></div>';
   }
@@ -1284,12 +1452,11 @@ input[type=range] { accent-color: var(--z-acc); }
       agenda.push('<div class="row sm">' + ic('bell') + '<div class="grow">' + esc(r.text) + '<small>' + C.when(r.at) + '</small></div></div>');
     });
     // tocando alguma coisa: o quadrado inteiro vira o player, bem mais completo que só um texto
-    var cardAgora = mu.ok ? fullPlayer(mu, 'big-square')
-      : agenda.length ? '<div class="card"><div class="gl" style="padding-top:0">Agora</div><div class="list">' + agenda.join('') + '</div></div>'
-      : '<div class="card"></div>'; // sem música e sem nada agendado: quadro em branco, igual ao da conversa
+    // tocando música: o player aparece à direita e estreita a conversa; sem música, a conversa ocupa a linha inteira
+    var cardAgora = mu.ok ? fullPlayer(mu, 'big-square') : '';
     return head(C.saudacao() + (name ? ', ' + esc(name) : '') + '!', 'Estou à disposição pra atender qualquer pedido.') +
       ask('ask-q', 'Ex: qual a previsão do tempo hoje?') +
-      '<div class="two"><div class="card chatbox golink" data-act="nav" data-v="conversa" title="Abrir a conversa">' + (last.length ? bubbles(last) : '') + typing() + '</div>' +
+      '<div class="two' + (mu.ok ? '' : ' so-um') + '"><div class="card chatbox golink" data-act="nav" data-v="conversa" title="Abrir a conversa">' + (last.length ? bubbles(last) : '') + typing() + '</div>' +
       cardAgora + '</div>' +
       '<div class="tiles">' +
       '<button class="tile" data-act="nav" data-v="lembretes"><i style="background:#7C9CFF"></i><b>' + s.reminders + '</b><span>lembretes</span></button>' +
@@ -1486,7 +1653,7 @@ input[type=range] { accent-color: var(--z-acc); }
         }).join('') + '</div>' : '') +
         (C.ui.cleaned ? '<small class="okmsg">' + esc(C.ui.cleaned) + '</small>' : '') + '</div>';
     }
-    return head('Meu PC', s ? 'Disco C: ' + C.bytes(s.disk.free) + ' livres · ligado há ' + Math.floor(s.uptime / 3600) + ' h ' + Math.floor((s.uptime % 3600) / 60) + ' min' : 'Lendo…') +
+    return head('Máquina', s ? 'Disco C: ' + C.bytes(s.disk.free) + ' livres · ligado há ' + Math.floor(s.uptime / 3600) + ' h ' + Math.floor((s.uptime % 3600) / 60) + ' min' : 'Lendo…') +
       '<button class="verify" data-act="pc-scan"><span class="gi sm" style="background:var(--z-acc)">' + ic('search') + '</span><span class="grow"><b>Verificar meu PC</b><small>Vejo o que está pesado e quanto lixo temporário dá pra limpar.</small></span>' + ic('next') + '</button>' +
       bars + scan +
       '<div class="tools">' + tools.map(function (t) {
@@ -1513,6 +1680,7 @@ input[type=range] { accent-color: var(--z-acc); }
         case 'ask': { var el = document.getElementById(id); if (el && el.value.trim()) { var txt = el.value; el.value = ''; C.run(txt).then(function () { onChange(); var cb = document.getElementById('chatbox'); if (cb) cb.scrollTop = cb.scrollHeight; }); onChange(); } return; }
         case 'clear-chat': d.chat = []; key = 'chat'; break;
         // "Sempre ouvindo": liga/desliga a conversa contínua (e liga a voz junto, se estiver desligada)
+        case 'dormir': { var vd = d.settings.voice; vd.dormindo = !vd.dormindo; key = 'settings'; break; }
         case 'continuo': { var vv = d.settings.voice; vv.continuo = !(vv.continuo && vv.enabled); if (vv.continuo) vv.enabled = true; key = 'settings'; break; }
         case 'task-add': { var t = val('in-task'); if (!t) return; d.tasks.push({ id: C.uid(), text: t, done: false }); key = 'tasks'; break; }
         case 'task-toggle': d.tasks.forEach(function (x) { if (x.id === id) x.done = !x.done; }); key = 'tasks'; break;
@@ -1900,9 +2068,10 @@ input[type=range] { accent-color: var(--z-acc); }
 <script>
 // Painel rápido: abre ao passar o mouse no entalho. As 12 abas e atalho para o painel completo.
 (function () {
-  var NAV = [['inicio', 'home', 'Início'], ['conversa', 'chat', 'Conversa'], ['memoria', 'nodes', 'Memória'], ['tarefas', 'list', 'Tarefas'], ['lembretes', 'bell', 'Lembretes'], ['gastos', 'wallet', 'Gastos'],
-    ['habitos', 'drop', 'Hábitos'], ['timers', 'timer', 'Timers'], ['musica', 'music', 'Música'], ['copiados', 'clip', 'Copiados'], ['rotinas', 'bolt', 'Rotinas'],
-    ['meupc', 'monitor', 'Meu PC'], ['@settings', 'sliders', 'Configurações']];
+  // '@organico' e '@settings' abrem o painel completo (o Orgânico já na página dele e em tela cheia)
+  var NAV = [['inicio', 'home', 'Início'], ['conversa', 'chat', 'Chat'], ['gastos', 'wallet', 'Gastos'], ['memoria', 'nodes', 'Memória'],
+    ['tarefas', 'list', 'Tarefas'], ['lembretes', 'bell', 'Lembretes'], ['habitos', 'drop', 'Hábitos'], ['timers', 'timer', 'Timers'], ['rotinas', 'bolt', 'Rotinas'],
+    ['@organico', 'trend', 'Orgânico'], ['musica', 'music', 'Música'], ['meupc', 'monitor', 'Máquina'], ['@settings', 'sliders', 'Configurações']];
   var view = 'inicio';
   var mood = 'repouso';
   var moodT = null;
@@ -1913,17 +2082,21 @@ input[type=range] { accent-color: var(--z-acc); }
   var qs = document.getElementById('qs');
   var qm = document.getElementById('qm');
 
+  // feitos/total: tarefas concluídas, lembretes já avisados, hábitos de hoje cumpridos, timers que já tocaram, rotinas rodadas hoje
   function count(id) {
-    var s = Core.stats();
-    var n = id === 'tarefas' ? s.tasks : id === 'lembretes' ? s.reminders : id === 'timers' ? s.timers : 0;
-    if (id === 'habitos') return '<em>' + s.habitsDone + '/' + s.habits + '</em>';
-    return n ? '<em>' + n + '</em>' : '';
+    var d = Core.d, s = Core.stats(), hoje = Core.today(), par = null;
+    if (id === 'tarefas') par = [d.tasks.filter(function (x) { return x.done; }).length, d.tasks.length];
+    if (id === 'lembretes') par = [d.reminders.filter(function (x) { return x.done; }).length, d.reminders.length];
+    if (id === 'habitos') par = [s.habitsDone, s.habits];
+    if (id === 'timers') par = [d.timers.filter(function (x) { return x.done; }).length, d.timers.length];
+    if (id === 'rotinas') par = [d.routines.filter(function (x) { return x.ultima === hoje; }).length, d.routines.length];
+    return par ? '<em>' + par[0] + '/' + par[1] + '</em>' : '';
   }
 
   function render() {
     Views.keepFocus(function () {
       // clicar no robozinho pergunta se quer fechar a Irys
-      qs.innerHTML = '<div class="who" data-act="sair-perguntar" title="Fechar a ' + Core.esc(Core.name()) + '">' + Core.face(mood, 38) + '<div><b>' + Core.esc(Core.name()) + '</b><small>● ' + (ouvindo || sempreOuvindo() ? 'te ouvindo' : (Core.busy ? 'pensando' : 'as ordens')) + '</small></div></div>' +
+      qs.innerHTML = '<div class="who" data-act="sair-perguntar" title="Fechar a ' + Core.esc(Core.name()) + '">' + Core.face(mood, 38) + '<div><b>' + Core.esc(Core.name()) + '</b><small>● ' + (Core.d && Core.d.settings && Core.d.settings.voice && Core.d.settings.voice.dormindo ? 'dormindo' : ouvindo || sempreOuvindo() ? 'te ouvindo' : (Core.busy ? 'pensando' : 'as ordens')) + '</small></div></div>' +
         (perguntandoSair ? '<div class="sair">Fechar?<button data-act="sair-sim">Sim</button><button data-act="sair-nao">Não</button></div>' : '') +
         NAV.map(function (n) { return '<button class="nav' + (n[0] === view ? ' on' : '') + '" data-act="nav" data-v="' + n[0] + '">' + Core.ic(n[1]) + n[2] + count(n[0]) + '</button>'; }).join('');
       qm.innerHTML = Views.V[view]();
@@ -1937,7 +2110,8 @@ input[type=range] { accent-color: var(--z-acc); }
     if (name === 'sair-nao') { perguntandoSair = false; return true; }
     if (name === 'sair-sim') { bridge.quit(); return false; }
     if (name === 'nav') {
-      if (ds.v === '@settings') { bridge.openSettings(); return false; }
+      if (ds.v === '@settings') { bridge.openSettings('inicio', { cheia: false }); return false; }
+      if (ds.v === '@organico') { bridge.openSettings('organico', { cheia: true }); return false; }
       view = ds.v;
       if (view === 'meupc') Core.refreshStats().then(render);
       return true;
@@ -2051,6 +2225,8 @@ input[type=range] { accent-color: var(--z-acc); }
   pill.addEventListener('mouseenter', function () { if (!touch) open(true); });
   pill.addEventListener('click', function () { open(true); });
   pill.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(true); } });
+  // clicar na Irys dentro do painel: na demonstração ela volta para a casinha (o entalho) na hora
+  document.addEventListener('click', function (e) { if (e.target.closest && e.target.closest('[data-act="sair-perguntar"]')) { e.preventDefault(); e.stopPropagation(); open(false); } }, true);
   // toque fora do painel fecha (celular)
   screen.addEventListener('pointerdown', function (e) { if (screen.classList.contains('open') && !shape.contains(e.target) && !pill.contains(e.target)) open(false); });
   function tick() {
