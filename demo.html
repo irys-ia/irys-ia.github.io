@@ -581,13 +581,13 @@ input[type="time"]::-webkit-calendar-picker-indicator { filter: invert(1); opaci
     ]
   };
   var hoje = new Date(); store.habits[0].log[hoje.getFullYear() + '-' + ('0' + (hoje.getMonth() + 1)).slice(-2) + '-' + ('0' + hoje.getDate()).slice(-2)] = 3;
-  // capa de exemplo (desenhada aqui mesmo, não é de nenhum artista)
-  var capa = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2F7BFF"/><stop offset="1" stop-color="#FF7A9C"/></linearGradient></defs><rect width="120" height="120" fill="url(#g)"/><circle cx="84" cy="36" r="16" fill="#FFC857" opacity=".9"/><path d="M0 92 Q30 70 60 88 T120 80 V120 H0z" fill="#04101F" opacity=".55"/></svg>';
-  var music = { ok: true, app: 'Spotify', title: 'Café da Tarde', artist: 'Lo-fi de exemplo', status: 'Playing', posMs: 48000, durMs: 192000, vol: 62, muted: false,
+  // capa desenhada aqui mesmo (rock: preto, vermelho e um raio); a capa oficial do disco é da gravadora e não pode ir no site
+  var capa = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120"><defs><radialGradient id="g" cx=".5" cy=".35" r=".8"><stop offset="0" stop-color="#C8191E"/><stop offset=".6" stop-color="#5A0608"/><stop offset="1" stop-color="#120000"/></radialGradient></defs><rect width="120" height="120" fill="url(#g)"/><path d="M0 120 Q20 92 34 104 Q44 80 58 100 Q70 76 84 98 Q98 82 120 104 V120z" fill="#FF6A1A" opacity=".55"/><path d="M68 14 L42 64 H58 L48 106 L80 52 H63 Z" fill="#FFD23F" stroke="#120000" stroke-width="2.5" stroke-linejoin="round"/></svg>';
+  var music = { ok: true, app: 'Spotify', title: 'Highway to Hell', artist: 'AC/DC', status: 'Playing', posMs: 12000, durMs: 208000, vol: 62, muted: false,
     thumb: btoa(capa), thumbMime: 'image/svg+xml' };
   var t0 = Date.now();
   function musicNow() { if (/playing/i.test(music.status)) { music.posMs = Math.min(music.durMs, music.posMs + (Date.now() - t0)); if (music.posMs >= music.durMs) music.posMs = 0; } t0 = Date.now(); return JSON.parse(JSON.stringify(music)); }
-  var FAIXAS = [['Café da Tarde', 'Lo-fi de exemplo'], ['Chuva na Janela', 'Lo-fi de exemplo'], ['Foco Total', 'Lo-fi de exemplo']], fx = 0;
+  var FAIXAS = [['Highway to Hell', 'AC/DC'], ['Back in Black', 'AC/DC'], ['Thunderstruck', 'AC/DC']], fx = 0;
   function trocar(d) { fx = (fx + d + FAIXAS.length) % FAIXAS.length; music.title = FAIXAS[fx][0]; music.artist = FAIXAS[fx][1]; music.posMs = 0; music.status = 'Playing'; }
   var clips = [
     { id: 'c1', text: 'Reunião amanhã às 10h na sala 2', t: agora - 6e5 },
