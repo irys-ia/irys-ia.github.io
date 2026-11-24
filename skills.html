@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Skills da Irys</title>
+<meta name="description" content="Os arquivos de criação das skills de vídeo da Irys. Você pede em uma frase no Claude Code e o vídeo sai pronto: narração, cenas, legenda e efeitos.">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Sora:wght@600;700;800&display=swap">
+<!-- Microsoft Clarity e Google Analytics: os mesmos da página da Irys -->
+<script type="text/javascript">
+  (function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window, document, "clarity", "script", "zfkgs3amvq");
+</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-S97LZEEYL9"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-S97LZEEYL9');</script>
+<style>
+:root{
+  --bg:#FFFFFF; --bg2:#F4F7FC; --bg3:#EAF1FF; --line:#E3E8F1;
+  --tx:#0B1220; --mu:#5B6577; --acc:#2F7BFF; --acc2:#1D5FE0; --acc-soft:#E6EFFF; --ok:#16A36A; --warn:#B7791F;
+  --display:'Sora',system-ui,sans-serif; --body:'DM Sans',system-ui,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:var(--body);font-size:16px;line-height:1.6;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1120px;margin:0 auto;padding:0 max(16px,env(safe-area-inset-left,0px))}
+h1,h2,h3{font-family:var(--display);letter-spacing:-.025em;margin:0;text-wrap:balance}
+h1{font-size:clamp(36px,6.2vw,68px);line-height:1.03}
+h2{font-size:clamp(27px,3.8vw,42px);line-height:1.1}
+h3{font-size:18px;line-height:1.3}
+p{margin:0}
+.mu{color:var(--mu)}
+.azul{color:var(--acc)}
+.eyebrow{display:inline-block;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--acc);font-weight:700;margin-bottom:14px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:999px;padding:15px 28px;font-weight:700;font-size:16px;background:var(--acc);color:#fff;border:0;cursor:pointer;box-shadow:0 10px 30px rgba(47,123,255,.28);transition:transform .15s,box-shadow .15s}
+.btn:hover{transform:translateY(-1px);box-shadow:0 14px 36px rgba(47,123,255,.36)}
+.btn.sec{background:#fff;color:var(--tx);border:1px solid var(--line);box-shadow:none}
+.btn.sm{padding:10px 18px;font-size:14px}
+.btn:focus-visible,a:focus-visible,summary:focus-visible{outline:3px solid color-mix(in srgb,var(--acc) 45%,transparent);outline-offset:3px}
+section{padding-block:80px}
+.sechead{max-width:66ch;margin-bottom:36px}
+.sechead p{color:var(--mu);font-size:18px;margin-top:14px}
+.centro{text-align:center;margin-left:auto;margin-right:auto}
+
+nav{display:flex;align-items:center;gap:16px;padding:18px 0}
+.marca{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:800;font-size:20px}
+.marca i{width:30px;height:30px;border-radius:10px;background:linear-gradient(135deg,#5FA0FF,var(--acc2));display:grid;place-items:center;color:#fff;font-style:normal;font-size:15px}
+nav .links{display:flex;gap:22px;margin-left:auto;color:var(--mu);font-size:14px;font-weight:500}
+nav .links a:hover{color:var(--tx)}
+
+.hero{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;padding-block:40px 72px}
+.hero .lead{font-size:19px;color:var(--mu);margin:22px 0 30px;max-width:46ch}
+.hero .lead b{color:var(--tx)}
+.cta{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.fine{margin-top:16px;font-size:14px;color:var(--mu)}
+.fine b{color:var(--tx)}
+.vitrine{position:relative;display:grid;grid-template-columns:repeat(3,1fr);gap:12px;transform:rotate(-2deg)}
+.vitrine .v{border-radius:18px;overflow:hidden;background:#0B1220;aspect-ratio:9/16;box-shadow:0 20px 50px rgba(11,18,32,.18)}
+.vitrine .v:nth-child(2){transform:translateY(-28px)}
+.vitrine .v:nth-child(5){transform:translateY(-28px)}
+.vitrine video,.galeria video{width:100%;height:100%;object-fit:cover;display:block}
+.halo{position:absolute;inset:-12%;background:radial-gradient(closest-side,rgba(47,123,255,.20),transparent);z-index:-1;filter:blur(10px)}
+
+.faixa{background:var(--bg2);border-block:1px solid var(--line)}
+.galeria{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.item{display:flex;flex-direction:column;gap:10px}
+.item .v{border-radius:18px;overflow:hidden;background:#0B1220;aspect-ratio:9/16;box-shadow:0 12px 30px rgba(11,18,32,.12)}
+.item b{font-family:var(--display);font-size:16px}
+.item span{color:var(--mu);font-size:14px;line-height:1.45}
+.pedido{display:inline-block;font-size:12.5px;background:var(--acc-soft);color:var(--acc2);border-radius:10px;padding:6px 10px;font-weight:600}
+
+.passos{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;counter-reset:p}
+.passo{background:#fff;border:1px solid var(--line);border-radius:20px;padding:22px;display:flex;flex-direction:column;gap:8px}
+.passo::before{counter-increment:p;content:counter(p);width:36px;height:36px;border-radius:50%;background:var(--acc);color:#fff;display:grid;place-items:center;font-weight:800;font-family:var(--display);margin-bottom:6px}
+.passo p{color:var(--mu);font-size:15px}
+
+.inclui{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:22px;display:flex;flex-direction:column;gap:8px}
+.card .n{font-family:var(--display);font-size:34px;font-weight:800;color:var(--acc);line-height:1}
+.card p{color:var(--mu);font-size:15px}
+.card.destaque{background:linear-gradient(160deg,var(--acc-soft),#fff 70%);border-color:color-mix(in srgb,var(--acc) 35%,transparent)}
+
+.reqs{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;max-width:860px}
+.req{display:flex;gap:14px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px 18px}
+.req b{display:block}
+.req span.mu{font-size:14.5px}
+.tag{flex:none;font-size:11px;font-weight:800;padding:4px 10px;border-radius:999px;text-transform:uppercase;letter-spacing:.04em;margin-top:2px}
+.tag.gratis{background:#E5F7EF;color:var(--ok)}
+.tag.pago{background:#FFF3DC;color:var(--warn)}
+
+.quem{display:grid;grid-template-columns:220px 1fr;gap:36px;align-items:center;background:var(--bg2);border:1px solid var(--line);border-radius:26px;padding:28px}
+.quem img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:50%;border:3px solid #fff;box-shadow:0 0 0 1px var(--line),0 14px 30px rgba(11,18,32,.12)}
+.quem p{color:var(--mu);font-size:17px;max-width:62ch}
+.quem p+p{margin-top:12px}
+
+.oferta{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center}
+.preco{background:#fff;border:2px solid var(--acc);border-radius:28px;padding:32px;box-shadow:0 30px 70px rgba(47,123,255,.16);display:flex;flex-direction:column;gap:16px}
+.preco .de{color:var(--mu);font-size:14px}
+.preco .big{font-family:var(--display);font-size:60px;font-weight:800;letter-spacing:-.03em;line-height:1}
+.preco .big small{font-size:20px;font-weight:700;color:var(--mu);letter-spacing:0}
+.preco ul{list-style:none;padding:0;margin:0;display:grid;gap:10px}
+.preco li{display:flex;gap:10px;align-items:flex-start;font-size:15.5px}
+.preco li::before{content:'';flex:none;width:20px;height:20px;margin-top:2px;border-radius:50%;background:var(--acc) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12l5 5L20 7'/%3E%3C/svg%3E") center/12px no-repeat}
+.preco .btn{width:100%}
+.preco .obs{font-size:13px;color:var(--mu);text-align:center}
+
+.comparar{display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:900px;margin:0 auto}
+.prod{background:#fff;border:1px solid var(--line);border-radius:22px;padding:24px;display:flex;flex-direction:column;gap:10px;position:relative}
+.prod.aqui{border:2px solid var(--acc)}
+.prod .selo{position:absolute;top:-12px;left:22px;background:var(--acc);color:#fff;font-size:11px;font-weight:800;padding:4px 10px;border-radius:999px;text-transform:uppercase;letter-spacing:.05em}
+.prod .valor{font-family:var(--display);font-size:28px;font-weight:800}
+.prod p{color:var(--mu);font-size:15px}
+.prod .btn{align-self:flex-start;margin-top:6px}
+
+details{background:#fff;border:1px solid var(--line);border-radius:16px;padding:0 20px}
+details+details{margin-top:10px}
+summary{cursor:pointer;padding:18px 0;font-weight:700;list-style:none;display:flex;justify-content:space-between;gap:12px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:'+';color:var(--acc);font-size:22px;line-height:1}
+details[open] summary::after{content:'–'}
+details p{color:var(--mu);padding-bottom:18px}
+
+.final{text-align:center;display:flex;flex-direction:column;align-items:center;gap:18px;background:linear-gradient(160deg,var(--acc),var(--acc2));color:#fff;border-radius:32px;padding:56px 24px;margin-bottom:40px}
+.final p{color:rgba(255,255,255,.85);font-size:18px;max-width:52ch}
+.final .btn{background:#fff;color:var(--acc2);box-shadow:none}
+footer{border-top:1px solid var(--line);padding:28px 0 44px;color:var(--mu);font-size:13px;display:flex;gap:14px;flex-wrap:wrap;justify-content:space-between}
+footer a{text-decoration:underline}
+
+@media (max-width:960px){
+  .hero,.oferta{grid-template-columns:1fr}
+  .hero>div:first-child{text-align:center}.hero .lead{margin-left:auto;margin-right:auto}.cta{justify-content:center}
+  .vitrine{max-width:520px;margin:0 auto}
+  .galeria{grid-template-columns:repeat(2,1fr)}
+  .passos{grid-template-columns:repeat(2,1fr)}
+  .inclui{grid-template-columns:1fr 1fr}
+  nav .links{display:none}nav .btn{margin-left:auto}
+  .quem{grid-template-columns:1fr;text-align:center}.quem img{max-width:180px;margin:0 auto}.quem p{margin:0 auto}
+}
+@media (max-width:600px){
+  section{padding-block:56px}
+  .hero{padding-block:16px 48px;gap:36px}
+  .hero .lead{font-size:17px}
+  .cta{flex-direction:column}.cta .btn{width:100%}
+  .vitrine{gap:8px}
+  .galeria{gap:12px}
+  .passos,.inclui,.reqs,.comparar{grid-template-columns:1fr}
+  .preco{padding:24px 20px}.preco .big{font-size:50px}
+  .final{border-radius:24px;padding:40px 20px}
+  footer{flex-direction:column;gap:8px}
+}
+@media (prefers-reduced-motion:reduce){.btn{transition:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav>
+    <a class="marca" href="#topo"><i>▶</i>Skills da Irys</a>
+    <div class="links"><a href="#videos">Vídeos</a><a href="#como">Como funciona</a><a href="#inclui">O que vem</a><a href="#oferta">Preço</a><a href="#duvidas">Dúvidas</a></div>
+    <a class="btn sm" href="#oferta">Quero as skills</a>
+  </nav>
+
+  <header class="hero" id="topo">
+    <div>
+      <span class="eyebrow">Skills de vídeo para o Claude Code</span>
+      <h1>você pede em <span class="azul">uma frase</span>. o vídeo sai pronto.</h1>
+      <p class="lead">Os mesmos arquivos de criação que fazem os vídeos da Irys: <b>narração, cenas em 3D, legenda animada e efeitos</b>. Sem editor, sem After Effects, sem aprender nada. Você já leva pronto.</p>
+      <div class="cta"><a class="btn" href="#oferta" data-ir-oferta>Quero as skills · <span data-preco></span></a><a class="btn sec" href="#videos">Ver os vídeos</a></div>
+      <p class="fine"><b>Pagamento único</b> · novas skills entrando sempre · acesso na hora</p>
+    </div>
+    <div class="vitrine" aria-hidden="true">
+      <div class="halo"></div>
+      <div class="v"><video src="prev-skills/prev-vocedecide.mp4" autoplay muted loop playsinline preload="metadata"></video></div>
+      <div class="v"><video src="prev-skills/prev-religiao.mp4" autoplay muted loop playsinline preload="metadata"></video></div>
+      <div class="v"><video src="prev-skills/prev-cidade.mp4" autoplay muted loop playsinline preload="metadata"></video></div>
+      <div class="v"><video src="prev-skills/prev-experimento.mp4" autoplay muted loop playsinline preload="metadata"></video></div>
+      <div class="v"><video src="prev-skills/prev-historias.mp4" autoplay muted loop playsinline preload="metadata"></video></div>
+      <div class="v"><video src="prev-skills/prev-escolhas.mp4" autoplay muted loop playsinline preload="metadata"></video></div>
+    </div>
+  </header>
+</div>
+
+<div class="faixa">
+  <div class="wrap">
+    <section id="videos">
+      <div class="sechead"><span class="eyebrow">Os vídeos que vêm prontos</span><h2>se você parou para ver um desses, a skill já fez o trabalho dela.</h2><p>Cada skill é um formato completo, testado e afinado quadro a quadro. Você escolhe o tema, o resto ela faz.</p></div>
+      <div class="galeria" id="galeria"></div>
+    </section>
+  </div>
+</div>
+
+<div class="wrap">
+  <section id="como">
+    <div class="sechead"><span class="eyebrow">Como funciona</span><h2>da ideia ao vídeo, sem abrir editor.</h2></div>
+    <div class="passos">
+      <div class="passo"><h3>Baixe a pasta</h3><p>O link chega no seu e-mail logo depois da compra.</p></div>
+      <div class="passo"><h3>Abra no Claude Code</h3><p>Uma vez só: instale e cole as suas chaves. O guia mostra cada clique.</p></div>
+      <div class="passo"><h3>Peça em uma frase</h3><p>“faz um vocedecide sobre o marido que esqueceu o aniversário de casamento”.</p></div>
+      <div class="passo"><h3>Poste</h3><p>O vídeo sai em 1080x1920, pronto para Reels, TikTok e Shorts.</p></div>
+    </div>
+  </section>
+
+  <section id="inclui">
+    <div class="sechead"><span class="eyebrow">O que vem no pacote</span><h2>tudo que a Irys usa para criar. inteiro.</h2></div>
+    <div class="inclui">
+      <div class="card destaque"><span class="n" data-n-skills></span><h3>Skills de vídeo</h3><p>Religião em 3D, Cidade em 3D, Você Decide, Experimento, Histórias, Escolhas em cartoon e GTA 6.</p></div>
+      <div class="card"><span class="n">∞</span><h3>Novas skills para sempre</h3><p>Cada skill nova que criarmos entra no pacote e chega no seu e-mail, sem pagar de novo.</p></div>
+      <div class="card"><span class="n">10</span><h3>Modelos prontos</h3><p>Um vídeo de exemplo completo por formato, com roteiro, narração e cenas, para copiar e adaptar.</p></div>
+      <div class="card"><span class="n">50</span><h3>Efeitos sonoros</h3><p>Whoosh, impacto, martelo, carimbo, moeda, sino. Cada coisa que aparece na tela tem o seu som.</p></div>
+      <div class="card"><span class="n">3D</span><h3>Cenas animadas em código</h3><p>Mundos, personagens e câmera em movimento, sem nenhum programa de animação.</p></div>
+      <div class="card"><span class="n">1</span><h3>Frase por vídeo</h3><p>É o máximo que você vai precisar escrever. O guia passo a passo vem junto.</p></div>
+    </div>
+  </section>
+
+  <section id="requisitos">
+    <div class="sechead"><span class="eyebrow">O que você precisa</span><h2>sem surpresa depois da compra.</h2><p>As skills rodam no seu computador, com as suas contas. Isto é o que cada vídeo usa:</p></div>
+    <div class="reqs">
+      <div class="req"><span class="tag gratis">Grátis</span><div><b>Computador com Windows 10 ou 11</b><span class="mu">e o Node.js instalado (gratuito).</span></div></div>
+      <div class="req"><span class="tag pago">Pago</span><div><b>Claude Code</b><span class="mu">Precisa de um plano do Claude (Pro ou Max). É ele que monta os vídeos.</span></div></div>
+      <div class="req"><span class="tag pago">Pago</span><div><b>Dark Planner</b><span class="mu">Gera as narrações com voz natural e as imagens das cenas.</span></div></div>
+      <div class="req"><span class="tag gratis">Grátis</span><div><b>Chave da Groq</b><span class="mu">Marca o segundo exato de cada palavra para a legenda bater com a voz.</span></div></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="quem">
+      <img src="criador.webp" alt="Foto do criador da Irys" width="600" height="600" loading="lazy">
+      <div>
+        <span class="eyebrow">Quem criou</span>
+        <h2 style="margin-bottom:14px">feito por quem usa todo dia.</h2>
+        <p>Sou desenvolvedor há 3 anos e criador da Irys. Essas skills são as que rodam os perfis da nossa agência no automático. Cada formato foi afinado quadro a quadro, com som em tudo que aparece na tela.</p>
+        <p>Agora você leva os mesmos arquivos, e cada skill nova que a gente cria chega para você também.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="oferta">
+    <div class="oferta">
+      <div class="sechead" style="margin:0"><span class="eyebrow">Oferta</span><h2>quer fazer vídeos como esses? não tem o que aprender.</h2><p>Você já leva pronto. Uma frase é o máximo que você vai ter que escrever.</p></div>
+      <div class="preco">
+        <span class="eyebrow" style="margin:0">Pacote completo de skills</span>
+        <div class="big"><span data-preco></span> <small>uma vez só</small></div>
+        <ul>
+          <li>Todas as skills de vídeo da Irys, com os arquivos completos</li>
+          <li>Novas skills entrando sempre, sem pagar de novo</li>
+          <li>Modelos de exemplo prontos e 50 efeitos sonoros</li>
+          <li>Guia passo a passo do primeiro vídeo</li>
+          <li>Suporte pelo e-mail da compra</li>
+        </ul>
+        <a class="btn" data-checkout href="#oferta">Comprar agora</a>
+        <span class="obs">PIX ou cartão. O link de download chega no seu e-mail. Claude Code e Dark Planner são contas à parte.</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sechead centro"><span class="eyebrow">Quer no automático?</span><h2>com a Irys, os vídeos saem e são postados sozinhos.</h2><p>Sem abrir o Claude Code: a Irys produz e posta no Instagram e no TikTok nos horários que você escolher, em até 5 contas.</p></div>
+    <div class="comparar">
+      <div class="prod aqui"><span class="selo">Você está aqui</span><h3>Skills da Irys</h3><div class="valor" data-preco></div><p>Os arquivos de criação. Você pede o vídeo no Claude Code e posta.</p><a class="btn sm" href="#oferta">Quero as skills</a></div>
+      <div class="prod"><h3>Irys</h3><div class="valor">R$ 39,90</div><p>A assistente que mora no topo da tela: produz os vídeos, posta sozinha e ainda faz o resto do seu trabalho no PC por voz.</p><a class="btn sm sec" href="index.html" data-irys>Conhecer a Irys</a></div>
+    </div>
+  </section>
+
+  <section id="duvidas">
+    <div class="sechead"><span class="eyebrow">Dúvidas</span><h2>perguntas frequentes.</h2></div>
+    <div style="max-width:780px">
+      <details><summary>Preciso saber programar ou editar vídeo?</summary><p>Não. Você pede em português, em uma frase, e o Claude Code segue a skill. O guia mostra a instalação clique a clique.</p></details>
+      <details><summary>O que mais eu preciso pagar?</summary><p>O pacote é pagamento único. À parte, você usa o seu plano do Claude (para o Claude Code) e a sua conta do Dark Planner (vozes e imagens). A chave da Groq é grátis.</p></details>
+      <details><summary>Como chegam as skills novas?</summary><p>Quando sair uma skill nova ou uma melhoria, você recebe a versão nova do pacote no e-mail da compra, sem pagar nada a mais.</p></details>
+      <details><summary>Funciona no Mac?</summary><p>O pacote foi feito e testado no Windows 10 e 11.</p></details>
+      <details><summary>Posso usar os vídeos nos meus perfis e para clientes?</summary><p>Sim. Os vídeos que você fizer são seus. Só não pode revender ou distribuir os arquivos do pacote.</p></details>
+      <details><summary>Qual a diferença para a Irys?</summary><p>Com as skills, você faz os vídeos pelo Claude Code. Com a Irys, ela produz e posta sozinha nos horários que você escolher, e ainda controla o seu PC por voz.</p></details>
+      <details><summary>Como eu recebo?</summary><p>Assim que o pagamento é aprovado (no PIX, na hora), o link de download chega no seu e-mail. Olhe o spam se não achar.</p></details>
+    </div>
+  </section>
+
+  <section class="final">
+    <h2>o próximo vídeo que viraliza pode sair de uma frase sua.</h2>
+    <p>Leve as skills prontas, com novas skills entrando sempre.</p>
+    <a class="btn" href="#oferta">Quero as skills · <span data-preco></span></a>
+  </section>
+
+  <footer><span>Skills da Irys · <a href="index.html">Conheça a Irys</a> · <a href="seguranca.html">Segurança e privacidade</a></span><span>Projeto independente, sem ligação com a Anthropic. Dúvidas? Responda o e-mail da compra.</span></footer>
+</div>
+
+<script>
+(function(){
+  /* ---------- configuração da página: preço e link de compra moram só aqui ---------- */
+  var PRECO='R$ 27,90';
+  var CHECKOUT='';   // link do produto na Perfect Pay (enquanto estiver vazio, o botão leva para a oferta)
+  var SKILLS=[
+    ['prev-vocedecide.mp4','Você Decide','Tribunal de casal em 3D: ele e ela contam a sua versão e o público vota.','faz um vocedecide sobre a sogra que mudou pra casa'],
+    ['prev-religiao.mp4','Religião em 3D','Curiosidades da Bíblia num mundo 3D de massinha, com versículos e piano.','faz um religiao sobre o rio do Éden'],
+    ['prev-cidade.mp4','Cidade em 3D','Explicação por analogia numa cidade 3D com multidão e câmera voando.','faz um cidade explicando por que post orgânico vende'],
+    ['prev-experimento.mp4','Experimento','Série “DIA NN/30”: títulos fortes, carimbos e revelação no final.','faz o dia 2 do experimento'],
+    ['prev-historias.mp4','Histórias','Notícias e histórias em animação 2D: política, crimes, curiosidades.','faz um historias sobre a reforma tributária'],
+    ['prev-escolhas.mp4','Escolhas','Histórias em cartoon com escolhas no final para o público comentar.','faz um escolhas: e se você ganhasse na loteria?'],
+    ['prev-gta.mp4','GTA 6','Vídeos de GTA 6 com os seus clipes, no modelo post ou desfocado.','faz um gta com o clipe da praia']
+  ];
+  document.querySelectorAll('[data-preco]').forEach(function(e){e.textContent=PRECO;});
+  document.querySelectorAll('[data-n-skills]').forEach(function(e){e.textContent=SKILLS.length;});
+  document.querySelectorAll('[data-checkout]').forEach(function(e){if(CHECKOUT){e.href=CHECKOUT;e.target='_blank';e.rel='noopener';}e.textContent='Comprar por '+PRECO;});
+  document.getElementById('galeria').innerHTML=SKILLS.map(function(s){return '<div class="item"><div class="v"><video src="prev-skills/'+s[0]+'" autoplay muted loop playsinline preload="metadata"></video></div><b>'+s[1]+'</b><span>'+s[2]+'</span><span class="pedido">“'+s[3]+'”</span></div>';}).join('');
+  // medição: os mesmos eventos da página da Irys
+  function marca(n,d){try{if(window.gtag)gtag('event',n,d||{});}catch(e){}try{if(window.clarity)clarity('event',n);}catch(e){}}
+  document.addEventListener('click',function(e){var a=e.target.closest('a');if(!a)return;
+    if(a.hasAttribute('data-checkout'))marca('skills_clique_comprar');
+    else if(a.hasAttribute('data-irys'))marca('skills_clique_irys');});
+  // vídeos fora da tela param (economiza bateria no celular)
+  if('IntersectionObserver' in window){var io=new IntersectionObserver(function(es){es.forEach(function(x){var v=x.target;if(x.isIntersecting){var p=v.play();if(p&&p.catch)p.catch(function(){});}else v.pause();});},{rootMargin:'120px'});document.querySelectorAll('video').forEach(function(v){io.observe(v);});}
+})();
+</script>
+</body>
+</html>

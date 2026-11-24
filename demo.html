@@ -37,7 +37,9 @@ input, textarea { user-select: text; }
 button { cursor: pointer; border: 0; background: none; }
 svg { display: block; }
 :focus-visible { outline: 2px solid var(--z-acc); outline-offset: 2px; }
-::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar { width: 10px; height: 8px; }
+::-webkit-scrollbar-button { display: none; width: 0; height: 0; }   /* sem as setinhas nas pontas */
+::-webkit-scrollbar-track, ::-webkit-scrollbar-corner { background: transparent; }   /* sem o quadradinho branco no canto */
 ::-webkit-scrollbar-thumb { background: #222; border-radius: 10px; border: 2px solid transparent; background-clip: content-box; }
 
 /* ---------- componentes comuns ---------- */
@@ -56,7 +58,7 @@ svg { display: block; }
 .rb.dormir.on { background: var(--z-acc); color: var(--z-on); }
 .rb:hover { filter: brightness(1.25); }
 .card { background: var(--z-ink2); border: 1px solid var(--z-line); border-radius: 18px; padding: 14px; }
-.bub { background: var(--z-ink3); border-radius: 14px; padding: 10px 12px; font-size: 13px; max-width: 92%; white-space: pre-line; user-select: text; cursor: text; }
+.bub { background: var(--z-ink3); border-radius: 14px; padding: 10px 12px; font-size: 13px; max-width: 92%; white-space: pre-line; overflow-wrap: anywhere; min-width: 0; user-select: text; cursor: text; }
 .bub.me { background: color-mix(in srgb, var(--z-acc) 24%, var(--z-ink3)); align-self: flex-end; }
 .tiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
 .tile { background: var(--z-ink2); border: 1px solid var(--z-line); border-radius: 16px; padding: 12px; text-align: left; }
@@ -115,7 +117,7 @@ svg { display: block; }
 .qmain { padding: 18px 20px; display: flex; flex-direction: column; gap: 12px; min-width: 0; overflow: auto; }
 .two { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; flex: 1; min-height: 0; }
 .two.so-um { grid-template-columns: 1fr; }
-.chatbox { display: flex; flex-direction: column; gap: 8px; overflow: auto; }
+.chatbox { display: flex; flex-direction: column; gap: 8px; overflow-y: auto; overflow-x: hidden; }
 
 /* ---------- janela de configurações ---------- */
 .shell { display: grid; grid-template-columns: 68px 1fr; height: 100vh; background: var(--z-ink); }
@@ -389,7 +391,7 @@ input[type=range] { accent-color: var(--z-acc); }
 .org-video video { width: 100%; aspect-ratio: 9 / 16; object-fit: cover; border-radius: 12px; background: #000; }
 .org-vnome { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--z-mu); }
 .org-vnome span { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.org-skills { display: grid; grid-auto-flow: column; grid-auto-columns: 170px; gap: 8px; overflow-x: auto; overflow-y: hidden; padding-bottom: 8px; cursor: grab; scrollbar-width: thin; }
+.org-skills { display: grid; grid-auto-flow: column; grid-auto-columns: 170px; gap: 8px; overflow-x: auto; overflow-y: hidden; padding-bottom: 8px; cursor: grab; }
 .org-skills.arrastando { cursor: grabbing; user-select: none; }
 .org-skills.arrastando .org-skill { pointer-events: none; }
 .org-col-2 { min-width: 0; }
