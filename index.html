@@ -88,8 +88,11 @@ section{padding-block:72px}
 .faces{display:grid;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:10px}
 .face{background:var(--ink2);border:1px solid var(--line);border-radius:16px;padding:14px 6px 10px;text-align:center;font-size:12.5px;color:var(--mu);display:flex;flex-direction:column;align-items:center;gap:6px}
 .facts{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:24px}
-.fact{border-top:2px solid var(--z-acc);padding-top:14px}
-.fact b{font-family:var(--display);font-size:22px;display:block}
+.fact{position:relative;background:linear-gradient(170deg,color-mix(in srgb,var(--z-acc) 9%,var(--ink2)) 0%,var(--ink2) 55%);border:1px solid var(--line);border-radius:20px;padding:22px 22px 20px;display:flex;flex-direction:column;gap:8px;overflow:hidden;transition:border-color .2s,transform .2s}
+.fact::before{content:'';width:10px;height:10px;border-radius:50%;background:var(--z-acc2);box-shadow:0 0 14px 2px color-mix(in srgb,var(--z-acc2) 70%,transparent);margin-bottom:6px}
+.fact:hover{border-color:color-mix(in srgb,var(--z-acc) 45%,transparent);transform:translateY(-2px)}
+.fact b{font-family:var(--display);font-size:19px;display:block;line-height:1.25}
+.fact .mu{font-size:15px;line-height:1.55}
 .steps{display:grid;gap:12px;counter-reset:s;max-width:720px}
 .step{display:flex;gap:16px;align-items:flex-start;background:var(--ink2);border:1px solid var(--line);border-radius:16px;padding:16px 18px}
 .step::before{counter-increment:s;content:counter(s);flex:none;width:30px;height:30px;border-radius:50%;background:var(--z-acc);color:var(--on);display:grid;place-items:center;font-weight:800;font-size:14px}
@@ -153,7 +156,7 @@ footer{border-top:1px solid var(--line);padding-block:32px 48px;color:var(--mu);
       <h1>A Irys mora no topo da sua tela.</h1>
       <p class="lead">Mande e ela executa. Do pedido simples ao trabalho complexo: organiza pastas, acha arquivos, abre programas, controla a trilha sonora, agenda lembretes e rotinas de tarefas inteiras com uma frase. Ela mexe no seu PC como se fosse você. Tudo por voz ou escrevendo, direto do topo da tela.</p>
       <div class="cta"><a class="btn acc" href="https://go.perfectpay.com.br/PPU38CQHQA6" target="_blank" rel="noopener" data-price-btn>Comprar</a><a class="btn" href="#demo">Testar agora</a></div>
-      <p class="fine"><b data-price-fine></b> · atualizações incluídas · seus dados ficam no seu PC</p>
+      <p class="fine"><b data-price-fine></b><br>atualizações incluídas · suporte rápido e eficiente</p>
     </div>
     <div id="demo">
       <div class="demoStage" id="demoStage"><iframe id="demoFrame" src="demo.html" title="Demonstração do painel da Irys" loading="eager" scrolling="no"></iframe></div>
@@ -190,6 +193,11 @@ footer{border-top:1px solid var(--line);padding-block:32px 48px;color:var(--mu);
     <div class="grid g3" id="feat"></div>
   </section>
 
+  <section>
+    <div class="sechead"><div class="eyebrow">Ela tem personalidade</div><h2>13 expressões que mudam com a conversa.</h2><p>Ela pisca, segue o mouse com os olhos e reage ao que você fala. Escolha a cor do corpo, do visor e dos olhos, o formato dos olhos, um acessório e até o nome dela.</p></div>
+    <div class="faces" id="faces"></div>
+  </section>
+
   <section id="agente">
     <div class="sechead"><div class="eyebrow">Ela trabalha por você</div><h2>Peça por voz. Ela faz o trabalho no seu PC.</h2><p>Conecte o Claude Code ou o Codex e a Irys vira a sua funcionária no computador: você fala o que quer e ela executa a tarefa inteira, do começo ao fim, enquanto você faz outra coisa.</p></div>
     <div class="facts">
@@ -209,11 +217,6 @@ footer{border-top:1px solid var(--line);padding-block:32px 48px;color:var(--mu);
       <div class="fact"><b>Seus gastos organizados</b><span class="mu">“Gastei 32 de Uber.” Ela separa por categoria e responde na hora quanto você já gastou no dia, na semana e no mês.</span></div>
       <div class="fact"><b>Te lembra na hora</b><span class="mu">Lembretes, compromissos e timers chegam como mensagem no seu WhatsApp, onde você estiver.</span></div>
     </div>
-  </section>
-
-  <section>
-    <div class="sechead"><div class="eyebrow">Ela tem personalidade</div><h2>13 expressões que mudam com a conversa.</h2><p>Ela pisca, segue o mouse com os olhos e reage ao que você fala. Escolha a cor do corpo, do visor e dos olhos, o formato dos olhos, um acessório e até o nome dela.</p></div>
-    <div class="faces" id="faces"></div>
   </section>
 
   <section>
@@ -410,7 +413,7 @@ footer{border-top:1px solid var(--line);padding-block:32px 48px;color:var(--mu);
 })();
 
 
-  var ICONS={list:'M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01',bell:'M6 16V11a6 6 0 0112 0v5l2 2H4zM10 20a2 2 0 004 0',drop:'M12 3c4 5 6 8 6 11a6 6 0 01-12 0c0-3 2-6 6-11z',timer:'M12 8v5l3 2M9 2h6M12 21a8 8 0 100-16 8 8 0 000 16z',palette:'M12 3a9 9 0 100 18c1.5 0 2-1 1.5-2s0-2 1.5-2h2a3 3 0 003-3c0-5-4-9-8-9z',mic:'M12 3a3 3 0 013 3v5a3 3 0 01-6 0V6a3 3 0 013-3zM6 11a6 6 0 0012 0M12 17v4',spark:'M12 3l2.2 5.8L20 11l-5.8 2.2L12 19l-2.2-5.8L4 11l5.8-2.2z',music:'M9 18V5l11-2v13M9 18a3 3 0 11-6 0 3 3 0 016 0zM20 16a3 3 0 11-6 0 3 3 0 016 0z',web:'M12 3v4M12 17v4M3 12h4M17 12h4M6 6l3 3M15 15l3 3M6 18l3-3M15 9l3-3',monitor:'M3 5h18v11H3zM8 21h8M12 16v5',nodes:'M6 6a2 2 0 100 .01M18 6a2 2 0 100 .01M12 18a2 2 0 100 .01M12 12a2 2 0 100 .01M8 7l3 4M16 7l-3 4M12 14v2',bolt:'M13 2L5 14h6l-1 8 8-12h-6z',clip:'M8 4h8v3H8zM6 6h12v15H6z',whats:'M4 20l1.4-4A8 8 0 1112 20a8 8 0 01-4-1.1zM9 9.5c0 3 2.5 5.5 5.5 5.5l1-1.5-2-1-1 .8a4 4 0 01-1.8-1.8l.8-1-1-2z',wallet:'M3 7h15a3 3 0 013 3v7a3 3 0 01-3 3H6a3 3 0 01-3-3zM3 7l2-3h11M16 13.5h2',cloud:'M7 18h10a4 4 0 000-8 6 6 0 00-11.5 1.5A3.5 3.5 0 007 18z'};
+  var ICONS={list:'M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01',bell:'M6 16V11a6 6 0 0112 0v5l2 2H4zM10 20a2 2 0 004 0',drop:'M12 3c4 5 6 8 6 11a6 6 0 01-12 0c0-3 2-6 6-11z',timer:'M12 8v5l3 2M9 2h6M12 21a8 8 0 100-16 8 8 0 000 16z',palette:'M12 3a9 9 0 100 18c1.5 0 2-1 1.5-2s0-2 1.5-2h2a3 3 0 003-3c0-5-4-9-8-9z',mic:'M12 3a3 3 0 013 3v5a3 3 0 01-6 0V6a3 3 0 013-3zM6 11a6 6 0 0012 0M12 17v4',spark:'M12 3l2.2 5.8L20 11l-5.8 2.2L12 19l-2.2-5.8L4 11l5.8-2.2z',music:'M9 18V5l11-2v13M9 18a3 3 0 11-6 0 3 3 0 016 0zM20 16a3 3 0 11-6 0 3 3 0 016 0z',web:'M12 3v4M12 17v4M3 12h4M17 12h4M6 6l3 3M15 15l3 3M6 18l3-3M15 9l3-3',monitor:'M3 5h18v11H3zM8 21h8M12 16v5',nodes:'M6 6a2 2 0 100 .01M18 6a2 2 0 100 .01M12 18a2 2 0 100 .01M12 12a2 2 0 100 .01M8 7l3 4M16 7l-3 4M12 14v2',bolt:'M13 2L5 14h6l-1 8 8-12h-6z',clip:'M8 4h8v3H8zM6 6h12v15H6z',whats:'M4 20l1.4-4A8 8 0 1112 20a8 8 0 01-4-1.1zM9 9.5c0 3 2.5 5.5 5.5 5.5l1-1.5-2-1-1 .8a4 4 0 01-1.8-1.8l.8-1-1-2z',wallet:'M3 7h15a3 3 0 013 3v7a3 3 0 01-3 3H6a3 3 0 01-3-3zM3 7l2-3h11M16 13.5h2',cloud:'M7 18h10a4 4 0 000-8 6 6 0 00-11.5 1.5A3.5 3.5 0 007 18z',trend:'M3 17l6-6 4 4 8-8M15 7h6v6'};
   function ic(n){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="'+ICONS[n]+'"/></svg>';}
 
   /* ---------- marca e mascote ---------- */
@@ -418,11 +421,11 @@ footer{border-top:1px solid var(--line);padding-block:32px 48px;color:var(--mu);
   document.getElementById('faces').innerHTML=Mascot.moods.map(function(m){return '<div class="face">'+Mascot.svg(m,60)+'<span>'+m.charAt(0).toUpperCase()+m.slice(1)+'</span></div>';}).join('');
 
   /* ---------- recursos ---------- */
-  var FEAT=[['whats','#25D366','Irys no WhatsApp','Fale com ela pelo celular, por texto ou áudio: anota gastos, cria lembretes e compromissos e te avisa na hora.',1],['wallet','#4ADE9B','Gastos','“Gastei 50 no mercado.” Ela anota, separa por categoria e te dá o total do dia, da semana e do mês.',1],['monitor','#3D8BFF','Entalho no topo','Fica no topo da tela mostrando a música e o timer correndo. Passe o mouse e o painel abre na hora. Dá pra arrastar pro lado.',1],['music','#38BDF8','Música','Abre o Spotify e dá play numa frase só. Capa, barra da música, pular, voltar e volume.',1],['mic','#FF7A9C','Voz','Chame pelo nome que você escolher ou segure Ctrl e fale. Ela responde em voz alta.',1],['web','#5B7CFF','Abre e fecha tudo','“Abre o Discord”, “fecha o Chrome”, “abre o YouTube”. Programas e sites pelo nome.',1],['cloud','#38C6E8','Previsão do tempo','Temperatura, sensação, máxima, mínima e chance de chuva, num quadro na sua tela.',1],['nodes','#8B7CFF','Memória viva','Ela guarda o que você conta e mostra num mapa que se mexe, estilo Obsidian. Fica só no seu PC.',1],['bell','#6F8CFF','Lembretes e timers','“Me lembra de pagar a conta às 15h”, “timer de 10 minutos”. Ela avisa na hora certa.',1],['list','#3BB2F0','Tarefas e hábitos','Sua lista do dia e suas metas, como beber água, a um pedido de distância.',1],['bolt','#4D6BFF','Rotinas','Uma frase, várias ações: “modo estudo” pausa a música e liga 25 minutos de foco.',1],['monitor','#2F9BFF','Meu PC','Analisa o PC, dá uma nota, mostra o que está pesando e limpa o lixo com o seu OK.',1],['spark','#8B7CFF','Trabalha por você','Com o Claude Code ou o Codex, ela faz tarefas completas no seu PC: organiza, procura, renomeia, executa. Tudo por voz.',1],['palette','#FF8FD0','Do seu jeito','Cor do corpo, do visor e dos olhos, formato dos olhos, acessórios e até o nome dela.',1]];
+  var FEAT=[['spark','#8B7CFF','Trabalha no seu PC por você','Conecte o Claude Code ou o Codex e peça por voz: “organiza meus Downloads por tipo”, “acha o contrato que salvei em março”, “renomeia as fotos pela data”. Ela faz o trabalho inteiro enquanto você cuida de outra coisa.',1],['trend','#FF4D8D','Vídeos virais no automático','Ela cria vídeos verticais prontos para Reels e TikTok, com narração, legenda animada e trilha, e posta sozinha nos horários que você escolher. Até 5 contas de Instagram e TikTok, todo dia, sem você abrir o celular.',1],['whats','#25D366','Seu PC pelo WhatsApp','Na rua, mande um áudio: “me lembra de mandar a proposta amanhã às 9h”, “gastei 120 de gasolina”. Ela faz no PC e responde ali mesmo, com a mesma conversa do computador.',1],['mic','#FF7A9C','Comando de voz de verdade','Segure Ctrl em qualquer janela e fale, sem digitar nada e sem trocar de programa. Ela entende português do dia a dia e responde em voz alta.',1],['wallet','#4ADE9B','Controle de gastos sem planilha','Fale o gasto na hora em que ele acontece e saiba no fim do mês exatamente para onde foi o seu dinheiro, separado por categoria, no dia, na semana e no mês.',1],['bolt','#4D6BFF','Rotinas de uma frase','“Modo trabalho” abre os seus programas, pausa a música e liga o foco. Uma frase sua e ela faz a sequência inteira.',1],['bell','#6F8CFF','Nunca mais esqueça um compromisso','“Me lembra de ligar para o cliente às 15h.” Ela te avisa na hora certa, no PC e no WhatsApp.',1],['web','#5B7CFF','Abre e fecha tudo pelo nome','“Abre o Discord”, “fecha o Chrome”, “abre o YouTube”. Programas e sites na hora, sem procurar ícone.',1],['monitor','#2F9BFF','PC leve e limpo','Analisa o computador, dá uma nota, mostra o que está pesando e limpa o lixo com o seu OK.',1],['nodes','#8B7CFF','Memória que trabalha pra você','Conte uma vez o nome do cliente, a placa do carro ou o aniversário de alguém, e ela lembra quando você perguntar. Fica só no seu PC.',1],['music','#38BDF8','Música sem tirar a mão do trabalho','Abre o Spotify e dá play numa frase. Pula, volta e muda o volume por voz, com a capa no topo da tela.',1],['list','#3BB2F0','Tarefas e hábitos do dia','A sua lista do dia e as suas metas sempre à vista, e você marca tudo falando.',1],['monitor','#3D8BFF','Sempre no topo da tela','Fica num entalho discreto no topo e abre quando você encosta o mouse. Some sozinha em tela cheia.',1],['palette','#FF8FD0','Do seu jeito','Cor, olhos, acessórios e até o nome dela. Você chama do jeito que quiser.',1]];
   document.getElementById('feat').innerHTML=FEAT.map(function(f){return '<div class="card"><span class="ic" style="background:'+f[1]+'">'+ic(f[0])+'</span><h3>'+f[2]+'</h3><p>'+f[3]+'</p><span class="tag'+(f[4]?'':' soon')+'">'+(f[4]?'Disponível':'Em breve')+'</span></div>';}).join('');
 
   /* ---------- comandos ---------- */
-  var CMDS=['qual a previsão do tempo hoje?','timer de 10 minutos para a pizza','me lembra de ligar pro cliente em 30 minutos','cria tarefa comprar pão','bebi um copo de água','lembra que minha mãe se chama Rosa','pausa a música','próxima música','modo estudo','abre a calculadora','que horas são?'];
+  var CMDS=['qual a previsão do tempo hoje?','timer de 25 minutos de foco','me lembra de ligar pro cliente em 30 minutos','cria tarefa comprar pão','bebi um copo de água','lembra que minha mãe se chama Rosa','pausa a música','próxima música','modo estudo','abre a calculadora','que horas são?'];
   var SOON=[];
   document.getElementById('cmds').innerHTML=CMDS.map(function(c){return '<button type="button" class="chip" data-cmd="'+c+'">“'+c+'”</button>';}).join('')+SOON.map(function(c){return '<span class="chip soon" title="Em breve">“'+c+'” · em breve</span>';}).join('');
 
