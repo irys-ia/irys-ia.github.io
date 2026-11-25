@@ -13,7 +13,7 @@
 </script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-S97LZEEYL9"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-S97LZEEYL9');</script>
-<script>(function(){try{var q=new URLSearchParams(location.search).get('tema');var t=q?(/^(escuro|preto|dark)$/i.test(q)?'escuro':'claro'):localStorage.getItem('tema-skill');if(t==='escuro')document.documentElement.setAttribute('data-tema','escuro');}catch(e){}})();</script>
+<script>(function(){try{var q=new URLSearchParams(location.search).get('tema');var t=q?(/^(escuro|preto|dark)$/i.test(q)?'escuro':'claro'):(location.pathname.toLowerCase().replace(/\.html$/,'').replace(/\/$/,'').endsWith('/skills')?'escuro':'claro');if(t==='escuro')document.documentElement.setAttribute('data-tema','escuro');}catch(e){}})();</script>
 <style>
 :root{
   --bg:#FFFFFF; --bg2:#F4F7FC; --line:#E3E8F1;
@@ -24,7 +24,7 @@
   --display:'Sora',system-ui,sans-serif; --body:'DM Sans',system-ui,sans-serif;
   color-scheme:light;
 }
-/* tema escuro (preto e vermelho, o mesmo clima dos vídeos 30 Formas): lâmpada no topo ou link com ?tema=escuro */
+/* tema escuro (preto e vermelho, o mesmo clima dos vídeos 30 Formas): o endereço /skills abre nele (/skill abre no claro); a lâmpada troca durante a visita */
 html[data-tema="escuro"]{
   --bg:#09090A; --bg2:#141416; --line:rgba(255,255,255,.10);
   --tx:#F4F4F5; --mu:#A1A1AA; --acc:#E5383B; --acc2:#B71C22; --soft:rgba(229,56,59,.16); --ok:#3DD68C; --warn:#F5B74A;
@@ -400,11 +400,11 @@ footer a{text-decoration:underline}
   window.addEventListener('mousemove',function(e){if(!arr)return;var dx=e.clientX-arr.x;if(Math.abs(dx)>5){arr.mexeu=true;tr.classList.add('arrastando');}if(arr.mexeu){tr.scrollLeft=arr.ini-dx;e.preventDefault();}});
   window.addEventListener('mouseup',function(){if(!arr)return;tr.classList.remove('arrastando');var m=arr.mexeu;setTimeout(function(){arr=null;},0);if(!m)arr=null;});
   tr.addEventListener('click',function(e){if(arr&&arr.mexeu){e.preventDefault();e.stopPropagation();}},true);
-  // lâmpada: troca o tema e guarda a escolha neste aparelho
+  // lâmpada: troca o tema durante a visita (o endereço decide como a página abre)
   var bt=document.getElementById('tema'),raiz=document.documentElement;
   function rotulo(){var e=raiz.getAttribute('data-tema')==='escuro';bt.setAttribute('aria-pressed',e?'true':'false');}
   rotulo();
-  bt.addEventListener('click',function(){var e=raiz.getAttribute('data-tema')!=='escuro';if(e)raiz.setAttribute('data-tema','escuro');else raiz.removeAttribute('data-tema');try{localStorage.setItem('tema-skill',e?'escuro':'claro');}catch(x){}rotulo();marca(e?'skills_tema_escuro':'skills_tema_claro');});
+  bt.addEventListener('click',function(){var e=raiz.getAttribute('data-tema')!=='escuro';if(e)raiz.setAttribute('data-tema','escuro');else raiz.removeAttribute('data-tema');rotulo();marca(e?'skills_tema_escuro':'skills_tema_claro');});
   // medição: os mesmos eventos da página da Irys
   function marca(n,d){try{if(window.gtag)gtag('event',n,d||{});}catch(e){}try{if(window.clarity)clarity('event',n);}catch(e){}}
   document.addEventListener('click',function(e){var a=e.target.closest('a');if(!a)return;
