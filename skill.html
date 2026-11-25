@@ -85,18 +85,35 @@ nav .links a:hover{color:var(--tx)}
 .fine b{color:var(--tx)}
 .vitrine{margin-top:44px}
 .vitrine .dica{font-size:13px;color:var(--mu);font-weight:600;margin-bottom:12px}
-.trilho{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;padding:8px max(16px,calc((100vw - 1140px)/2)) 28px;margin:0 calc(-1 * max(16px,calc((100vw - 1140px)/2)));cursor:grab;scrollbar-width:none}
+/* vitrine: fileira de celulares; o do meio fica grande e reto, os dos lados menores, girados e apagados (o JS mede a distância do centro) */
+.vitrine{position:relative;--item:min(62vw,250px)}
+.trilho{position:relative;display:flex;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;padding:80px calc(50% - var(--item) * .43) 8px;margin:-62px calc(-1 * max(16px,calc((100vw - 1140px)/2))) 0;cursor:grab;scrollbar-width:none}
 .trilho::-webkit-scrollbar{display:none}
 .trilho.arrastando{cursor:grabbing;scroll-snap-type:none}
-.cel{flex:none;width:210px;scroll-snap-align:center;text-align:left}
-.cel .tela{border-radius:26px;overflow:hidden;background:var(--tela);aspect-ratio:9/16;border:6px solid var(--tela);box-shadow:0 22px 44px rgba(11,18,32,.18)}
-.cel video{width:100%;height:100%;object-fit:cover;display:block;pointer-events:none}
-.cel b{display:block;font-family:var(--display);font-size:16px;margin-top:12px}
-.cel span{display:block;font-size:13px;color:var(--mu);line-height:1.4;margin-top:2px}
-.cel.bonus .tela{border-color:var(--acc);background:linear-gradient(160deg,var(--navy2),var(--navy));display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:#fff;text-align:center;padding:18px}
+.cel{--s:1;--r:0deg;--o:1;--cor:47,123,255;flex:0 0 var(--item);width:var(--item);margin:0 calc(var(--item) * -.07);scroll-snap-align:center;text-align:center;perspective:900px;position:relative;z-index:1}
+.cel.ativo{z-index:2}
+.cel .gira{display:block;width:max-content;margin:0 auto;transform:rotateY(var(--r)) scale(var(--s));opacity:var(--o);transition:transform .12s linear,opacity .12s linear;will-change:transform;cursor:pointer}
+.cel .corpo{--w:calc(var(--item) - 34px);position:relative;width:var(--w);border-radius:calc(var(--w) * .2);padding:calc(var(--w) * .045);background:linear-gradient(145deg,#4a4440 0%,#1c1917 38%,#0d0b0a 62%,#3a3430 100%);box-shadow:inset 0 0 0 1.5px rgba(255,236,214,.22),inset 0 0 0 4px #0b0a09,calc(var(--w) * .14) calc(var(--w) * .2) calc(var(--w) * .32) -6px rgba(0,0,0,.55),0 0 70px -16px rgba(var(--cor),.6)}
+.cel .corpo::before{content:"";position:absolute;right:-3px;top:24%;width:3px;height:13%;border-radius:0 2px 2px 0;background:linear-gradient(#5a524c,#2a2522)}
+.cel .tela{--rt:calc(var(--w) * .155);position:relative;width:100%;aspect-ratio:9/18;border-radius:var(--rt);overflow:hidden;background:#000;isolation:isolate;clip-path:inset(0 round var(--rt))}
+.cel .tela::before{content:"";position:absolute;top:calc(var(--w) * .035);left:50%;transform:translateX(-50%);width:32%;height:calc(var(--w) * .075);border-radius:999px;background:#000;z-index:2}
+.cel .tela::after{content:"";position:absolute;inset:0;z-index:3;pointer-events:none;background:linear-gradient(115deg,rgba(255,255,255,.24) 0%,rgba(255,255,255,.06) 22%,transparent 36%,transparent 70%,rgba(255,255,255,.06) 100%)}
+.cel video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;pointer-events:none}
+.cel .ficha{margin-top:14px;transition:opacity .25s}
+.cel:not(.ativo) .ficha{opacity:0}
+.cel b{display:inline-flex;align-items:center;gap:8px;font-family:var(--display);font-size:20px;letter-spacing:-.01em}
+.cel b::before{content:"";width:10px;height:10px;border-radius:50%;background:rgb(var(--cor));box-shadow:0 0 12px rgb(var(--cor))}
+.cel .ficha span{display:block;font-size:14px;color:var(--mu);line-height:1.4;margin:3px auto 0;max-width:26ch}
+.cel.bonus .tela{background:linear-gradient(160deg,var(--navy2),var(--navy));display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:#fff;text-align:center;padding:18px}
 .cel.bonus .tela .ic{width:64px;height:64px;border-radius:18px;background:linear-gradient(135deg,var(--grad1),var(--acc2));display:grid;place-items:center;font-size:30px}
 .cel.bonus .tela strong{font-family:var(--display);font-size:17px;line-height:1.2}
 .cel.bonus .tela small{font-size:12px;opacity:.8}
+.seta{position:absolute;top:var(--meio,50%);transform:translateY(-50%);z-index:5;width:52px;height:52px;border-radius:50%;border:0;cursor:pointer;display:grid;place-items:center;background:var(--acc);color:#fff;box-shadow:0 10px 24px -6px rgba(0,0,0,.55),0 0 0 4px var(--bg);touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.seta svg{width:22px;height:22px}
+.seta.ant{left:max(6px,calc(50% - var(--item,250px) * .5 - 76px))}
+.seta.prox{right:max(6px,calc(50% - var(--item,250px) * .5 - 76px))}
+.seta:active{transform:translateY(-50%) scale(.92)}
+@media (prefers-reduced-motion:reduce){.cel .gira{transition:none}}
 
 /* diferença */
 .dif{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
@@ -147,8 +164,7 @@ nav .links a:hover{color:var(--tx)}
 .preco ul{list-style:none;padding:0;margin:0;display:grid;gap:10px}
 .preco li{display:flex;gap:10px;align-items:flex-start;font-size:15.5px}
 .preco li::before{content:'';flex:none;width:20px;height:20px;margin-top:2px;border-radius:50%;background:var(--acc) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12l5 5L20 7'/%3E%3C/svg%3E") center/12px no-repeat}
-.preco li.bonus{background:var(--bonus-bg);border-radius:12px;padding:10px 12px;font-weight:700}
-.preco li.bonus::before{background-color:#E0A800}
+.preco li.bonus::before{background-color:var(--ok)}
 .preco .btn{width:100%}
 .garantia{display:flex;gap:12px;align-items:center;background:var(--bg2);border-radius:16px;padding:14px 16px;font-size:14px;color:var(--mu)}
 .garantia b{color:var(--tx)}
@@ -242,7 +258,9 @@ footer a{text-decoration:underline}
 </div>
 
 <div class="vitrine wrap" id="formatos">
-  <p class="dica centro">Arraste pro lado →</p>
+  <p class="dica centro">Arraste pro lado ou use as setas</p>
+  <button class="seta ant" type="button" aria-label="Skill anterior"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+  <button class="seta prox" type="button" aria-label="Próxima skill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button>
   <div class="trilho" id="trilho"></div>
 </div>
 
@@ -319,14 +337,13 @@ footer a{text-decoration:underline}
         <span class="eyebrow" style="margin:0">Skill Viral completa</span>
         <div class="big"><span data-preco></span></div>
         <ul>
-          <li>7 formatos virais com os arquivos de criação completos</li>
           <li class="bonus">Bônus supremo: Skill Mestre de Engenharia Reversa</li>
+          <li>7 formatos virais com os arquivos de criação completos</li>
           <li>10 vídeos-modelo e 50 efeitos sonoros</li>
           <li>Instalador de dois cliques e guia em PDF</li>
           <li>Skill nova entrando sempre, sem pagar de novo</li>
         </ul>
         <a class="btn" data-checkout href="#oferta">Comprar agora</a>
-        <div class="garantia"><i>7</i><span><b>7 dias de garantia.</b> Instale, faça os seus vídeos e, se não gostar, peça o dinheiro de volta.</span></div>
         <span class="mu centro" style="font-size:13px">PIX ou cartão. Acesso na hora, pelo e-mail da compra. O Claude Code é uma conta à parte.</span>
       </div>
     </div>
@@ -381,19 +398,40 @@ footer a{text-decoration:underline}
   var PRECO='R$ 27,90';
   var CHECKOUT='https://go.perfectpay.com.br/PPU38CQI11L';   // link do produto na Perfect Pay
   var SKILLS=[
-    ['prev-vocedecide.mp4','Você Decide','Recomendado para: humor, casais e entretenimento'],
-    ['prev-religiao.mp4','Religião em 3D','Recomendado para: páginas cristãs e de fé'],
-    ['prev-cidade.mp4','Cidade em 3D','Recomendado para: marketing, negócios e empreendedores'],
-    ['prev-30-formas.mp4','30 Formas','Recomendado para: renda extra, IA e séries diárias'],
-    ['prev-historias.mp4','Histórias','Recomendado para: notícias, política e true crime'],
-    ['prev-escolhas.mp4','Escolhas','Recomendado para: curiosidades e “e se…”'],
-    ['prev-gta.mp4','GTA 6','Recomendado para: páginas de games']
+    // vídeo, nome, para quem é, cor da bolinha (r,g,b)
+    ['prev-vocedecide.mp4','Você Decide','Recomendado para: humor, casais e entretenimento','255,176,59'],
+    ['prev-religiao.mp4','Religião em 3D','Recomendado para: páginas cristãs e de fé','255,140,66'],
+    ['prev-cidade.mp4','Cidade em 3D','Recomendado para: marketing, negócios e empreendedores','90,200,120'],
+    ['prev-30-formas.mp4','30 Formas','Recomendado para: renda extra, IA e séries diárias','229,56,59'],
+    ['prev-historias.mp4','Histórias','Recomendado para: notícias, política e true crime','126,200,227'],
+    ['prev-escolhas.mp4','Escolhas','Recomendado para: curiosidades e “e se…”','179,136,255'],
+    ['prev-gta.mp4','GTA 6','Recomendado para: páginas de games','255,95,162']
   ];
   document.querySelectorAll('[data-preco]').forEach(function(e){e.textContent=PRECO;});
   document.querySelectorAll('[data-checkout]').forEach(function(e){if(CHECKOUT){e.href=CHECKOUT;e.target='_blank';e.rel='noopener';}e.textContent='Comprar por '+PRECO;});
   var tr=document.getElementById('trilho');
-  tr.innerHTML=SKILLS.map(function(s){return '<div class="cel"><div class="tela"><video src="prev-skills/'+s[0]+'" autoplay muted loop playsinline preload="metadata"></video></div><b>'+s[1]+'</b><span>'+s[2]+'</span></div>';}).join('')+
-    '<div class="cel bonus"><a class="tela" href="#bonus"><span class="ic">★</span><strong>Skill Mestre de Engenharia Reversa</strong><small>qualquer vídeo vira uma skill sua</small></a><b>Bônus supremo</b><span>Recomendado para: todo mundo</span></div>';
+  tr.innerHTML=SKILLS.map(function(s){return '<div class="cel" style="--cor:'+s[3]+'"><div class="gira"><div class="corpo"><div class="tela"><video src="prev-skills/'+s[0]+'" autoplay muted loop playsinline preload="metadata"></video></div></div></div><div class="ficha"><b>'+s[1]+'</b><span>'+s[2]+'</span></div></div>';}).join('')+
+    '<div class="cel bonus" style="--cor:255,200,60"><div class="gira"><div class="corpo"><a class="tela" href="#bonus"><span class="ic">★</span><strong>Skill Mestre de Engenharia Reversa</strong><small>qualquer vídeo vira uma skill sua</small></a></div></div><div class="ficha"><b>Bônus supremo</b><span>Recomendado para: todo mundo</span></div></div>';
+  // cada celular gira, diminui e apaga conforme a distância do centro; o do meio fica "ativo" (mostra o nome)
+  var cels=[].slice.call(tr.querySelectorAll('.cel')),vit=tr.parentNode,pedido=0;
+  function ajusta(){pedido=0;var c=tr.scrollLeft+tr.clientWidth/2,melhor=null,md=1e9;
+    cels.forEach(function(el){var w=el.offsetWidth||1,d=(el.offsetLeft+w/2-c)/w,a=Math.min(Math.abs(d),2);
+      el.style.setProperty('--r',(Math.max(-1.5,Math.min(1.5,d))*-22).toFixed(1)+'deg');
+      el.style.setProperty('--s',(1-Math.min(a,1.5)*.2).toFixed(3));
+      el.style.setProperty('--o',(1-Math.min(a,2)*.32).toFixed(3));
+      if(Math.abs(d)<md){md=Math.abs(d);melhor=el;}});
+    cels.forEach(function(el){el.classList.toggle('ativo',el===melhor);});
+    var tela=cels[0]&&cels[0].querySelector('.corpo');if(tela)vit.style.setProperty('--meio',(tr.offsetTop+(parseFloat(getComputedStyle(tr).paddingTop)||0)+tela.offsetHeight/2)+'px');}
+  // sobra dos lados medida pela largura real da fileira: o primeiro e o último celular conseguem ficar bem no centro
+  function margens(){var w=cels[0]?cels[0].offsetWidth:250;var p=Math.max(0,tr.clientWidth/2-w*.43)+'px';tr.style.paddingLeft=p;tr.style.paddingRight=p;}
+  tr.addEventListener('scroll',function(){if(!pedido)pedido=requestAnimationFrame(ajusta);},{passive:true});
+  window.addEventListener('resize',function(){margens();ajusta();});margens();ajusta();
+  // setas e clique num celular do lado: leva aquele para o centro
+  function vaiPara(el){if(!el)return;tr.scrollTo({left:el.offsetLeft+el.offsetWidth/2-tr.clientWidth/2,behavior:'smooth'});}
+  function atual(){return cels.indexOf(tr.querySelector('.cel.ativo'));}
+  vit.querySelector('.seta.ant').addEventListener('click',function(){vaiPara(cels[Math.max(0,atual()-1)]);marca('skills_seta');});
+  vit.querySelector('.seta.prox').addEventListener('click',function(){vaiPara(cels[Math.min(cels.length-1,atual()+1)]);marca('skills_seta');});
+  tr.addEventListener('click',function(e){var el=e.target.closest('.cel');if(el&&!el.classList.contains('ativo')){e.preventDefault();vaiPara(el);}});
   // arrastar a vitrine com o mouse (no celular o dedo já rola)
   var arr=null;
   tr.addEventListener('mousedown',function(e){arr={x:e.clientX,ini:tr.scrollLeft,mexeu:false};});
