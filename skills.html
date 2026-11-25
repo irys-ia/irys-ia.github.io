@@ -1,0 +1,418 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Skill Viral | você escreve o tema, o Claude entrega o vídeo viral</title>
+<meta name="description" content="7 formatos de vídeo viral prontos para o Claude Code e a Skill Mestre de Engenharia Reversa: mande qualquer vídeo e o Claude cria a skill dele para você.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Cdefs%3E%3ClinearGradient id=%22g%22 x1=%220%22 y1=%220%22 x2=%221%22 y2=%221%22%3E%3Cstop offset=%220%22 stop-color=%22%235FA0FF%22/%3E%3Cstop offset=%221%22 stop-color=%22%231D5FE0%22/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width=%2264%22 height=%2264%22 rx=%2216%22 fill=%22url(%23g)%22/%3E%3Cpath d=%22M24 18l24 14-24 14z%22 fill=%22%23fff%22/%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Sora:wght@600;700;800&display=swap">
+<!-- Microsoft Clarity e Google Analytics: os mesmos da página da Irys -->
+<script type="text/javascript">
+  (function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window, document, "clarity", "script", "zfkgs3amvq");
+</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-S97LZEEYL9"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-S97LZEEYL9');</script>
+<script>(function(){try{var q=new URLSearchParams(location.search).get('tema');var t=q?(/^(escuro|preto|dark)$/i.test(q)?'escuro':'claro'):localStorage.getItem('tema-skill');if(t==='escuro')document.documentElement.setAttribute('data-tema','escuro');}catch(e){}})();</script>
+<style>
+:root{
+  --bg:#FFFFFF; --bg2:#F4F7FC; --line:#E3E8F1;
+  --tx:#0B1220; --mu:#5B6577; --acc:#2F7BFF; --acc2:#1D5FE0; --soft:#E6EFFF; --ok:#16A36A; --warn:#B7791F;
+  --navy:#0B1B3F; --navy2:#13306B;
+  --card:#FFFFFF; --sombra:47,123,255; --brilho:95,160,255; --claro:#8FC0FF; --grad1:#5FA0FF; --tela:#0B1220; --selo:#1D5FE0;
+  --gratis-bg:#E5F7EF; --pago-bg:#FFF3DC; --bonus-bg:#FFF8DC;
+  --display:'Sora',system-ui,sans-serif; --body:'DM Sans',system-ui,sans-serif;
+  color-scheme:light;
+}
+/* tema escuro (preto e vermelho, o mesmo clima dos vídeos 30 Formas): lâmpada no topo ou link com ?tema=escuro */
+html[data-tema="escuro"]{
+  --bg:#09090A; --bg2:#141416; --line:rgba(255,255,255,.10);
+  --tx:#F4F4F5; --mu:#A1A1AA; --acc:#E5383B; --acc2:#B71C22; --soft:rgba(229,56,59,.16); --ok:#3DD68C; --warn:#F5B74A;
+  --navy:#120708; --navy2:#2A0B0E;
+  --card:#111113; --sombra:229,56,59; --brilho:229,56,59; --claro:#FF8A8C; --grad1:#FF6B6E; --tela:#000000; --selo:#FF8A8C;
+  --gratis-bg:rgba(61,214,140,.14); --pago-bg:rgba(245,183,74,.14); --bonus-bg:rgba(255,210,63,.12);
+  color-scheme:dark;
+}
+html[data-tema="escuro"] body{background:radial-gradient(1100px 620px at 50% -12%,rgba(229,56,59,.20),transparent 62%),var(--bg) no-repeat}
+html[data-tema="escuro"] .cel .tela{box-shadow:0 22px 44px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.06)}
+/* a lâmpada que troca o tema */
+.tema{flex:none;width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--tx);display:grid;place-items:center;cursor:pointer;padding:0;transition:transform .15s,box-shadow .2s}
+.tema:hover{transform:translateY(-1px)}
+.tema svg{width:22px;height:22px}
+.tema .luz{fill:#FFD23F;stroke:#E0A800}
+.tema .raios{stroke:#E0A800}
+html[data-tema="escuro"] .tema .luz{fill:none;stroke:var(--mu)}
+html[data-tema="escuro"] .tema .raios{display:none}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:var(--body);font-size:16px;line-height:1.6;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1140px;margin:0 auto;padding:0 max(16px,env(safe-area-inset-left,0px))}
+h1,h2,h3{font-family:var(--display);letter-spacing:-.03em;margin:0;text-wrap:balance}
+h1{font-size:clamp(38px,6.4vw,72px);line-height:1.02}
+h2{font-size:clamp(28px,4vw,46px);line-height:1.08}
+h3{font-size:19px;line-height:1.3}
+p{margin:0}
+.mu{color:var(--mu)}
+.azul{color:var(--acc)}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--acc);font-weight:800;margin-bottom:14px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:999px;padding:16px 30px;font-weight:700;font-size:16.5px;background:var(--acc);color:#fff;border:0;cursor:pointer;box-shadow:0 12px 30px rgba(var(--sombra),.30);transition:transform .15s,box-shadow .15s}
+.btn:hover{transform:translateY(-1px);box-shadow:0 16px 38px rgba(var(--sombra),.38)}
+.btn.sec{background:var(--card);color:var(--tx);border:1px solid var(--line);box-shadow:none}
+.btn.sm{padding:10px 18px;font-size:14px;white-space:nowrap}
+.marca{white-space:nowrap}
+.btn.branco{background:#fff;color:var(--acc2);box-shadow:none}
+.btn:focus-visible,a:focus-visible,summary:focus-visible,button:focus-visible{outline:3px solid color-mix(in srgb,var(--acc) 45%,transparent);outline-offset:3px}
+section{padding-block:84px}
+.sechead{max-width:68ch;margin-bottom:36px}
+.sechead p{color:var(--mu);font-size:18px;margin-top:14px}
+.centro{text-align:center;margin-left:auto;margin-right:auto}
+
+nav{display:flex;align-items:center;gap:16px;padding:18px 0}
+.marca{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:800;font-size:20px;letter-spacing:-.02em}
+.marca i{width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,var(--grad1),var(--acc2));display:grid;place-items:center}
+.marca i svg{width:15px;height:15px;margin-left:2px}
+nav .links{display:flex;gap:22px;margin-left:auto;color:var(--mu);font-size:14px;font-weight:500}
+nav .links a:hover{color:var(--tx)}
+
+/* herói */
+.hero{padding-block:36px 24px;text-align:center}
+.hero .selo{display:inline-flex;align-items:center;gap:8px;background:var(--soft);color:var(--selo);border-radius:999px;padding:7px 14px;font-size:13px;font-weight:700;margin-bottom:22px}
+.hero .lead{font-size:19.5px;color:var(--mu);margin:22px auto 30px;max-width:56ch}
+.hero .lead b{color:var(--tx)}
+.cta{display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:center}
+.fine{margin-top:16px;font-size:14px;color:var(--mu)}
+.fine b{color:var(--tx)}
+.vitrine{margin-top:44px}
+.vitrine .dica{font-size:13px;color:var(--mu);font-weight:600;margin-bottom:12px}
+.trilho{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;padding:8px max(16px,calc((100vw - 1140px)/2)) 28px;margin:0 calc(-1 * max(16px,calc((100vw - 1140px)/2)));cursor:grab;scrollbar-width:none}
+.trilho::-webkit-scrollbar{display:none}
+.trilho.arrastando{cursor:grabbing;scroll-snap-type:none}
+.cel{flex:none;width:210px;scroll-snap-align:center;text-align:left}
+.cel .tela{border-radius:26px;overflow:hidden;background:var(--tela);aspect-ratio:9/16;border:6px solid var(--tela);box-shadow:0 22px 44px rgba(11,18,32,.18)}
+.cel video{width:100%;height:100%;object-fit:cover;display:block;pointer-events:none}
+.cel b{display:block;font-family:var(--display);font-size:16px;margin-top:12px}
+.cel span{display:block;font-size:13px;color:var(--mu);line-height:1.4;margin-top:2px}
+.cel.bonus .tela{border-color:var(--acc);background:linear-gradient(160deg,var(--navy2),var(--navy));display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:#fff;text-align:center;padding:18px}
+.cel.bonus .tela .ic{width:64px;height:64px;border-radius:18px;background:linear-gradient(135deg,var(--grad1),var(--acc2));display:grid;place-items:center;font-size:30px}
+.cel.bonus .tela strong{font-family:var(--display);font-size:17px;line-height:1.2}
+.cel.bonus .tela small{font-size:12px;opacity:.8}
+
+/* diferença */
+.dif{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.dif div{background:var(--bg2);border:1px solid var(--line);border-radius:20px;padding:22px}
+.dif b{display:block;font-family:var(--display);font-size:17px;margin-bottom:6px}
+.dif p{color:var(--mu);font-size:15px}
+
+/* bônus supremo */
+.supremo{background:linear-gradient(160deg,var(--navy2),var(--navy) 60%);color:#fff;border-radius:36px;padding:56px 48px;position:relative;overflow:hidden}
+.supremo::after{content:'';position:absolute;right:-120px;top:-120px;width:420px;height:420px;border-radius:50%;background:radial-gradient(closest-side,rgba(var(--brilho),.35),transparent)}
+.supremo .tag{display:inline-flex;align-items:center;gap:8px;background:#FFD23F;color:#3A2A00;border-radius:999px;padding:7px 14px;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;margin-bottom:18px}
+.supremo h2{color:#fff;max-width:20ch}
+.supremo h2 span{color:var(--claro)}
+.supremo .lead{font-size:19px;color:rgba(255,255,255,.82);margin-top:16px;max-width:62ch}
+.fluxo{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:36px;position:relative;z-index:1}
+.fluxo div{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:20px;padding:20px}
+.fluxo i{display:grid;place-items:center;width:38px;height:38px;border-radius:50%;background:#fff;color:var(--acc2);font-style:normal;font-weight:800;font-family:var(--display);margin-bottom:12px}
+.fluxo b{display:block;font-family:var(--display);font-size:16px;margin-bottom:4px}
+.fluxo p{font-size:14.5px;color:rgba(255,255,255,.78)}
+.supremo .nota{margin-top:26px;font-size:15px;color:rgba(255,255,255,.75);position:relative;z-index:1;max-width:70ch}
+.supremo .nota b{color:#fff}
+
+/* passos */
+.passos{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;counter-reset:p}
+.passo{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:22px;display:flex;flex-direction:column;gap:8px}
+.passo::before{counter-increment:p;content:counter(p);width:38px;height:38px;border-radius:50%;background:var(--acc);color:#fff;display:grid;place-items:center;font-weight:800;font-family:var(--display);margin-bottom:6px}
+.passo p{color:var(--mu);font-size:15px}
+
+/* o que vem */
+.vem{display:grid;grid-template-columns:1fr 1fr;gap:12px 28px;max-width:960px}
+.vem li{list-style:none;display:flex;gap:12px;align-items:flex-start;font-size:16px;padding:12px 0;border-bottom:1px solid var(--line)}
+.vem li::before{content:'';flex:none;width:22px;height:22px;margin-top:2px;border-radius:50%;background:var(--acc) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12l5 5L20 7'/%3E%3C/svg%3E") center/13px no-repeat}
+.vem ul{margin:0;padding:0}
+
+.reqs{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;max-width:900px}
+.req{display:flex;gap:14px;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 18px}
+.req b{display:block}
+.req span.mu{font-size:14.5px}
+.tag2{flex:none;font-size:11px;font-weight:800;padding:4px 10px;border-radius:999px;text-transform:uppercase;letter-spacing:.04em;margin-top:2px}
+.tag2.gratis{background:var(--gratis-bg);color:var(--ok)}
+.tag2.pago{background:var(--pago-bg);color:var(--warn)}
+
+/* oferta */
+.oferta{display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:center}
+.preco{background:var(--card);border:2px solid var(--acc);border-radius:30px;padding:34px;box-shadow:0 30px 70px rgba(var(--sombra),.16);display:flex;flex-direction:column;gap:16px}
+.preco .big{font-family:var(--display);font-size:64px;font-weight:800;letter-spacing:-.04em;line-height:1}
+.preco .big small{font-size:20px;font-weight:700;color:var(--mu);letter-spacing:0}
+.preco ul{list-style:none;padding:0;margin:0;display:grid;gap:10px}
+.preco li{display:flex;gap:10px;align-items:flex-start;font-size:15.5px}
+.preco li::before{content:'';flex:none;width:20px;height:20px;margin-top:2px;border-radius:50%;background:var(--acc) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12l5 5L20 7'/%3E%3C/svg%3E") center/12px no-repeat}
+.preco li.bonus{background:var(--bonus-bg);border-radius:12px;padding:10px 12px;font-weight:700}
+.preco li.bonus::before{background-color:#E0A800}
+.preco .btn{width:100%}
+.garantia{display:flex;gap:12px;align-items:center;background:var(--bg2);border-radius:16px;padding:14px 16px;font-size:14px;color:var(--mu)}
+.garantia b{color:var(--tx)}
+.garantia i{flex:none;width:40px;height:40px;border-radius:50%;background:var(--gratis-bg);color:var(--ok);display:grid;place-items:center;font-style:normal;font-weight:800}
+
+.quem{display:grid;grid-template-columns:220px 1fr;gap:36px;align-items:center;background:var(--bg2);border:1px solid var(--line);border-radius:28px;padding:30px}
+.quem img{width:100%;height:auto;aspect-ratio:1;object-fit:cover;border-radius:50%;display:block;border:3px solid #6B7078;padding:4px;background:var(--bg)}
+.quem p{color:var(--mu);font-size:17px;max-width:62ch}
+.quem p+p{margin-top:12px}
+
+.comparar{display:grid;grid-template-columns:1fr;gap:16px;max-width:460px;margin:0 auto}
+.prod{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:24px;display:flex;flex-direction:column;gap:10px;position:relative}
+.prod.aqui{border:2px solid var(--acc)}
+.prod .selo{position:absolute;top:-12px;left:22px;background:var(--acc);color:#fff;font-size:11px;font-weight:800;padding:4px 10px;border-radius:999px;text-transform:uppercase;letter-spacing:.05em}
+.prod .valor{font-family:var(--display);font-size:28px;font-weight:800}
+.prod p{color:var(--mu);font-size:15px}
+.prod .btn{align-self:flex-start;margin-top:6px}
+
+details{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:0 20px}
+details+details{margin-top:10px}
+summary{cursor:pointer;padding:18px 0;font-weight:700;list-style:none;display:flex;justify-content:space-between;gap:12px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:'+';color:var(--acc);font-size:22px;line-height:1}
+details[open] summary::after{content:'–'}
+details p{color:var(--mu);padding-bottom:18px}
+
+.final{text-align:center;display:flex;flex-direction:column;align-items:center;gap:18px;background:linear-gradient(160deg,var(--acc),var(--acc2));color:#fff;border-radius:34px;padding:60px 24px;margin-bottom:40px}
+.final p{color:rgba(255,255,255,.86);font-size:18px;max-width:52ch}
+footer{border-top:1px solid var(--line);padding:28px 0 44px;color:var(--mu);font-size:13px;display:flex;gap:14px;flex-wrap:wrap;justify-content:space-between}
+footer a{text-decoration:underline}
+
+@media (max-width:960px){
+  .dif,.passos{grid-template-columns:1fr 1fr}
+  .fluxo{grid-template-columns:1fr 1fr}
+  .oferta{grid-template-columns:1fr}
+  .vem{grid-template-columns:1fr}
+  nav .links{display:none}.tema{margin-left:auto}nav .btn{margin-left:0}
+  .quem{grid-template-columns:1fr;text-align:center}.quem img{max-width:170px;margin:0 auto}.quem p{margin:0 auto}
+  .supremo{padding:44px 28px}
+}
+@media (max-width:600px){
+  section{padding-block:58px}
+  .hero{padding-block:16px 8px}
+  .hero .lead{font-size:17px}
+  .cta{flex-direction:column}.cta .btn{width:100%}
+  .cel{width:62vw}
+  .dif,.passos,.fluxo,.reqs,.comparar{grid-template-columns:1fr}
+  .supremo{padding:36px 20px;border-radius:26px}
+  .preco{padding:24px 20px}.preco .big{font-size:52px}
+  .final{border-radius:26px;padding:44px 20px}
+  footer{flex-direction:column;gap:8px}
+  nav{gap:10px;padding:14px 0}
+  .marca{font-size:18px}.marca i{width:30px;height:30px}
+  .tema{width:38px;height:38px}.tema svg{width:20px;height:20px}
+  nav .btn.sm{padding:10px 16px}
+  section{padding-block:46px}
+  .sechead{margin-bottom:24px}.sechead p{font-size:16px}
+  h1{font-size:clamp(34px,10vw,40px)}
+  .hero .selo{font-size:12px;padding:6px 12px;margin-bottom:16px}
+  .hero .lead{margin:16px auto 22px}
+  .vitrine{margin-top:30px}
+  .dif div,.passo{padding:18px}
+  .supremo .tag{font-size:10.5px;letter-spacing:.04em;padding:6px 11px}
+  .supremo .lead{font-size:16.5px}
+  .fluxo{grid-template-columns:1fr 1fr;gap:10px;margin-top:26px}
+  .fluxo div{padding:14px}.fluxo i{width:32px;height:32px;margin-bottom:8px}.fluxo b{font-size:14.5px}.fluxo p{font-size:13px;line-height:1.45}
+  .vem li{padding:9px 0;font-size:15px}
+  .quem{padding:22px;gap:16px}.quem img{max-width:200px;margin:0 auto}.quem p{font-size:15.5px}
+  details{padding:0 16px}summary{padding:15px 0}
+  .final{padding:38px 18px}
+}
+@media (prefers-reduced-motion:reduce){.btn{transition:none}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav>
+    <a class="marca" href="#topo"><i><svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z" fill="#fff"/></svg></i>Skill Viral</a>
+    <div class="links"><a href="#formatos">Formatos</a><a href="#bonus">Bônus supremo</a><a href="#como">Como funciona</a><a href="#oferta">Preço</a><a href="#duvidas">Dúvidas</a></div>
+    <button class="tema" id="tema" type="button" aria-label="Trocar entre o tema claro e o escuro" title="Tema claro / escuro"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><g class="raios"><path d="M12 1.6v1.6M4.2 4.6l1.1 1.1M19.8 4.6l-1.1 1.1M1.8 11.6h1.6M20.6 11.6h1.6"/></g><path class="luz" d="M12 5.4a6.1 6.1 0 0 0-3.6 11c.7.5 1.1 1.2 1.1 2v.4h5v-.4c0-.8.4-1.5 1.1-2A6.1 6.1 0 0 0 12 5.4z"/><path d="M9.6 21h4.8M10.4 23h3.2" stroke="currentColor"/></svg></button>
+    <a class="btn sm" href="#oferta">Comprar</a>
+  </nav>
+
+  <header class="hero" id="topo">
+    <span class="selo">▶ 7 formatos virais + a Skill Mestre</span>
+    <h1>você escreve o tema.<br><span class="azul">o Claude entrega o vídeo pronto.</span></h1>
+    <p class="lead">Os agentes de criação completos de formatos que viralizam: <b>cenas em 3D e 2D, legenda animada e efeito sonoro em tudo</b>. E de bônus, a skill que <b>cria skills novas</b> a partir de qualquer vídeo que você mandar. Esse é o ouro!</p>
+    <div class="cta"><a class="btn" href="#oferta">Quero a Skill Viral · <span data-preco></span></a><a class="btn sec" href="#bonus">Ver o bônus supremo</a></div>
+    <p class="fine"><b>Pagamento único</b> · skill nova e validada todo mês ✓</p>
+  </header>
+</div>
+
+<div class="vitrine wrap" id="formatos">
+  <p class="dica centro">Arraste pro lado →</p>
+  <div class="trilho" id="trilho"></div>
+</div>
+
+<div class="wrap">
+  <section>
+    <div class="sechead"><span class="eyebrow">Olha a diferença</span><h2>não é curso. é tudo pronto.</h2><p>não tem o que aprender.</p></div>
+    <div class="dif">
+      <div><b>Vem testado e validado</b><p>Cada formato foi refeito quadro a quadro e afinado até ficar redondo. Você não perde tempo com tentativa e erro.</p></div>
+      <div><b>Não tem aula</b><p>Você não assiste nada. Pede em uma frase e o vídeo sai pronto, com voz, legenda e som.</p></div>
+      <div><b>Instala com dois cliques</b><p>Um instalador confere o que falta, instala e pede as suas chaves. Sem digitar comando.</p></div>
+      <div><b>Sem pagar por vídeo</b><p>Fez 1 ou 100 vídeos, a Skill Viral custa o mesmo. Uma vez só.</p></div>
+      <div><b>Skill nova sempre</b><p>Cada formato novo que a gente cria entra no pacote e chega pelo mesmo link, sem pagar de novo.</p></div>
+      <div><b>E você cria as suas</b><p>Com a Skill Mestre, qualquer vídeo que viralizar vira uma skill sua. O pacote nunca fica velho.</p></div>
+    </div>
+  </section>
+
+  <section id="bonus">
+    <div class="supremo">
+      <span class="tag">★ Bônus supremo · e é aqui que está o ouro</span>
+      <h2>Skill Mestre de <span>Engenharia Reversa</span>.</h2>
+      <p class="lead">Viu um vídeo bombando? Mande pro seu Claude. Ele estuda o vídeo quadro a quadro, recria o formato inteiro em código e entrega uma <b>skill nova, só sua</b>, que faz vídeos naquele estilo quando você quiser. É a mesma skill que a gente usa para criar cada formato deste pacote.</p>
+      <div class="fluxo">
+        <div><i>1</i><b>Você manda o vídeo</b><p>Qualquer Reels, TikTok ou Short que você queira fazer igual.</p></div>
+        <div><i>2</i><b>Ele estuda tudo</b><p>Quadro a quadro e a fala palavra por palavra: hook, ritmo, cores, fontes, animações e sons.</p></div>
+        <div><i>3</i><b>Recria em código</b><p>Cenas em 2D ou 3D, legenda, efeitos sonoros e um vídeo de exemplo com um tema seu.</p></div>
+        <div><i>4</i><b>Confere lado a lado</b><p>Compara o original com o novo até ficar igual. No fim, a skill nova está pronta para usar.</p></div>
+      </div>
+      <p class="nota"><b>Copia o formato, não o conteúdo:</b> tudo é refeito do zero, com narração nova e sem usar o áudio, as imagens ou a marca de ninguém.</p>
+    </div>
+  </section>
+
+  <section id="como">
+    <div class="sechead"><span class="eyebrow">Como funciona</span><h2>do pedido ao vídeo, em poucos passos.</h2></div>
+    <div class="passos">
+      <div class="passo"><h3>Baixe</h3><p>O link chega no seu e-mail logo depois da compra, com um guia em PDF.</p></div>
+      <div class="passo"><h3>Instale</h3><p>Dois cliques no “1 - Instalar”. Ele confere tudo e pede as chaves, uma por vez.</p></div>
+      <div class="passo"><h3>Peça</h3><p>Dois cliques no “2 - Fazer um video” e uma frase: “faz um vocedecide sobre a sogra que se mudou pra casa”.</p></div>
+      <div class="passo"><h3>Poste</h3><p>O vídeo sai em 1080x1920, pronto para Reels, TikTok e Shorts.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sechead"><span class="eyebrow">O que vem na Skill Viral</span><h2>cada arquivo de criação. inteiro.</h2></div>
+    <div class="vem">
+      <ul>
+        <li>7 formatos de vídeo viral em skills prontas, em 3D e em 2D</li>
+        <li>A Skill Mestre de Engenharia Reversa, com as ferramentas de estudo e de comparação lado a lado</li>
+        <li>Voz narrando com legenda que acompanha a fala, palavra por palavra</li>
+        <li>50 efeitos sonoros: um som em cada coisa que aparece na tela</li>
+        <li>10 vídeos-modelo completos, com roteiro, narração e cenas, para copiar e adaptar</li>
+      </ul>
+      <ul>
+        <li>Página de boas-vindas com cada formato e o pedido pronto para copiar</li>
+        <li>Instalador de dois cliques e guia em PDF</li>
+        <li>Hook forte em todos os formatos: o Claude escreve o roteiro pensando nos primeiros segundos</li>
+        <li>O Claude confere os quadros antes de entregar: texto cortado, cena vazia, coisa sobreposta</li>
+        <li>Skill nova entrando sempre, pelo mesmo link, sem pagar de novo</li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <div class="sechead"><span class="eyebrow">O que você precisa</span><h2>sem surpresa depois da compra.</h2><p>As skills rodam no seu computador, com as suas contas.</p></div>
+    <div class="reqs">
+      <div class="req"><span class="tag2 pago">Pago</span><div><b>Claude Code</b><span class="mu">Precisa do plano Pro ou Max do Claude. É ele que produz os vídeos.</span></div></div>
+      <div class="req"><span class="tag2 gratis">Grátis</span><div><b>Chave da Groq</b><span class="mu">Voz neural realista com uma cota gratuita generosa.</span></div></div>
+    </div>
+  </section>
+
+  <section id="oferta">
+    <div class="oferta">
+      <div class="sechead" style="margin:0"><span class="eyebrow">Oferta</span><h2>quer fazer vídeos que se vendem sozinhos?</h2><p>Não tem o que aprender: você já leva pronto. Uma frase é tudo que você precisa pra criar.</p></div>
+      <div class="preco">
+        <span class="eyebrow" style="margin:0">Skill Viral completa</span>
+        <div class="big"><span data-preco></span></div>
+        <ul>
+          <li>7 formatos virais com os arquivos de criação completos</li>
+          <li class="bonus">Bônus supremo: Skill Mestre de Engenharia Reversa</li>
+          <li>10 vídeos-modelo e 50 efeitos sonoros</li>
+          <li>Instalador de dois cliques e guia em PDF</li>
+          <li>Skill nova entrando sempre, sem pagar de novo</li>
+        </ul>
+        <a class="btn" data-checkout href="#oferta">Comprar agora</a>
+        <div class="garantia"><i>7</i><span><b>7 dias de garantia.</b> Instale, faça os seus vídeos e, se não gostar, peça o dinheiro de volta.</span></div>
+        <span class="mu centro" style="font-size:13px">PIX ou cartão. Acesso na hora, pelo e-mail da compra. O Claude Code é uma conta à parte.</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="quem">
+      <img src="criador.webp" alt="Foto do criador da Skill Viral" width="600" height="600" loading="lazy">
+      <div>
+        <span class="eyebrow">Quem está por trás</span>
+        <h2 style="margin-bottom:14px">O dono da Irys.</h2>
+        <p>Desenvolvedor há 3 anos, essas skills são as mesmas que rodam os perfis da nossa agência no automático, e cada formato nasceu com a Skill Mestre: um vídeo que viralizou, estudado quadro a quadro e refeito em código. Conheça a Irys abaixo.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sechead centro"><span class="eyebrow">Quer no automático?</span><h2>com a Irys, os vídeos são produzidos e postados sozinhos.</h2><p>Sem abrir o Claude Code: a Irys produz e posta no Instagram e no TikTok nos horários que você escolher, em até 5 contas.</p></div>
+    <div class="comparar">
+      <div class="prod aqui"><h3>Irys</h3><div class="valor">R$ 39,90</div><p>A assistente que mora no topo da tela: produz os vídeos, posta sozinha e ainda faz o resto do seu trabalho no PC por voz.</p><a class="btn sm" href="index.html" data-irys>Conhecer a casa da Irys</a></div>
+    </div>
+  </section>
+
+  <section id="duvidas">
+    <div class="sechead"><span class="eyebrow">Dúvidas</span><h2>perguntas frequentes.</h2></div>
+    <div style="max-width:800px">
+      <details><summary>É difícil de instalar?</summary><p>Não. São dois cliques no “1 - Instalar”: ele confere o que falta, instala e pede as suas chaves uma por vez. A página de boas-vindas e o PDF mostram cada passo.</p></details>
+      <details><summary>Preciso saber programar ou editar vídeo?</summary><p>Não. Você pede em português, em uma frase, e o Claude Code segue a skill até o vídeo pronto.</p></details>
+      <details><summary>Como funciona a Skill Mestre de Engenharia Reversa?</summary><p>Você manda o arquivo de um vídeo e diz “cria uma skill igual a esse vídeo”. O Claude estuda o vídeo, recria o formato em código, compara lado a lado com o original e entrega a skill nova pronta, com um vídeo de exemplo. Ela copia o formato, não o conteúdo de ninguém.</p></details>
+      <details><summary>Preciso pagar o Claude?</summary><p>Sim. O Claude Code precisa do plano Pro ou Max do Claude. Os vídeos usam a cota do seu plano.</p></details>
+      <details><summary>Tem mais algum custo?</summary><p>Só o plano Pro ou Max do Claude, para o Claude Code. A chave da Groq é grátis. A Skill Viral é pagamento único.</p></details>
+      <details><summary>Funciona no meu computador?</summary><p>Funciona no Windows 10 e 11 de 64 bits. Os formatos em 3D pedem um computador mais parrudo e levam mais tempo no render.</p></details>
+      <details><summary>Funciona no Mac ou no celular?</summary><p>Não. A Skill Viral foi feita e testada no Windows. O celular serve para postar o vídeo pronto.</p></details>
+      <details><summary>Como chegam as skills novas?</summary><p>Pelo mesmo link do seu PDF de acesso, que sempre baixa a versão mais nova. Extraia por cima da sua pasta: as suas chaves e os seus vídeos continuam lá.</p></details>
+      <details><summary>Posso usar os vídeos nos meus perfis e para clientes?</summary><p>Sim. Os vídeos que você fizer são seus. Só não pode revender ou distribuir os arquivos do pacote.</p></details>
+      <details><summary>E se eu não gostar?</summary><p>Você tem 7 dias de garantia. Peça o reembolso pela Perfect Pay e recebe todo o seu dinheiro de volta.</p></details>
+    </div>
+  </section>
+
+  <section class="final">
+    <h2>você imagina. o Claude grava.</h2>
+    <p>7 formatos virais, a Skill Mestre que cria as próximas e skill nova entrando sempre. <span data-preco></span>, uma vez só.</p>
+    <a class="btn branco" href="#oferta">Quero a Skill Viral · <span data-preco></span></a>
+  </section>
+
+  <footer><span>Skill Viral · <a href="index.html">Conheça a Irys</a> · <a href="seguranca.html">Segurança e privacidade</a></span><span>Claude e Claude Code são marcas da Anthropic. Este produto não tem relação com a Anthropic.</span></footer>
+</div>
+
+<script>
+(function(){
+  /* ---------- configuração da página: preço e link de compra moram só aqui ---------- */
+  var PRECO='R$ 27,90';
+  var CHECKOUT='https://go.perfectpay.com.br/PPU38CQI11L';   // link do produto na Perfect Pay
+  var SKILLS=[
+    ['prev-vocedecide.mp4','Você Decide','Recomendado para: humor, casais e entretenimento'],
+    ['prev-religiao.mp4','Religião em 3D','Recomendado para: páginas cristãs e de fé'],
+    ['prev-cidade.mp4','Cidade em 3D','Recomendado para: marketing, negócios e empreendedores'],
+    ['prev-30-formas.mp4','30 Formas','Recomendado para: renda extra, IA e séries diárias'],
+    ['prev-historias.mp4','Histórias','Recomendado para: notícias, política e true crime'],
+    ['prev-escolhas.mp4','Escolhas','Recomendado para: curiosidades e “e se…”'],
+    ['prev-gta.mp4','GTA 6','Recomendado para: páginas de games']
+  ];
+  document.querySelectorAll('[data-preco]').forEach(function(e){e.textContent=PRECO;});
+  document.querySelectorAll('[data-checkout]').forEach(function(e){if(CHECKOUT){e.href=CHECKOUT;e.target='_blank';e.rel='noopener';}e.textContent='Comprar por '+PRECO;});
+  var tr=document.getElementById('trilho');
+  tr.innerHTML=SKILLS.map(function(s){return '<div class="cel"><div class="tela"><video src="prev-skills/'+s[0]+'" autoplay muted loop playsinline preload="metadata"></video></div><b>'+s[1]+'</b><span>'+s[2]+'</span></div>';}).join('')+
+    '<div class="cel bonus"><a class="tela" href="#bonus"><span class="ic">★</span><strong>Skill Mestre de Engenharia Reversa</strong><small>qualquer vídeo vira uma skill sua</small></a><b>Bônus supremo</b><span>Recomendado para: todo mundo</span></div>';
+  // arrastar a vitrine com o mouse (no celular o dedo já rola)
+  var arr=null;
+  tr.addEventListener('mousedown',function(e){arr={x:e.clientX,ini:tr.scrollLeft,mexeu:false};});
+  window.addEventListener('mousemove',function(e){if(!arr)return;var dx=e.clientX-arr.x;if(Math.abs(dx)>5){arr.mexeu=true;tr.classList.add('arrastando');}if(arr.mexeu){tr.scrollLeft=arr.ini-dx;e.preventDefault();}});
+  window.addEventListener('mouseup',function(){if(!arr)return;tr.classList.remove('arrastando');var m=arr.mexeu;setTimeout(function(){arr=null;},0);if(!m)arr=null;});
+  tr.addEventListener('click',function(e){if(arr&&arr.mexeu){e.preventDefault();e.stopPropagation();}},true);
+  // lâmpada: troca o tema e guarda a escolha neste aparelho
+  var bt=document.getElementById('tema'),raiz=document.documentElement;
+  function rotulo(){var e=raiz.getAttribute('data-tema')==='escuro';bt.setAttribute('aria-pressed',e?'true':'false');}
+  rotulo();
+  bt.addEventListener('click',function(){var e=raiz.getAttribute('data-tema')!=='escuro';if(e)raiz.setAttribute('data-tema','escuro');else raiz.removeAttribute('data-tema');try{localStorage.setItem('tema-skill',e?'escuro':'claro');}catch(x){}rotulo();marca(e?'skills_tema_escuro':'skills_tema_claro');});
+  // medição: os mesmos eventos da página da Irys
+  function marca(n,d){try{if(window.gtag)gtag('event',n,d||{});}catch(e){}try{if(window.clarity)clarity('event',n);}catch(e){}}
+  document.addEventListener('click',function(e){var a=e.target.closest('a');if(!a)return;
+    if(a.hasAttribute('data-checkout'))marca('skills_clique_comprar');
+    else if(a.hasAttribute('data-irys'))marca('skills_clique_irys');});
+  // vídeos fora da tela param (economiza bateria no celular)
+  if('IntersectionObserver' in window){var io=new IntersectionObserver(function(es){es.forEach(function(x){var v=x.target;if(x.isIntersecting){var p=v.play();if(p&&p.catch)p.catch(function(){});}else v.pause();});},{rootMargin:'120px'});document.querySelectorAll('video').forEach(function(v){io.observe(v);});}
+})();
+</script>
+</body>
+</html>
