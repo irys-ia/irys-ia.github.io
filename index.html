@@ -146,7 +146,7 @@ footer{border-top:1px solid var(--line);padding-block:32px 48px;color:var(--mu);
   <nav>
     <a class="brand" href="#topo"><span id="brand-m"></span>Irys</a>
     <div class="links"><a href="#demo">Demonstração</a><a href="#funcoes">Funções</a><a href="#instalar">Instalar</a><a href="#quem">Quem criou</a><a href="primeiros-passos.html">Primeiros passos</a><a href="#preco">Preço</a><a href="#duvidas">Dúvidas</a></div>
-    <a class="btn acc sm" href="https://go.perfectpay.com.br/PPU38CQHQA6" target="_blank" rel="noopener" data-price-btn>Comprar</a>
+    <a class="btn acc sm" href="https://go.perfectpay.com.br/PPU38CQHQA6" target="_blank" rel="noopener" data-price-btn data-curto>Eu quero</a>
   </nav>
 
   <header class="hero" id="topo">
@@ -155,7 +155,7 @@ footer{border-top:1px solid var(--line);padding-block:32px 48px;color:var(--mu);
       <p id="lote" hidden style="color:var(--warn);font-weight:700;margin-bottom:10px"></p>
       <h1>A Irys mora no topo da sua tela.</h1>
       <p class="lead">Mande e ela executa. Do pedido simples ao trabalho complexo: organiza pastas, acha arquivos, abre programas, controla a trilha sonora, agenda lembretes e rotinas de tarefas inteiras com uma frase. Ela mexe no seu PC como se fosse você. Tudo por voz ou escrevendo, direto do topo da tela.</p>
-      <div class="cta"><a class="btn acc" href="https://go.perfectpay.com.br/PPU38CQHQA6" target="_blank" rel="noopener" data-price-btn>Comprar</a><a class="btn" href="#demo">Testar agora</a></div>
+      <div class="cta"><a class="btn acc" href="https://go.perfectpay.com.br/PPU38CQHQA6" target="_blank" rel="noopener" data-price-btn>Eu quero</a><a class="btn" href="#demo">Testar agora</a></div>
       <p class="fine"><b data-price-fine></b><br>atualizações incluídas · suporte rápido e eficiente</p>
     </div>
     <div id="demo">
@@ -261,7 +261,7 @@ footer{border-top:1px solid var(--line);padding-block:32px 48px;color:var(--mu);
           <li>Licença pessoal, ligada ao e-mail da compra</li>
           <li>Instalador para Windows 10 e 11</li>
         </ul>
-        <a class="btn acc" href="https://go.perfectpay.com.br/PPU38CQHQA6" target="_blank" rel="noopener" data-checkout>Comprar agora</a>
+        <a class="btn acc" href="https://go.perfectpay.com.br/PPU38CQHQA6" target="_blank" rel="noopener" data-checkout>Eu quero</a>
         <span class="mu" style="font-size:13px">PIX ou cartão. O link de download chega no seu e-mail.</span>
       </div>
     </div>
@@ -289,7 +289,7 @@ footer{border-top:1px solid var(--line);padding-block:32px 48px;color:var(--mu);
 
   <section class="final">
     <h2>Você manda. Ela resolve.</h2><p class="mu" style="font-size:17px;max-width:46ch">Seu PC fica mais leve com a Irys no topo da sua tela.</p>
-    <a class="btn acc" href="https://go.perfectpay.com.br/PPU38CQHQA6" target="_blank" rel="noopener" data-price-btn>Comprar</a>
+    <a class="btn acc" href="https://go.perfectpay.com.br/PPU38CQHQA6" target="_blank" rel="noopener" data-price-btn>Eu quero</a>
   </section>
 
   <footer><span>Irys.ia · a assistente no topo da sua tela · <a href="primeiros-passos.html" style="text-decoration:underline">Primeiros passos</a> · <a href="seguranca.html" style="text-decoration:underline">Segurança e privacidade</a></span><span>Dúvidas? Responda o e-mail da compra.</span></footer>
@@ -305,8 +305,8 @@ footer{border-top:1px solid var(--line);padding-block:32px 48px;color:var(--mu);
   document.querySelectorAll('[data-price]').forEach(function(e){e.textContent=PRECO;});
   if(LOTE){var b=document.getElementById('lote');b.hidden=false;b.textContent='Lote de lançamento: restam '+LOTE.restam+' de '+LOTE.total+' vagas por '+PRECO+'.';}
   document.querySelectorAll('[data-price-fine]').forEach(function(e){e.textContent='Pagamento único de '+PRECO;});
-  document.querySelectorAll('[data-price-btn]').forEach(function(e){e.textContent='Comprar · '+PRECO;e.setAttribute('href',CHECKOUT);e.setAttribute('target','_blank');e.setAttribute('rel','noopener');});
-  document.querySelectorAll('[data-checkout]').forEach(function(e){e.setAttribute('href',CHECKOUT);e.setAttribute('target','_blank');e.setAttribute('rel','noopener');e.textContent='Comprar por '+PRECO;});
+  document.querySelectorAll('[data-price-btn]').forEach(function(e){e.textContent=e.hasAttribute('data-curto')?'Eu quero':'Eu quero · '+PRECO;e.setAttribute('href',CHECKOUT);e.setAttribute('target','_blank');e.setAttribute('rel','noopener');});
+  document.querySelectorAll('[data-checkout]').forEach(function(e){e.setAttribute('href',CHECKOUT);e.setAttribute('target','_blank');e.setAttribute('rel','noopener');e.textContent='Eu quero · '+PRECO;});
 
 // Mascote da Irys: robozinho de cabeça azul, visor preto, orelhas que acendem e sensor no topo.
 // Desenho próprio. svg(humor, tamanho, {a,b,eye,visor,shape,acc,antenna,dx,dy}) devolve o SVG como texto.

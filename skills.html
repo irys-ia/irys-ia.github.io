@@ -245,14 +245,14 @@ footer a{text-decoration:underline}
     <a class="marca" href="#topo"><i><svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z" fill="#fff"/></svg></i>Skill Viral</a>
     <div class="links"><a href="#formatos">Formatos</a><a href="#bonus">Bônus supremo</a><a href="#como">Como funciona</a><a href="#oferta">Preço</a><a href="#duvidas">Dúvidas</a></div>
     <button class="tema" id="tema" type="button" aria-label="Trocar entre o tema claro e o escuro" title="Tema claro / escuro"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><g class="raios"><path d="M12 1.6v1.6M4.2 4.6l1.1 1.1M19.8 4.6l-1.1 1.1M1.8 11.6h1.6M20.6 11.6h1.6"/></g><path class="luz" d="M12 5.4a6.1 6.1 0 0 0-3.6 11c.7.5 1.1 1.2 1.1 2v.4h5v-.4c0-.8.4-1.5 1.1-2A6.1 6.1 0 0 0 12 5.4z"/><path d="M9.6 21h4.8M10.4 23h3.2" stroke="currentColor"/></svg></button>
-    <a class="btn sm" href="#oferta">Comprar</a>
+    <a class="btn sm" href="#oferta">Eu quero</a>
   </nav>
 
   <header class="hero" id="topo">
     <span class="selo">▶ 7 formatos virais + a Skill Mestre</span>
     <h1>você escreve o tema.<br><span class="azul">o Claude entrega o vídeo pronto.</span></h1>
     <p class="lead">Os agentes de criação completos de formatos que viralizam: <b>cenas em 3D e 2D, legenda animada e efeito sonoro em tudo</b>. E de bônus, a skill que <b>cria skills novas</b> a partir de qualquer vídeo que você mandar. Esse é o ouro!</p>
-    <div class="cta"><a class="btn" href="#oferta">Quero a Skill Viral · <span data-preco></span></a><a class="btn sec" href="#bonus">Ver o bônus supremo</a></div>
+    <div class="cta"><a class="btn" href="#oferta">Eu quero · <span data-preco></span></a><a class="btn sec" href="#bonus">Ver o bônus supremo</a></div>
     <p class="fine"><b>Pagamento único</b> · skill nova e validada todo mês ✓</p>
   </header>
 </div>
@@ -386,7 +386,7 @@ footer a{text-decoration:underline}
   <section class="final">
     <h2>você imagina. o Claude grava.</h2>
     <p>7 formatos virais, a Skill Mestre que cria as próximas e skill nova entrando sempre. <span data-preco></span>, uma vez só.</p>
-    <a class="btn branco" href="#oferta">Quero a Skill Viral · <span data-preco></span></a>
+    <a class="btn branco" href="#oferta">Eu quero · <span data-preco></span></a>
   </section>
 
   <footer><span>Skill Viral · <a href="index.html">Conheça a Irys</a> · <a href="seguranca.html">Segurança e privacidade</a></span><span>Claude e Claude Code são marcas da Anthropic. Este produto não tem relação com a Anthropic.</span></footer>
@@ -408,7 +408,7 @@ footer a{text-decoration:underline}
     ['prev-gta.mp4','GTA 6','Recomendado para: páginas de games','255,95,162']
   ];
   document.querySelectorAll('[data-preco]').forEach(function(e){e.textContent=PRECO;});
-  document.querySelectorAll('[data-checkout]').forEach(function(e){if(CHECKOUT){e.href=CHECKOUT;e.target='_blank';e.rel='noopener';}e.textContent='Comprar por '+PRECO;});
+  document.querySelectorAll('[data-checkout]').forEach(function(e){if(CHECKOUT){e.href=CHECKOUT;e.target='_blank';e.rel='noopener';}e.textContent='Eu quero · '+PRECO;});
   var tr=document.getElementById('trilho');
   tr.innerHTML=SKILLS.map(function(s){return '<div class="cel" style="--cor:'+s[3]+'"><div class="gira"><div class="corpo"><div class="tela"><video src="prev-skills/'+s[0]+'" autoplay muted loop playsinline preload="metadata"></video></div></div></div><div class="ficha"><b>'+s[1]+'</b><span>'+s[2]+'</span></div></div>';}).join('')+
     '<div class="cel bonus" style="--cor:255,200,60"><div class="gira"><div class="corpo"><a class="tela" href="#bonus"><span class="ic">★</span><strong>Skill Mestre de Engenharia Reversa</strong><small>qualquer vídeo vira uma skill sua</small></a></div></div><div class="ficha"><b>Bônus supremo</b><span>Recomendado para: todo mundo</span></div></div>';
